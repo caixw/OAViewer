@@ -1,0 +1,11 @@
+{
+  "localeDisplayName": "简体中文",
+  "methods": "请求方法",
+  "docs": "文档",
+
+  "theme": "主题",
+  "theme-dark": "深色模式",
+  "theme-default": "默认颜色",
+  "theme-green":"绿色",
+  "theme-brown": "棕色"
+}

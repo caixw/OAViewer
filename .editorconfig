@@ -8,5 +8,5 @@ charset = utf-8
 trim_trailing_whitespace = false
 insert_final_newline = false
 
-[*.{vue,css,scss,less,html,htm,js,ts}]
+[*.{vue,css,scss,less,html,htm,js,ts,json}]
 indent_size = 2
