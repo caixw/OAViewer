@@ -1,11 +1,11 @@
 <template>
   <v-app :dark="dark">
-    <v-toolbar app="app" color="primary">
+    <v-toolbar app="app">
       <v-toolbar-title>APIDOC</v-toolbar-title>
 
       <v-btn fab flat><v-icon>search</v-icon></v-btn>
-      <v-spacer></v-spacer>
 
+      <v-spacer />
       <v-toolbar-items>
         <v-menu offset-y>
           <v-btn slot="activator" flat class="text-uppercase subheading">
@@ -13,7 +13,40 @@
           </v-btn>
           <v-list>
             <v-list-tile :to="{name: 'methods'}">
-              <v-list-tile-title v-t="'methods'" />
+              <v-list-tile-avatar>
+                <v-icon>library_books</v-icon>
+              </v-list-tile-avatar>
+              <v-list-tile-content>
+                <v-list-tile-title v-t="'methods'" />
+              </v-list-tile-content>
+            </v-list-tile>
+
+            <v-list-tile :to="{name: 'document'}">
+              <v-list-tile-avatar>
+                <v-icon>library_books</v-icon>
+              </v-list-tile-avatar>
+              <v-list-tile-content>
+                <v-list-tile-title>apidoc</v-list-tile-title>
+              </v-list-tile-content>
+            </v-list-tile>
+
+            <v-divider />
+            <v-list-tile :to="{name: 'about'}">
+              <v-list-tile-avatar>
+                <v-icon>info</v-icon>
+              </v-list-tile-avatar>
+              <v-list-tile-content>
+                <v-list-tile-title v-t="'about'" />
+              </v-list-tile-content>
+            </v-list-tile>
+
+            <v-list-tile href="https://github.com/caixw/apidoc.tools">
+              <v-list-tile-avatar>
+                <v-icon>link</v-icon>
+              </v-list-tile-avatar>
+              <v-list-tile-content>
+                <v-list-tile-title>Github</v-list-tile-title>
+              </v-list-tile-content>
             </v-list-tile>
           </v-list>
         </v-menu>
@@ -87,7 +120,7 @@ import getThemes, { Themes } from './themes'
 @Component
 export default class App extends Vue {
   private dark: boolean = false
-  private themes: Themes
+  private themes: Themes = getThemes(this.$vuetify)
   private theme_: string = 'theme-default'
 
   /**
@@ -154,9 +187,6 @@ export default class App extends Vue {
       const name = this.$i18n.t('localeDisplayName', i).toString()
       this.locales[i] = name
     }
-
-    // 初始化主题
-    this.themes = getThemes(this.$vuetify)
   }
 }
 </script>

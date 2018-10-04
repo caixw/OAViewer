@@ -2,7 +2,7 @@
 // Use of this source code is governed by a MIT
 // license that can be found in the LICENSE file.
 
-import  { VuetifyObject, VuetifyThemeItem } from 'vuetify'
+import { VuetifyObject, VuetifyThemeItem } from 'vuetify'
 
 /**
  * 所有主题颜色的定义在此处
@@ -26,6 +26,8 @@ const themes: Themes = {
 
 /**
  * 单个主题需要指定的颜色值。
+ *
+ * 定义基本上 VeutifyTheme 相同，将部分值改为可选。
  */
 interface Theme {
   readonly primary: VuetifyThemeItem;
@@ -42,6 +44,6 @@ export interface Themes{
 }
 
 export default function getThemes(vuetify: VuetifyObject): Themes {
-  themes['theme-default'] = vuetify.theme;
+  themes['theme-default'] = vuetify.theme
   return themes
 }

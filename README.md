@@ -24,3 +24,5 @@ npm run test
 ```
 npm run lint
 ```
+
+method 页面借鉴了 https://darosh.github.io/oax/#/methods
