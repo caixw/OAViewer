@@ -18,6 +18,8 @@
     "header-specification": "技术规范",
     "header-safe-tip": "是指该操作是否会对数据进行变更",
     "header-idempotent-tip": "幂等是指一次和多次请求同一资源应该具有同样的副作用",
+    "header-cacheable": "可缓存",
+    "header-cacheable-tip": "表示响应的内容是否可以被缓存",
     "get": {
       "description": "请求并获取资源。",
       "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-4.3.1'>RFC7231#4.3.1</a>"
@@ -31,7 +33,7 @@
       "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-4.3.7'>RFC7231#4.3.7</a>"
     },
     "put": {
-      "description": "替换目标资源。",
+      "description": "替换目标资源或添加新资源。如果目标资源已经存在，则替换；如果不存在，则将提交的内容作为目标资源。",
       "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-4.3.4'>RFC7231#4.3.4</a>"
     },
     "patch": {
@@ -39,11 +41,11 @@
       "specification": "<a href='https://tools.ietf.org/html/rfc5789#section-2'>RFC5789</a>"
     },
     "delete": {
-      "description": "删除目标资源。",
+      "description": "删除目标资源，删除之后，将不能再通过任何方式再次访问该资源。",
       "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-4.3.5'>RFC7231#4.3.5</a>"
     },
     "post": {
-      "description": "添加新的资源。",
+      "description": "添加新的资源。POST 永远将当前提交的内容作为新的资源添加到服务器，所以将相同的内容连续提交多次时，会创建相同内容的不同资源实体。",
       "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-4.3.3'>RFC7231#4.3.3</a>"
     }
   }
