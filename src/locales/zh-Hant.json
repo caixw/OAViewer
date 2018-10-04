@@ -1,11 +1,50 @@
 {
-  "localeDisplayName": "繁体中文",
+  "localeDisplayName": "繁體中文",
   "methods": "請求方法",
   "docs": "文檔",
+  "about": "關於",
 
   "theme": "主題",
   "theme-dark": "深色模式",
   "theme-default": "默認顏色",
   "theme-green":"綠色",
-  "theme-brown": "棕色"
+  "theme-brown": "棕色",
+
+  "method": {
+    "header-name": "名稱",
+    "header-description": "描述",
+    "header-safe": "安全",
+    "header-idempotent": "冪等",
+    "header-specification": "技術規範",
+    "header-safe-tip": "是指該操作是否會對數據進行變更",
+    "header-idempotent-tip": "冪等是指壹次和多次請求同壹資源應該具有同樣的副作用",
+    "get": {
+      "description": "請求並獲取資源。",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-4.3.1'>RFC7231#4.3.1</a>"
+    },
+    "head": {
+      "description": "與 GET 相同，但是返回其報頭部分，沒有響應體。",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-4.3.2'>RFC7231#4.3.2</a>"
+    },
+    "options": {
+      "description": "查詢目標資源地址可用的請求方法。",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-4.3.7'>RFC7231#4.3.7</a>"
+    },
+    "put": {
+      "description": "替換目標資源。",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-4.3.4'>RFC7231#4.3.4</a>"
+    },
+    "patch": {
+      "description": "修改目標資源的部分內容。",
+      "specification": "<a href='https://tools.ietf.org/html/rfc5789#section-2'>RFC5789</a>"
+    },
+    "delete": {
+      "description": "刪除目標資源。",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-4.3.5'>RFC7231#4.3.5</a>"
+    },
+    "post": {
+      "description": "添加新的資源。",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-4.3.3'>RFC7231#4.3.3</a>"
+    }
+  }
 }
