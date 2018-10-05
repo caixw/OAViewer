@@ -10,12 +10,17 @@
         <!-- 文档 -->
         <v-menu offset-y>
           <v-btn slot="activator" flat class="text-uppercase subheading">
-            {{$t('docs')}}<v-icon>arrow_drop_down</v-icon>
+            {{$t('toolbar.docs')}}<v-icon>arrow_drop_down</v-icon>
           </v-btn>
           <v-list>
             <v-list-tile :to="{name: 'methods'}">
               <v-icon>library_books</v-icon>
-              <v-list-tile-title class="menu-title" v-t="'methods'" />
+              <v-list-tile-title class="menu-title" v-t="'toolbar.methods'" />
+            </v-list-tile>
+
+            <v-list-tile :to="{name: 'statuses'}">
+              <v-icon>library_books</v-icon>
+              <v-list-tile-title class="menu-title" v-t="'toolbar.statuses'" />
             </v-list-tile>
 
             <v-list-tile :to="{name: 'document'}">
@@ -26,7 +31,7 @@
             <v-divider />
             <v-list-tile :to="{name: 'about'}">
               <v-icon>info</v-icon>
-              <v-list-tile-title class="menu-title" v-t="'about'" />
+              <v-list-tile-title class="menu-title" v-t="'toolbar.about'" />
             </v-list-tile>
 
             <v-list-tile href="https://github.com/caixw/apidoc.tools">
@@ -52,12 +57,12 @@
         <!-- 主题 -->
         <v-menu offset-y>
           <v-btn slot="activator" flat class="text-uppercase subheading">
-            {{$t('theme')}}<v-icon>arrow_drop_down</v-icon>
+            {{$t('toolbar.theme')}}<v-icon>arrow_drop_down</v-icon>
           </v-btn>
           <v-list>
             <v-list-tile @click="dark=!dark">
               <v-icon>{{checkbox(dark)}}</v-icon>
-              <v-list-tile-title v-t="'theme-dark'" class="menu-title" />
+              <v-list-tile-title v-t="'toolbar.theme-dark'" class="menu-title" />
             </v-list-tile>
 
             <v-divider />
@@ -99,7 +104,7 @@ import getThemes from './themes'
 export default class App extends Vue {
   private dark: boolean = false
   private themes = getThemes(this.$vuetify)
-  private theme_: string = 'theme-default'
+  private theme_: string = 'toolbar.theme-default'
 
   /**
    * 保存当前支持的语言以及该语言下的显示名称

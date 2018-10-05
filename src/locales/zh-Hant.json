@@ -1,14 +1,17 @@
 {
   "localeDisplayName": "繁體中文",
-  "methods": "請求方法",
-  "docs": "文檔",
-  "about": "關於",
 
-  "theme": "主題",
-  "theme-dark": "深色模式",
-  "theme-default": "默認顏色",
-  "theme-green":"綠色",
-  "theme-brown": "棕色",
+  "toolbar": {
+    "methods": "請求方法",
+    "docs": "文檔",
+    "about": "關於",
+    "statuses": "HTTP 狀態碼",
+    "theme": "主題",
+    "theme-dark": "深色模式",
+    "theme-default": "默認顏色",
+    "theme-green":"綠色",
+    "theme-brown": "棕色"
+  },
 
   "method": {
     "header-name": "名稱",
@@ -18,6 +21,8 @@
     "header-specification": "技術規範",
     "header-safe-tip": "是指該操作是否會對數據進行變更",
     "header-idempotent-tip": "冪等是指壹次和多次請求同壹資源應該具有同樣的副作用",
+    "header-cacheable": "可緩存",
+    "header-cacheable-tip": "表示響應的內容是否可以被緩存",
     "get": {
       "description": "請求並獲取資源。",
       "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-4.3.1'>RFC7231#4.3.1</a>"
@@ -31,7 +36,7 @@
       "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-4.3.7'>RFC7231#4.3.7</a>"
     },
     "put": {
-      "description": "替換目標資源。",
+      "description": "替換目標資源或添加新資源。如果目標資源已經存在，則替換；如果不存在，則將提交的內容作為目標資源。",
       "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-4.3.4'>RFC7231#4.3.4</a>"
     },
     "patch": {
@@ -39,12 +44,19 @@
       "specification": "<a href='https://tools.ietf.org/html/rfc5789#section-2'>RFC5789</a>"
     },
     "delete": {
-      "description": "刪除目標資源。",
+      "description": "刪除目標資源，刪除之後，將不能再通過任何方式再次訪問該資源。",
       "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-4.3.5'>RFC7231#4.3.5</a>"
     },
     "post": {
-      "description": "添加新的資源。",
+      "description": "添加新的資源。POST 永遠將當前提交的內容作為新的資源添加到服務器，所以將相同的內容連續提交多次時，會創建相同內容的不同資源實體。",
       "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-4.3.3'>RFC7231#4.3.3</a>"
+    }
+  },
+
+  "status": {
+    "100": {
+      "title": "",
+      "description": ""
     }
   }
 }

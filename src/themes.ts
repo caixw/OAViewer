@@ -13,12 +13,12 @@ import { VuetifyObject, VuetifyThemeItem } from 'vuetify'
  * 键名在展示前会从当前语言文件中查找相关的本地化字符串，若找不到，则直接显示。
  */
 const themes: Themes = {
-  'theme-green': {
+  'toolbar.theme-green': {
     primary: '#4CAF50',
     secondary: '#757575'
   },
 
-  'theme-brown': {
+  'toolbar.theme-brown': {
     primary: '#795548',
     secondary: '#757575'
   }
@@ -44,6 +44,6 @@ interface Themes{
 }
 
 export default function getThemes(vuetify: VuetifyObject): Themes {
-  themes['theme-default'] = Object.assign({}, vuetify.theme)
+  themes['toolbar.theme-default'] = Object.assign({}, vuetify.theme)
   return themes
 }
