@@ -44,6 +44,6 @@ export interface Themes{
 }
 
 export default function getThemes(vuetify: VuetifyObject): Themes {
-  themes['theme-default'] = vuetify.theme
+  themes['theme-default'] = Object.assign({}, vuetify.theme)
   return themes
 }

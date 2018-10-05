@@ -1,100 +1,69 @@
 <template>
   <v-app :dark="dark">
     <v-toolbar app="app">
-      <v-toolbar-title>APIDOC</v-toolbar-title>
+      <v-toolbar-title class="title" @click="$router.push({name:'home'})">APIDOC</v-toolbar-title>
 
       <v-btn fab flat><v-icon>search</v-icon></v-btn>
 
       <v-spacer />
       <v-toolbar-items>
+        <!-- 文档 -->
         <v-menu offset-y>
           <v-btn slot="activator" flat class="text-uppercase subheading">
             {{$t('docs')}}<v-icon>arrow_drop_down</v-icon>
           </v-btn>
           <v-list>
             <v-list-tile :to="{name: 'methods'}">
-              <v-list-tile-avatar>
-                <v-icon>library_books</v-icon>
-              </v-list-tile-avatar>
-              <v-list-tile-content>
-                <v-list-tile-title v-t="'methods'" />
-              </v-list-tile-content>
+              <v-icon>library_books</v-icon>
+              <v-list-tile-title class="menu-title" v-t="'methods'" />
             </v-list-tile>
 
             <v-list-tile :to="{name: 'document'}">
-              <v-list-tile-avatar>
-                <v-icon>library_books</v-icon>
-              </v-list-tile-avatar>
-              <v-list-tile-content>
-                <v-list-tile-title>apidoc</v-list-tile-title>
-              </v-list-tile-content>
+              <v-icon>library_books</v-icon>
+              <v-list-tile-title class="menu-title">apidoc</v-list-tile-title>
             </v-list-tile>
 
             <v-divider />
             <v-list-tile :to="{name: 'about'}">
-              <v-list-tile-avatar>
-                <v-icon>info</v-icon>
-              </v-list-tile-avatar>
-              <v-list-tile-content>
-                <v-list-tile-title v-t="'about'" />
-              </v-list-tile-content>
+              <v-icon>info</v-icon>
+              <v-list-tile-title class="menu-title" v-t="'about'" />
             </v-list-tile>
 
             <v-list-tile href="https://github.com/caixw/apidoc.tools">
-              <v-list-tile-avatar>
-                <v-icon>link</v-icon>
-              </v-list-tile-avatar>
-              <v-list-tile-content>
-                <v-list-tile-title>Github</v-list-tile-title>
-              </v-list-tile-content>
+              <v-icon>open_in_new</v-icon>
+              <v-list-tile-title class="menu-title">Github</v-list-tile-title>
             </v-list-tile>
           </v-list>
         </v-menu>
 
-        <v-menu offset-y>
-          <v-btn slot="activator" flat class="text-uppercase subheading">
-            {{$t('theme')}}<v-icon>arrow_drop_down</v-icon>
-          </v-btn>
-          <v-list>
-            <v-list-tile @click="dark=!dark">
-              <v-list-tile-avatar>
-                <v-icon v-if="dark">check_box</v-icon>
-                <v-icon v-else>check_box_outline_blank</v-icon>
-              </v-list-tile-avatar>
-              <v-list-tile-content>
-                <v-list-tile-title v-t="'theme-dark'" />
-              </v-list-tile-content>
-            </v-list-tile>
-
-            <v-divider />
-
-            <v-list-tile v-for="(val, key) in themes" :key="key" @click="theme=key">
-              <v-list-tile-avatar>
-                <v-icon v-if="theme==key">check_box</v-icon>
-                <v-icon v-else>check_box_outline_blank</v-icon>
-              </v-list-tile-avatar>
-              <v-list-tile-content>
-                <v-list-tile-title v-t="key" />
-              </v-list-tile-content>
-            </v-list-tile>
-          </v-list>
-        </v-menu>
-
+        <!-- 翻译 -->
         <v-menu offset-y>
           <v-btn slot="activator" flat class="text-uppercase subheading">
             {{localeDisplayName}}<v-icon>arrow_drop_down</v-icon>
           </v-btn>
           <v-list>
             <v-list-tile v-for="(val, key) in locales" :key="key" @click="locale=key">
-              <v-list-tile-avatar>
-                <v-icon v-if="key==locale">check_box</v-icon>
-                <v-icon v-else>check_box_outline_blank</v-icon>
-              </v-list-tile-avatar>
-              <v-list-tile-content>
-                <v-list-tile-title>
-                  {{val}}
-                </v-list-tile-title>
-              </v-list-tile-content>
+              <v-icon>{{checkbox(key==locale)}}</v-icon>
+              <v-list-tile-title class="menu-title">{{val}}</v-list-tile-title>
+            </v-list-tile>
+          </v-list>
+        </v-menu>
+
+        <!-- 主题 -->
+        <v-menu offset-y>
+          <v-btn slot="activator" flat class="text-uppercase subheading">
+            {{$t('theme')}}<v-icon>arrow_drop_down</v-icon>
+          </v-btn>
+          <v-list>
+            <v-list-tile @click="dark=!dark">
+              <v-icon>{{checkbox(dark)}}</v-icon>
+              <v-list-tile-title v-t="'theme-dark'" class="menu-title" />
+            </v-list-tile>
+
+            <v-divider />
+            <v-list-tile v-for="(val, key) in themes" :key="key" @click="theme=key">
+              <v-icon>{{checkbox(key==theme)}}</v-icon>
+              <v-list-tile-title v-t="key" class="menu-title" />
             </v-list-tile>
           </v-list>
         </v-menu>
@@ -110,6 +79,15 @@
     <v-footer app="app"></v-footer>
   </v-app>
 </template>
+
+<style scoped>
+.title {
+  cursor: pointer;
+}
+.menu-title {
+  padding-left: 1rem
+}
+</style>
 
 <script lang="ts">
 import VueI18n from 'vue-i18n'
@@ -179,6 +157,13 @@ export default class App extends Vue {
     }
 
     return name
+  }
+
+  /**
+   * 生成布尔值的图标内容
+   */
+  private checkbox(check: boolean): string {
+    return check ? 'check_box' : 'check_box_outline_blank'
   }
 
   public created() {
