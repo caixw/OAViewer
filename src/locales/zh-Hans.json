@@ -6,6 +6,8 @@
     "docs": "文档",
     "about": "关于",
     "statuses": "HTTP 状态码",
+    "auths": "验证方式",
+    "headers": "报头",
 
     "theme": "主题",
     "theme-dark": "深色模式",

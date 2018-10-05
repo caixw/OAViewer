@@ -8,6 +8,8 @@ import Home from './views/Home.vue'
 import Methods from './views/Methods.vue'
 import Statuses from './views/Statuses.vue'
 import Document from './views/Document.vue'
+import Auths from './views/Auths.vue'
+import Headers from './views/Headers.vue'
 import About from './views/About.vue'
 
 Vue.use(Router)
@@ -30,6 +32,16 @@ export default new Router({
       path: '/statuses',
       name: 'statuses',
       component: Statuses
+    },
+    {
+      path: '/auths',
+      name: 'auths',
+      component: Auths
+    },
+    {
+      path: '/headers',
+      name: 'headers',
+      component: Headers
     },
     {
       path: '/document',
