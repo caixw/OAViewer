@@ -45,8 +45,6 @@ import VueI18n from 'vue-i18n'
 import { DataTableHeadersItem } from '../vuetify-types'
 import { Component, Vue } from 'vue-property-decorator'
 
-// TODO 幂等等介绍
-
 @Component
 export default class Methods extends Vue {
   private headers: Array<DataTableHeadersItem> = [

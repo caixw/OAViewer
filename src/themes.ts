@@ -39,7 +39,7 @@ interface Theme {
   readonly warning?: VuetifyThemeItem;
 }
 
-export interface Themes{
+interface Themes{
   [key:string]:Theme;
 }
 

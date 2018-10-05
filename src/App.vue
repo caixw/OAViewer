@@ -93,12 +93,12 @@
 import VueI18n from 'vue-i18n'
 import Vuetify from 'vuetify'
 import { Component, Vue } from 'vue-property-decorator'
-import getThemes, { Themes } from './themes'
+import getThemes from './themes'
 
 @Component
 export default class App extends Vue {
   private dark: boolean = false
-  private themes: Themes = getThemes(this.$vuetify)
+  private themes = getThemes(this.$vuetify)
   private theme_: string = 'theme-default'
 
   /**
