@@ -1,11 +1,19 @@
 <template>
-  <v-card>
+  <v-card flat tag="article" class="article">
     <h1>apidoc.tools</h1>
+    <v-divider />
 
     <section>
-      <h2 v-t="about.copyright" />
+      <h2 v-t="'about.copyright'" />
+      <v-divider />
       <p>本项目采用 <a href="https://opensource.org/licenses/MIT">MIT</a> 开源授权许可证。</p>
       <p>部分页面（methods、statuses 和 headers）参考了 <a href="https://darosh.github.io/oax">https://darosh.github.io/oax/</a> 的内容</p>
     </section>
   </v-card>
 </template>
+
+<style scoped>
+.article {
+  padding: 1rem;
+}
+</style>
