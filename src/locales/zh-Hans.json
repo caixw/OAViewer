@@ -75,42 +75,42 @@
     },
     "200": {
       "title": "OK",
-      "description": "",
+      "description": "请求成功。",
       "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.3.1'>RFC7231#6.3.1<a>"
     },
     "201": {
       "title": "Created",
-      "description": "",
+      "description": "新资源被成功创建，一般情况可能还会伴随着一个 Location 报头，用于指定新资源的位置。",
       "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.3.2'>RFC7231#6.3.2<a>"
     },
     "202": {
       "title": "Accepted",
-      "description": "",
+      "description": "请求被接受，但是尚未完成，最终有可能成功，也有可能失败。此时一般需要提供一个回调接口供服务告知最终处理结果。",
       "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.3.3'>RFC7231#6.3.3<a>"
     },
     "203": {
       "title": "Non-Authoritative Information",
-      "description": "",
+      "description": "服务器已成功处理了请求，但返回的信息并不是原始服务器上的。",
       "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.3.4'>RFC7231#6.3.4<a>"
     },
     "204": {
       "title": "No Content",
-      "description": "",
+      "description": "服务器已成功处理了请求，但是不需要返回任何实体内容给用户。如果客户端是浏览器的话，应该保持发送时的请求面，不对视图作任何变化。",
       "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.3.5'>RFC7231#6.3.5<a>"
     },
     "205": {
       "title": "Reset Content",
-      "description": "",
+      "description": "服务器已成功处理了请求，但是不需要返回任何实体内容给用户。与 204 不同，此状态码需要用户刷新文档视图。",
       "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.3.6'>RFC7231#6.3.6<a>"
     },
     "300": {
       "title": "Multiple Choices",
-      "description": "",
+      "description": "被请求的资源有一系列可供选择的回馈信息，用户可以选择一条地址进行重定向。",
       "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.4.1'>RFC7231#6.4.1<a>"
     },
     "301": {
       "title": "Moved Permanently",
-      "description": "",
+      "description": "请求资源被永久性移到新位置，新资源的 URL 会从报头 Location 中返回。",
       "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.4.2'>RFC7231#6.4.2<a>"
     },
     "302": {
@@ -125,17 +125,17 @@
     },
     "304": {
       "title": "Not Modified",
-      "description": "",
+      "description": "请求资源并未被改变，用户可以继续使用之前缓存的内容。该请法语不会返回实体内容。",
       "specification": "<a href='https://tools.ietf.org/html/rfc7232#section-4.1'>RFC7232#4.1<a>"
     },
     "305": {
       "title": "Use Proxy",
-      "description": "",
+      "description": "被请求的资源必须通过指定的代理才能被访问。",
       "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.4.5'>RFC7231#6.4.5<a>"
     },
     "306": {
       "title": "Unused",
-      "description": "",
+      "description": "后续请求应使用指定的代理，已经不再使用。",
       "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.4.6'>RFC7231#6.4.6<a>"
     },
     "307": {
@@ -145,62 +145,62 @@
     },
     "400": {
       "title": "Bad Request",
-      "description": "",
+      "description": "客户端内容错误，比如参数有误，语义错误等。",
       "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.5.1'>RFC7231#6.5.1<a>"
     },
     "401": {
       "title": "Unauthorized",
-      "description": "",
+      "description": "当前请求需要进行身份验证。",
       "specification": "<a href='https://tools.ietf.org/html/rfc7235#section-3.1'>RFC7235#3.1<a>"
     },
     "402": {
       "title": "Payment Required",
-      "description": "",
+      "description": "请求需要付费才能查看。",
       "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.5.2'>RFC7231#6.5.2<a>"
     },
     "403": {
       "title": "Forbidden",
-      "description": "",
+      "description": "权限不足。",
       "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.5.3'>RFC7231#6.5.3<a>"
     },
     "404": {
       "title": "Not Found",
-      "description": "",
+      "description": "请求的资源不存在。",
       "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.5.4'>RFC7231#6.5.4<a>"
     },
     "405": {
       "title": "Method Not Allowed",
-      "description": "",
+      "description": "该请求方法不可使用当前资源。可以查看返回的 Allow 报头允许的请求方法。",
       "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.5.5'>RFC7231#6.5.5<a>"
     },
     "406": {
       "title": "Not Acceptable",
-      "description": "",
+      "description": "请求的资源不满足服务器需要的条件。",
       "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.5.6'>RFC7231#6.5.6<a>"
     },
     "407": {
       "title": "Proxy Authentication Required",
-      "description": "",
+      "description": "必须在代理服务器上进行身份验证。",
       "specification": "<a href='https://tools.ietf.org/html/rfc7235#section-3.2'>RFC7235#3.2<a>"
     },
     "408": {
       "title": "Request Timeout",
-      "description": "",
+      "description": "请求超时。客户端没有在服务器预备等待的时间内完成一个请求的发送，客户端可以再次提交，无需任何更改。",
       "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.5.7'>RFC7231#6.5.7<a>"
     },
     "409": {
       "title": "Conflict",
-      "description": "",
+      "description": "请求与资源存在冲突，比如在提交修改时，已经被其它用户进行修改过。",
       "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.5.8'>RFC7231#6.5.8<a>"
     },
     "410": {
       "title": "Gone",
-      "description": "",
+      "description": "资源已经永久性不存在。如果是临时的，则应该使用 404。",
       "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.5.9'>RFC7231#6.5.9<a>"
     },
     "411": {
       "title": "Length Required",
-      "description": "",
+      "description": "必须提供 Content-Length 报头。",
       "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.5.10'>RFC7231#6.5.10<a>"
     },
     "413": {
@@ -210,12 +210,12 @@
     },
     "414": {
       "title": "URI Too Long",
-      "description": "",
+      "description": "请求的 URL 长度超过服务器能处理的最大长度，一般是由于查询参数过大，比如通过 GET 请求提交数据。",
       "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.5.12'>RFC7231#6.5.12<a>"
     },
     "415": {
       "title": "Unsupported Media Type",
-      "description": "",
+      "description": "请求报头 Content-Type 中指定的媒体类型，服务器不支持。",
       "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.5.13'>RFC7231#6.5.13<a>"
     },
     "417": {
@@ -230,32 +230,32 @@
     },
     "500": {
       "title": "Internal Server Error",
-      "description": "",
+      "description": "未知道的或是无法处理的服务器错误。",
       "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.6.1'>RFC7231#6.6.1<a>"
     },
     "501": {
       "title": "Not Implemented",
-      "description": "",
+      "description": "该接口或是功能未被实现。",
       "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.6.2'>RFC7231#6.6.2<a>"
     },
     "502": {
       "title": "Bad Gateway",
-      "description": "",
+      "description": "作为网关服务时，从上游接收数据时出错。",
       "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.6.3'>RFC7231#6.6.3<a>"
     },
     "503": {
       "title": "Service Unavailable",
-      "description": "",
+      "description": "服务暂时不可用，比如维护或是过载。可以通过指定 Retry-After 让用户稍后再试。",
       "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.6.4'>RFC7231#6.6.4<a>"
     },
     "504": {
       "title": "Gateway Timeout",
-      "description": "",
+      "description": "作为网关服务时，从上游获取数据超时。",
       "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.6.5'>RFC7231#6.6.5<a>"
     },
     "505": {
       "title": "HTTP Version Not Supported",
-      "description": "",
+      "description": "服务器不支持该 HTTP 版本。",
       "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.6.6'>RFC7231#6.6.6<a>"
     }
   }
