@@ -59,9 +59,13 @@
   },
 
   "status": {
+    "header-status": "状态码",
+    "header-title": "摘要",
+    "header-description": "描述",
+    "header-specification": "技术规范",
     "100": {
-      "title": "",
-      "description": ""
+      "title": "xxx",
+      "description": "xxx"
     }
   }
 }
