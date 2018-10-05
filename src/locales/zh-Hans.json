@@ -64,8 +64,199 @@
     "header-description": "描述",
     "header-specification": "技术规范",
     "100": {
-      "title": "xxx",
-      "description": "xxx"
+      "title": "Continue",
+      "description": "服务端已经收到请求，客户端应该继续请求，如果已经完成，则忽略。一般情况下为客户端需要提交一个比较大的内容时，会选发送一个 Expect: 100-continue 报头的请求，如果服务支持，则返回 100，否则返回 417(Expectation Failed)。",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.2.1'>RFC7231#6.2.1</a>"
+    },
+    "101": {
+      "title": "Switching Protocol",
+      "description": "响应客户端新协议要求，并将协议切换到客户端报头 Upgrade 指定的协议。最常见提 Websocket 和 HTTP2(Upgrade:h2c) 协议切换。",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.2.2'>RFC7231#6.2.2<a>"
+    },
+    "200": {
+      "title": "OK",
+      "description": "",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.3.1'>RFC7231#6.3.1<a>"
+    },
+    "201": {
+      "title": "Created",
+      "description": "",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.3.2'>RFC7231#6.3.2<a>"
+    },
+    "202": {
+      "title": "Accepted",
+      "description": "",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.3.3'>RFC7231#6.3.3<a>"
+    },
+    "203": {
+      "title": "Non-Authoritative Information",
+      "description": "",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.3.4'>RFC7231#6.3.4<a>"
+    },
+    "204": {
+      "title": "No Content",
+      "description": "",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.3.5'>RFC7231#6.3.5<a>"
+    },
+    "205": {
+      "title": "Reset Content",
+      "description": "",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.3.6'>RFC7231#6.3.6<a>"
+    },
+    "300": {
+      "title": "Multiple Choices",
+      "description": "",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.4.1'>RFC7231#6.4.1<a>"
+    },
+    "301": {
+      "title": "Moved Permanently",
+      "description": "",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.4.2'>RFC7231#6.4.2<a>"
+    },
+    "302": {
+      "title": "Found",
+      "description": "",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.4.3'>RFC7231#6.4.3<a>"
+    },
+    "303": {
+      "title": "See Other",
+      "description": "",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.4.4'>RFC7231#6.4.4<a>"
+    },
+    "304": {
+      "title": "Not Modified",
+      "description": "",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7232#section-4.1'>RFC7232#4.1<a>"
+    },
+    "305": {
+      "title": "Use Proxy",
+      "description": "",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.4.5'>RFC7231#6.4.5<a>"
+    },
+    "306": {
+      "title": "Unused",
+      "description": "",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.4.6'>RFC7231#6.4.6<a>"
+    },
+    "307": {
+      "title": "Temporary Redirect",
+      "description": "",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.4.7'>RFC7231#6.4.7<a>"
+    },
+    "400": {
+      "title": "Bad Request",
+      "description": "",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.5.1'>RFC7231#6.5.1<a>"
+    },
+    "401": {
+      "title": "Unauthorized",
+      "description": "",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7235#section-3.1'>RFC7235#3.1<a>"
+    },
+    "402": {
+      "title": "Payment Required",
+      "description": "",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.5.2'>RFC7231#6.5.2<a>"
+    },
+    "403": {
+      "title": "Forbidden",
+      "description": "",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.5.3'>RFC7231#6.5.3<a>"
+    },
+    "404": {
+      "title": "Not Found",
+      "description": "",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.5.4'>RFC7231#6.5.4<a>"
+    },
+    "405": {
+      "title": "Method Not Allowed",
+      "description": "",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.5.5'>RFC7231#6.5.5<a>"
+    },
+    "406": {
+      "title": "Not Acceptable",
+      "description": "",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.5.6'>RFC7231#6.5.6<a>"
+    },
+    "407": {
+      "title": "Proxy Authentication Required",
+      "description": "",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7235#section-3.2'>RFC7235#3.2<a>"
+    },
+    "408": {
+      "title": "Request Timeout",
+      "description": "",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.5.7'>RFC7231#6.5.7<a>"
+    },
+    "409": {
+      "title": "Conflict",
+      "description": "",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.5.8'>RFC7231#6.5.8<a>"
+    },
+    "410": {
+      "title": "Gone",
+      "description": "",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.5.9'>RFC7231#6.5.9<a>"
+    },
+    "411": {
+      "title": "Length Required",
+      "description": "",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.5.10'>RFC7231#6.5.10<a>"
+    },
+    "413": {
+      "title": "Payload Too Large",
+      "description": "",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.5.11'>RFC7231#6.5.11<a>"
+    },
+    "414": {
+      "title": "URI Too Long",
+      "description": "",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.5.12'>RFC7231#6.5.12<a>"
+    },
+    "415": {
+      "title": "Unsupported Media Type",
+      "description": "",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.5.13'>RFC7231#6.5.13<a>"
+    },
+    "417": {
+      "title": "Expectation Failed",
+      "description": "",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.5.14'>RFC7231#6.5.14<a>"
+    },
+    "426": {
+      "title": "Upgrade Required",
+      "description": "",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.5.15'>RFC7231#6.5.15<a>"
+    },
+    "500": {
+      "title": "Internal Server Error",
+      "description": "",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.6.1'>RFC7231#6.6.1<a>"
+    },
+    "501": {
+      "title": "Not Implemented",
+      "description": "",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.6.2'>RFC7231#6.6.2<a>"
+    },
+    "502": {
+      "title": "Bad Gateway",
+      "description": "",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.6.3'>RFC7231#6.6.3<a>"
+    },
+    "503": {
+      "title": "Service Unavailable",
+      "description": "",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.6.4'>RFC7231#6.6.4<a>"
+    },
+    "504": {
+      "title": "Gateway Timeout",
+      "description": "",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.6.5'>RFC7231#6.6.5<a>"
+    },
+    "505": {
+      "title": "HTTP Version Not Supported",
+      "description": "",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.6.6'>RFC7231#6.6.6<a>"
     }
   }
 }

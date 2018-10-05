@@ -60,7 +60,6 @@ export default class Statuses extends Vue {
     },
     {
       locale: 'status.header-description',
-      localeTip: 'status.header-description-tip',
       value: 'description',
       align: 'left'
     },
@@ -71,14 +70,22 @@ export default class Statuses extends Vue {
     }
   ]
 
-  private items: Array<Object> = [
-    {
-      status: 100,
-      title: 'title',
-      description: 'status.100.description',
-      specification: 'method.get.specification'
+  private items = this.getItems(100, 101, 200, 201, 202, 203, 204, 205, 206, 300, 301, 302, 303, 304, 305, 306, 307, 308, 400, 401, 402, 403, 404, 405, 406, 407, 408, 409, 410, 411, 412, 413, 414, 415, 416, 417, 418, 421, 426, 428, 429, 431, 451, 500, 501, 502, 503, 504, 506, 507, 510, 511)
+
+  private getItems(...statuses:number[]) :Array<Object> {
+    const objs: Array<Object> = []
+
+    for (const status of statuses) {
+      objs.push({
+        status: status,
+        title: 'status.' + status + '.title',
+        description: 'status.' + status + '.description',
+        specification: 'status.' + status + '.specification'
+      })
     }
-  ]
+
+    return objs
+  }
 
   /**
    * 生成布尔值的图标内容
@@ -94,7 +101,7 @@ export default class Statuses extends Vue {
       case code<200:
         return theme.info.toString()
       case code<300:
-        return theme.secondary.toString()
+        return theme.success.toString()
       case code<400:
         return theme.info.toString()
       case code<500:
