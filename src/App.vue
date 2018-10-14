@@ -86,7 +86,11 @@
       </v-container>
     </v-content>
 
-    <v-footer app="app"></v-footer>
+    <v-footer app="app" height="auto">
+      <v-card flat class="footer" width="100%">
+        <p>&copy;2018 by <strong>caixw</strong></p>
+      </v-card>
+    </v-footer>
   </v-app>
 </template>
 
@@ -96,6 +100,11 @@
 }
 .menu-title {
   padding-left: 1rem
+}
+
+.footer {
+  padding: 1rem;
+  display: block
 }
 </style>
 
