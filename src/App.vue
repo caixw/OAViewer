@@ -33,11 +33,6 @@
               <v-list-tile-title class="menu-title" v-t="'toolbar.headers'" />
             </v-list-tile>
 
-            <v-list-tile :to="{name: 'document'}">
-              <v-icon>library_books</v-icon>
-              <v-list-tile-title class="menu-title">apidoc</v-list-tile-title>
-            </v-list-tile>
-
             <v-divider />
             <v-list-tile :to="{name: 'about'}">
               <v-icon>info</v-icon>

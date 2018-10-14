@@ -4,7 +4,6 @@
 
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from './views/Home.vue'
 import Methods from './views/Methods.vue'
 import Statuses from './views/Statuses.vue'
 import Document from './views/Document.vue'
@@ -21,7 +20,7 @@ export default new Router({
     {
       path: '/',
       name: 'home',
-      component: Home
+      alias: 'document'
     },
     {
       path: '/methods',
