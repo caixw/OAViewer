@@ -58,7 +58,9 @@
   },
 
   "about": {
-    "copyright": "版本信息"
+    "version": "版本",
+    "dependencies": "依赖包",
+    "copyright": "版权信息"
   },
 
   "headers": {
