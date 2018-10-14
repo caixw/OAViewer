@@ -61,9 +61,45 @@
   },
 
   "headers": {
-    "header_name": "名称",
+    "header-name": "名称",
     "header-description": "描述",
-    "header-specification": "技术规范"
+    "header-specification": "技术规范",
+    "Accept": {
+      "description": "表示客户端能接受的内容类型，可以由多个类型通过半角逗号组成，由参数 q 决定其权重：<code>application/json,application/xml;q=0.8,*/*;q=0.1</code>",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-5.3.2'>RFC7231#5.3.2</a>"
+    },
+    "Accept-Charset": {
+      "description": "客户端能接受的编码类型，和 Accept 一样，可以同时指定多个：<code>utf-8,gb2312;q=0.9</code>",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-5.3.3'>RFC7231#5.3.3</a>"
+    },
+    "Accept-Encoding": {
+      "description": "客户端能接受的压缩方式，和 Accept 一样，可以同时指定多个：<code>gzip,compress</code>。其中 <code>*</code> 表示任意未在报头中指定的压缩方式，相当于取反操作；<code>identity</code> 表示可以接受未压缩的内容。",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-5.3.4'>RFC7231#5.3.4</a>"
+    },
+    "Accept-Language": {
+      "description": "客户端能接受的语言，和 Accept 一样，可以同时指定多个：<code>zh-cmn-Hans,zh-TW;q=0.9</code>。",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-5.3.5'>RFC7231#5.3.5</a>"
+    },
+    "Allow": {
+      "description": "表示资源可接受的请求方法，一般在返回 405 状态时，会带上此报头告知可用的请求方法，或是在 <code>OPTIONS</code> 请求中也会返回。<code>Allow: POST, GET, DELETE</code>。",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-7.4.1'>RFC7231#7.4.1</a>"
+    },
+    "Expect": {
+      "description": "该报头向服务器申请一个期望的操作，只有服务满足该期望，才能继续，否则将返回 417 的状态，表示无法满足要求。目前只有一种，即 <code>100-Continue</code>，具体可参考状态码 100 的相关说明。",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-5.1.1'>RFC7231#5.1.1</a>"
+    },
+    "Referer": {
+      "description": "表示来源页面的地址。为一个 URL。",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-5.5.2'>RFC7231#5.5.2</a>"
+    },
+    "Server": {
+      "description": "表示服务软件的相关信息。",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-7.4.2'>RFC7231#7.4.2</a>"
+    },
+    "Upgrade": {
+      "description": "由客户端发起更新协议的请求，如果新协议服务器支持，则返回 101 状态码，如果不支持则应该直接返回结果。常见有：<code>Upgrade:Websocket</code> 和 <code>Upgrade: h2c</code>。",
+      "specification": "<a href=‘https://tools.ietf.org/html/rfc2616#section-14.42’>RFC2616#14.42</a>"
+    }
   },
 
   "status": {
@@ -73,7 +109,7 @@
     "header-specification": "技术规范",
     "100": {
       "title": "Continue",
-      "description": "服务端已经收到请求，客户端应该继续请求，如果已经完成，则忽略。一般情况下为客户端需要提交一个比较大的内容时，会选发送一个 Expect: 100-continue 报头的请求，如果服务支持，则返回 100，否则返回 417(Expectation Failed)。",
+      "description": "服务端已经收到请求，客户端应该继续请求，如果已经完成，则忽略。一般情况下为客户端需要提交一个比较大的内容时，会选发送一个 <code>Expect: 100-continue</code> 报头的请求，如果服务支持，则返回 100，否则返回 417(Expectation Failed)。",
       "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.2.1'>RFC7231#6.2.1</a>"
     },
     "101": {

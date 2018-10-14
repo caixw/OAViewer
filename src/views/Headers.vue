@@ -14,10 +14,10 @@
       </template>
 
       <template slot="items" slot-scope="props">
-        <th>
-          <v-chip>{{props.item.name}}</v-chip>
+        <th class="al">
+          <v-chip small>{{props.item.name}}</v-chip>
         </th>
-        <td v-t="props.item.description" />
+        <td v-html="$t(props.item.description)" />
         <td v-html="$t(props.item.specification)" />
       </template>
     </v-data-table>
@@ -48,8 +48,6 @@ export default class Headers extends Vue {
     {
       locale: 'headers.header-name',
       value: 'name',
-      align: 'left',
-      width: '3rem',
       sortable: true
     },
     {
@@ -64,7 +62,7 @@ export default class Headers extends Vue {
     }
   ]
 
-  private items = this.getItems('Expect')
+  private items = this.getItems('Accept', 'Accept-Charset', 'Accept-Encoding', 'Accept-Language', 'Allow', 'Expect', 'Referer', 'Server', 'Upgrade')
 
   private getItems(...headers:string[]) :Array<Object> {
     const objs: Array<Object> = []
