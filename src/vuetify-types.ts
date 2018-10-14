@@ -9,8 +9,8 @@ export interface DataTableHeadersItem {
   localeTip?: string // tip 的本地化 ID
 
   // 以下为 vuetify 中需要提供的信息
-  value: string  // 对应数据中的显示字段名
-  text?: string  // 显示在 header 中的内容
+  value: string // 对应数据中的显示字段名
+  text?: string // 显示在 header 中的内容
   align?: 'left' | 'center' | 'right'
   sortable?: boolean
   width?: string

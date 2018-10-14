@@ -23,14 +23,14 @@
               <v-list-tile-title class="menu-title" v-t="'toolbar.statuses'" />
             </v-list-tile>
 
-            <v-list-tile :to="{name: 'auths'}">
-              <v-icon>library_books</v-icon>
-              <v-list-tile-title class="menu-title" v-t="'toolbar.auths'" />
-            </v-list-tile>
-
             <v-list-tile :to="{name: 'headers'}">
               <v-icon>library_books</v-icon>
               <v-list-tile-title class="menu-title" v-t="'toolbar.headers'" />
+            </v-list-tile>
+
+            <v-list-tile :to="{name: 'auths'}">
+              <v-icon>library_books</v-icon>
+              <v-list-tile-title class="menu-title" v-t="'toolbar.auths'" />
             </v-list-tile>
 
             <v-divider />
