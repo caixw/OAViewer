@@ -84,6 +84,14 @@
       "description": "表示资源可接受的请求方法，一般在返回 405 状态时，会带上此报头告知可用的请求方法，或是在 <code>OPTIONS</code> 请求中也会返回。<code>Allow: POST, GET, DELETE</code>。",
       "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-7.4.1'>RFC7231#7.4.1</a>"
     },
+    "Authorization": {
+      "description": "用于向服务器传递验证身份的凭证信息。",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7235#section-4.2'>RFC7235#4.2</a>"
+    },
+    "Date": {
+      "description": "表示服务器产生此回应消息的时间。为 GMT 时间，而不是本地时间。<code>Date: Tue, 15 Nov 1994 08:12:31 GMT</code>",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-7.1.1.2'>RFC7231#7.1.1.2</a>"
+    },
     "Expect": {
       "description": "该报头向服务器申请一个期望的操作，只有服务满足该期望，才能继续，否则将返回 417 的状态，表示无法满足要求。目前只有一种，即 <code>100-Continue</code>，具体可参考状态码 100 的相关说明。",
       "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-5.1.1'>RFC7231#5.1.1</a>"
@@ -99,6 +107,10 @@
     "Upgrade": {
       "description": "由客户端发起更新协议的请求，如果新协议服务器支持，则返回 101 状态码，如果不支持则应该直接返回结果。常见有：<code>Upgrade:Websocket</code> 和 <code>Upgrade: h2c</code>。",
       "specification": "<a href=‘https://tools.ietf.org/html/rfc2616#section-14.42’>RFC2616#14.42</a>"
+    },
+    "WWW-Authenticate": {
+      "description": "通常和 401 状态一起出现。告知用户以何种方式进行登录验证操作。",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7235#section-4.1'>RFC7235#4.1</a>"
     }
   },
 
