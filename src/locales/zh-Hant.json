@@ -12,7 +12,8 @@
     "theme": "主題",
     "theme-dark": "深色模式",
     "theme-default": "默認顏色",
-    "theme-green":"綠色",
+    "theme-green": "綠色",
+    "theme-red": "红色",
     "theme-brown": "棕色"
   },
 

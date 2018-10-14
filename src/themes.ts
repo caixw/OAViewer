@@ -3,6 +3,7 @@
 // license that can be found in the LICENSE file.
 
 import { VuetifyObject, VuetifyThemeItem } from 'vuetify'
+import colors from 'vuetify/es5/util/colors'
 
 /**
  * 所有主题颜色的定义在此处
@@ -14,13 +15,32 @@ import { VuetifyObject, VuetifyThemeItem } from 'vuetify'
  */
 const themes: Themes = {
   'toolbar.theme-green': {
-    primary: '#4CAF50',
-    secondary: '#757575'
+    primary: colors.green.darken4,
+    secondary: colors.green.lighten1,
+    accent: colors.blue.lighten2,
+    error: colors.red.base,
+    warning: colors.yellow.darken2,
+    info: colors.lime.darken2,
+    success: colors.lightGreen.accent4
   },
 
   'toolbar.theme-brown': {
-    primary: '#795548',
-    secondary: '#757575'
+    primary: colors.brown.darken4,
+    secondary: colors.brown.lighten2,
+    accent: colors.orange.accent4,
+    error: colors.pink.lighten1,
+    warning: colors.amber.lighten1,
+    info: colors.lightGreen.base,
+    success: colors.lightGreen.accent4
+  },
+  'toolbar.theme-red': {
+    primary: colors.red.base,
+    secondary: colors.red.lighten2,
+    accent: colors.purple.base,
+    error: colors.red.base,
+    warning: colors.yellow.base,
+    info: colors.blue.base,
+    success: colors.green.base
   }
 }
 
