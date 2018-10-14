@@ -20,7 +20,7 @@ export default new Router({
     {
       path: '/',
       name: 'home',
-      alias: 'document'
+      component: Document
     },
     {
       path: '/methods',
@@ -41,11 +41,6 @@ export default new Router({
       path: '/headers',
       name: 'headers',
       component: Headers
-    },
-    {
-      path: '/document',
-      name: 'document',
-      component: Document
     },
     {
       path: '/about',
