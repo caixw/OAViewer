@@ -60,6 +60,12 @@
     "copyright": "版本信息"
   },
 
+  "headers": {
+    "header_name": "名称",
+    "header-description": "描述",
+    "header-specification": "技术规范"
+  },
+
   "status": {
     "header-status": "状态码",
     "header-title": "摘要",
