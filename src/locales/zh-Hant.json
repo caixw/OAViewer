@@ -6,6 +6,9 @@
     "docs": "文檔",
     "about": "關於",
     "statuses": "HTTP 狀態碼",
+    "auths": "驗證方式",
+    "headers": "報頭",
+
     "theme": "主題",
     "theme-dark": "深色模式",
     "theme-default": "默認顏色",
@@ -53,10 +56,263 @@
     }
   },
 
+  "about": {
+    "copyright": "版本信息"
+  },
+
+  "headers": {
+    "header-name": "名稱",
+    "header-description": "描述",
+    "header-specification": "技術規範",
+    "Accept": {
+      "description": "表示客戶端能接受的內容類型，可以由多個類型通過半角逗號組成，由參數 q 決定其權重：<code>application/json,application/xml;q=0.8,*/*;q=0.1</code>",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-5.3.2'>RFC7231#5.3.2</a>"
+    },
+    "Accept-Charset": {
+      "description": "客戶端能接受的編碼類型，和 Accept 壹樣，可以同時指定多個：<code>utf-8,gb2312;q=0.9</code>",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-5.3.3'>RFC7231#5.3.3</a>"
+    },
+    "Accept-Encoding": {
+      "description": "客戶端能接受的壓縮方式，和 Accept 壹樣，可以同時指定多個：<code>gzip,compress</code>。其中 <code>*</code> 表示任意未在報頭中指定的壓縮方式，相當於取反操作；<code>identity</code> 表示可以接受未壓縮的內容。",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-5.3.4'>RFC7231#5.3.4</a>"
+    },
+    "Accept-Language": {
+      "description": "客戶端能接受的語言，和 Accept 壹樣，可以同時指定多個：<code>zh-cmn-Hans,zh-TW;q=0.9</code>。",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-5.3.5'>RFC7231#5.3.5</a>"
+    },
+    "Allow": {
+      "description": "表示資源可接受的請求方法，壹般在返回 405 狀態時，會帶上此報頭告知可用的請求方法，或是在 <code>OPTIONS</code> 請求中也會返回。<code>Allow: POST, GET, DELETE</code>。",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-7.4.1'>RFC7231#7.4.1</a>"
+    },
+    "Authorization": {
+      "description": "用於向服務器傳遞驗證身份的憑證信息。",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7235#section-4.2'>RFC7235#4.2</a>"
+    },
+    "Date": {
+      "description": "表示服務器產生此回應消息的時間。為 GMT 時間，而不是本地時間。<code>Date: Tue, 15 Nov 1994 08:12:31 GMT</code>",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-7.1.1.2'>RFC7231#7.1.1.2</a>"
+    },
+    "Expect": {
+      "description": "該報頭向服務器申請壹個期望的操作，只有服務滿足該期望，才能繼續，否則將返回 417 的狀態，表示無法滿足要求。目前只有壹種，即 <code>100-Continue</code>，具體可參考狀態碼 100 的相關說明。",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-5.1.1'>RFC7231#5.1.1</a>"
+    },
+    "Referer": {
+      "description": "表示來源頁面的地址。為壹個 URL。",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-5.5.2'>RFC7231#5.5.2</a>"
+    },
+    "Server": {
+      "description": "表示服務軟件的相關信息。",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-7.4.2'>RFC7231#7.4.2</a>"
+    },
+    "Upgrade": {
+      "description": "由客戶端發起更新協議的請求，如果新協議服務器支持，則返回 101 狀態碼，如果不支持則應該直接返回結果。常見有：<code>Upgrade:Websocket</code> 和 <code>Upgrade: h2c</code>。",
+      "specification": "<a href=‘https://tools.ietf.org/html/rfc2616#section-14.42’>RFC2616#14.42</a>"
+    },
+    "WWW-Authenticate": {
+      "description": "通常和 401 狀態壹起出現。告知用戶以何種方式進行登錄驗證操作。",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7235#section-4.1'>RFC7235#4.1</a>"
+    }
+  },
+
   "status": {
+    "header-status": "狀態碼",
+    "header-title": "摘要",
+    "header-description": "描述",
+    "header-specification": "技術規範",
     "100": {
-      "title": "",
-      "description": ""
+      "title": "Continue",
+      "description": "服務端已經收到請求，客戶端應該繼續請求，如果已經完成，則忽略。壹般情況下為客戶端需要提交壹個比較大的內容時，會選發送壹個 <code>Expect: 100-continue</code> 報頭的請求，如果服務支持，則返回 100，否則返回 417(Expectation Failed)。",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.2.1'>RFC7231#6.2.1</a>"
+    },
+    "101": {
+      "title": "Switching Protocol",
+      "description": "響應客戶端新協議要求，並將協議切換到客戶端報頭 Upgrade 指定的協議。最常見提 Websocket 和 HTTP2(Upgrade:h2c) 協議切換。",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.2.2'>RFC7231#6.2.2<a>"
+    },
+    "200": {
+      "title": "OK",
+      "description": "請求成功。",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.3.1'>RFC7231#6.3.1<a>"
+    },
+    "201": {
+      "title": "Created",
+      "description": "新資源被成功創建，壹般情況可能還會伴隨著壹個 Location 報頭，用於指定新資源的位置。",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.3.2'>RFC7231#6.3.2<a>"
+    },
+    "202": {
+      "title": "Accepted",
+      "description": "請求被接受，但是尚未完成，最終有可能成功，也有可能失敗。此時壹般需要提供壹個回調接口供服務告知最終處理結果。",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.3.3'>RFC7231#6.3.3<a>"
+    },
+    "203": {
+      "title": "Non-Authoritative Information",
+      "description": "服務器已成功處理了請求，但返回的信息並不是原始服務器上的。",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.3.4'>RFC7231#6.3.4<a>"
+    },
+    "204": {
+      "title": "No Content",
+      "description": "服務器已成功處理了請求，但是不需要返回任何實體內容給用戶。如果客戶端是瀏覽器的話，應該保持發送時的請求面，不對視圖作任何變化。",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.3.5'>RFC7231#6.3.5<a>"
+    },
+    "205": {
+      "title": "Reset Content",
+      "description": "服務器已成功處理了請求，但是不需要返回任何實體內容給用戶。與 204 不同，此狀態碼需要用戶刷新文檔視圖。",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.3.6'>RFC7231#6.3.6<a>"
+    },
+    "300": {
+      "title": "Multiple Choices",
+      "description": "被請求的資源有壹系列可供選擇的回饋信息，用戶可以選擇壹條地址進行重定向。",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.4.1'>RFC7231#6.4.1<a>"
+    },
+    "301": {
+      "title": "Moved Permanently",
+      "description": "請求資源被永久性移到新位置，新資源的 URL 會從報頭 Location 中返回。",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.4.2'>RFC7231#6.4.2<a>"
+    },
+    "302": {
+      "title": "Found",
+      "description": "",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.4.3'>RFC7231#6.4.3<a>"
+    },
+    "303": {
+      "title": "See Other",
+      "description": "",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.4.4'>RFC7231#6.4.4<a>"
+    },
+    "304": {
+      "title": "Not Modified",
+      "description": "請求資源並未被改變，用戶可以繼續使用之前緩存的內容。該請法語不會返回實體內容。",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7232#section-4.1'>RFC7232#4.1<a>"
+    },
+    "305": {
+      "title": "Use Proxy",
+      "description": "被請求的資源必須通過指定的代理才能被訪問。",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.4.5'>RFC7231#6.4.5<a>"
+    },
+    "306": {
+      "title": "Unused",
+      "description": "後續請求應使用指定的代理，已經不再使用。",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.4.6'>RFC7231#6.4.6<a>"
+    },
+    "307": {
+      "title": "Temporary Redirect",
+      "description": "",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.4.7'>RFC7231#6.4.7<a>"
+    },
+    "400": {
+      "title": "Bad Request",
+      "description": "客戶端內容錯誤，比如參數有誤，語義錯誤等。",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.5.1'>RFC7231#6.5.1<a>"
+    },
+    "401": {
+      "title": "Unauthorized",
+      "description": "當前請求需要進行身份驗證。",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7235#section-3.1'>RFC7235#3.1<a>"
+    },
+    "402": {
+      "title": "Payment Required",
+      "description": "請求需要付費才能查看。",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.5.2'>RFC7231#6.5.2<a>"
+    },
+    "403": {
+      "title": "Forbidden",
+      "description": "權限不足。",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.5.3'>RFC7231#6.5.3<a>"
+    },
+    "404": {
+      "title": "Not Found",
+      "description": "請求的資源不存在。",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.5.4'>RFC7231#6.5.4<a>"
+    },
+    "405": {
+      "title": "Method Not Allowed",
+      "description": "該請求方法不可使用當前資源。可以查看返回的 Allow 報頭允許的請求方法。",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.5.5'>RFC7231#6.5.5<a>"
+    },
+    "406": {
+      "title": "Not Acceptable",
+      "description": "請求的資源不滿足服務器需要的條件。",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.5.6'>RFC7231#6.5.6<a>"
+    },
+    "407": {
+      "title": "Proxy Authentication Required",
+      "description": "必須在代理服務器上進行身份驗證。",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7235#section-3.2'>RFC7235#3.2<a>"
+    },
+    "408": {
+      "title": "Request Timeout",
+      "description": "請求超時。客戶端沒有在服務器預備等待的時間內完成壹個請求的發送，客戶端可以再次提交，無需任何更改。",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.5.7'>RFC7231#6.5.7<a>"
+    },
+    "409": {
+      "title": "Conflict",
+      "description": "請求與資源存在沖突，比如在提交修改時，已經被其它用戶進行修改過。",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.5.8'>RFC7231#6.5.8<a>"
+    },
+    "410": {
+      "title": "Gone",
+      "description": "資源已經永久性不存在。如果是臨時的，則應該使用 404。",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.5.9'>RFC7231#6.5.9<a>"
+    },
+    "411": {
+      "title": "Length Required",
+      "description": "必須提供 Content-Length 報頭。",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.5.10'>RFC7231#6.5.10<a>"
+    },
+    "413": {
+      "title": "Payload Too Large",
+      "description": "",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.5.11'>RFC7231#6.5.11<a>"
+    },
+    "414": {
+      "title": "URI Too Long",
+      "description": "請求的 URL 長度超過服務器能處理的最大長度，壹般是由於查詢參數過大，比如通過 GET 請求提交數據。",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.5.12'>RFC7231#6.5.12<a>"
+    },
+    "415": {
+      "title": "Unsupported Media Type",
+      "description": "請求報頭 Content-Type 中指定的媒體類型，服務器不支持。",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.5.13'>RFC7231#6.5.13<a>"
+    },
+    "417": {
+      "title": "Expectation Failed",
+      "description": "",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.5.14'>RFC7231#6.5.14<a>"
+    },
+    "426": {
+      "title": "Upgrade Required",
+      "description": "",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.5.15'>RFC7231#6.5.15<a>"
+    },
+    "500": {
+      "title": "Internal Server Error",
+      "description": "未知道的或是無法處理的服務器錯誤。",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.6.1'>RFC7231#6.6.1<a>"
+    },
+    "501": {
+      "title": "Not Implemented",
+      "description": "該接口或是功能未被實現。",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.6.2'>RFC7231#6.6.2<a>"
+    },
+    "502": {
+      "title": "Bad Gateway",
+      "description": "作為網關服務時，從上遊接收數據時出錯。",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.6.3'>RFC7231#6.6.3<a>"
+    },
+    "503": {
+      "title": "Service Unavailable",
+      "description": "服務暫時不可用，比如維護或是過載。可以通過指定 Retry-After 讓用戶稍後再試。",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.6.4'>RFC7231#6.6.4<a>"
+    },
+    "504": {
+      "title": "Gateway Timeout",
+      "description": "作為網關服務時，從上遊獲取數據超時。",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.6.5'>RFC7231#6.6.5<a>"
+    },
+    "505": {
+      "title": "HTTP Version Not Supported",
+      "description": "服務器不支持該 HTTP 版本。",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.6.6'>RFC7231#6.6.6<a>"
     }
   }
 }
