@@ -6,11 +6,13 @@
       <v-btn fab flat><v-icon>search</v-icon></v-btn>
 
       <v-spacer />
+
       <v-toolbar-items>
         <!-- 文档 -->
         <v-menu offset-y>
           <v-btn slot="activator" flat class="text-uppercase subheading">
-            {{$t('toolbar.docs')}}<v-icon>arrow_drop_down</v-icon>
+            <span class="hidden-sm-and-down">{{$t('toolbar.docs')}}<v-icon>arrow_drop_down</v-icon></span>
+            <v-icon class="hidden-md-and-up">library_books</v-icon>
           </v-btn>
           <v-list>
             <v-list-tile :to="{name: 'methods'}">
@@ -46,23 +48,11 @@
           </v-list>
         </v-menu>
 
-        <!-- 翻译 -->
-        <v-menu offset-y>
-          <v-btn slot="activator" flat class="text-uppercase subheading">
-            {{localeDisplayName}}<v-icon>arrow_drop_down</v-icon>
-          </v-btn>
-          <v-list>
-            <v-list-tile v-for="(val, key) in locales" :key="key" @click="locale=key">
-              <v-icon>{{checkbox(key==locale)}}</v-icon>
-              <v-list-tile-title class="menu-title">{{val}}</v-list-tile-title>
-            </v-list-tile>
-          </v-list>
-        </v-menu>
-
         <!-- 主题 -->
         <v-menu offset-y>
           <v-btn slot="activator" flat class="text-uppercase subheading">
-            {{$t('toolbar.theme')}}<v-icon>arrow_drop_down</v-icon>
+            <span class="hidden-sm-and-down">{{$t('toolbar.theme')}}<v-icon>arrow_drop_down</v-icon></span>
+            <v-icon class="hidden-md-and-up">visibility</v-icon>
           </v-btn>
           <v-list>
             <v-list-tile @click="dark=!dark">
@@ -74,6 +64,20 @@
             <v-list-tile v-for="(val, key) in themes" :key="key" @click="theme=key">
               <v-icon>{{checkbox(key==theme)}}</v-icon>
               <v-list-tile-title v-t="key" class="menu-title" />
+            </v-list-tile>
+          </v-list>
+        </v-menu>
+
+        <!-- 翻译 -->
+        <v-menu offset-y>
+          <v-btn slot="activator" flat class="text-uppercase subheading">
+            <span class="hidden-sm-and-down">{{localeDisplayName}}<v-icon>arrow_drop_down</v-icon></span>
+            <v-icon class="hidden-md-and-up">translate</v-icon>
+          </v-btn>
+          <v-list>
+            <v-list-tile v-for="(val, key) in locales" :key="key" @click="locale=key">
+              <v-icon>{{checkbox(key==locale)}}</v-icon>
+              <v-list-tile-title class="menu-title">{{val}}</v-list-tile-title>
             </v-list-tile>
           </v-list>
         </v-menu>
@@ -98,6 +102,7 @@
 .title {
   cursor: pointer;
 }
+
 .menu-title {
   padding-left: 1rem
 }
