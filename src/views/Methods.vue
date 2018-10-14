@@ -17,7 +17,7 @@
         <th>
           <div class="chip white--text" :style="{background:methodColor(props.item.name)}">{{props.item.name}}</div>
         </th>
-        <td v-t="props.item.description" />
+        <td v-html="$t(props.item.description)" />
         <td><v-icon>{{checkbox(props.item.safe)}}</v-icon></td>
         <td><v-icon>{{checkbox(props.item.idempotent)}}</v-icon></td>
         <td><v-icon>{{checkbox(props.item.cacheable)}}</v-icon></td>

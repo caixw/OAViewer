@@ -18,7 +18,7 @@
           <div class="chip white--text" :style="{background:methodColor(props.item.status)}">{{props.item.status}}</div>
         </th>
         <td v-t="props.item.title" />
-        <td v-t="props.item.description" />
+        <td v-html="$t(props.item.description)" />
         <td v-html="$t(props.item.specification)" />
       </template>
     </v-data-table>
