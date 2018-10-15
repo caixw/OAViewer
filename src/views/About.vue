@@ -3,7 +3,7 @@
     <h1>
       <span class="display-3">apidoc.tools</span>
       <v-tooltip bottom>
-        <v-chip small slot="activator">{{version}}</v-chip>
+        <v-chip disabled small slot="activator">{{version}}</v-chip>
         <span v-t="'about.version'" />
       </v-tooltip>
     </h1>
@@ -13,7 +13,7 @@
     <section>
       <h2 v-t="'about.dependencies'" />
       <v-chips>
-        <v-chip small v-for="(ver, name) of deps" :key="name">{{name}}({{ver}})</v-chip>
+        <v-chip disabled small v-for="(ver, name) of deps" :key="name">{{name}}({{ver}})</v-chip>
       </v-chips>
     </section>
 
