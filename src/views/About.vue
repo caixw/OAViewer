@@ -12,9 +12,7 @@
 
     <section>
       <h2 v-t="'about.dependencies'" />
-      <v-chips>
-        <v-chip disabled small v-for="(ver, name) of deps" :key="name">{{name}}({{ver}})</v-chip>
-      </v-chips>
+      <v-chip disabled small v-for="(ver, name) of deps" :key="name">{{name}}({{ver}})</v-chip>
     </section>
 
     <section id="copyright">
@@ -36,13 +34,30 @@
 </style>
 
 <script lang="ts">
-import VueI18n from 'vue-i18n'
 import pkg from '../../package.json'
 import { Component, Vue } from 'vue-property-decorator'
+
+interface Dep {
+  [key: string]: string
+}
+
+function parseDeps(): Dep {
+  const obj: {[key: string]: string} = pkg.dependencies
+  const dep: Dep = {}
+
+  Object.keys(obj).forEach((name) => {
+    let ver = obj[name]
+    if ('0123456789'.indexOf(ver.charAt(0)) === -1) {
+      ver = ver.slice(1)
+    }
+    dep[name] = ver
+  })
+  return dep
+}
 
 @Component
 export default class About extends Vue {
   private version: string = pkg.version
-  private deps = pkg.dependencies
+  private deps = parseDeps()
 }
 </script>

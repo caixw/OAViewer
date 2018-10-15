@@ -1,7 +1,10 @@
 <template>
   <v-app :dark="dark">
     <v-toolbar app="app">
-      <v-toolbar-title class="title" @click="$router.push({name:'home'})">APIDOC</v-toolbar-title>
+      <v-toolbar-title class="title" @click="$router.push({name:'home'})">
+        <img src="./assets/logo.svg" alt="LOGO" />
+        <span>APIDOC</span>
+      </v-toolbar-title>
 
       <v-btn fab flat><v-icon>search</v-icon></v-btn>
 
@@ -101,6 +104,13 @@
 <style scoped>
 .title {
   cursor: pointer;
+}
+
+.title img {
+  width: 24px;
+  height: 24px;
+  margin-right: .5rem;
+  margin-bottom: -5px;
 }
 
 .menu-title {

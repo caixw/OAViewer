@@ -39,7 +39,6 @@
 </style>
 
 <script lang="ts">
-import VueI18n from 'vue-i18n'
 import { DataTableHeadersItem } from '../vuetify-types'
 import { Component, Vue } from 'vue-property-decorator'
 
