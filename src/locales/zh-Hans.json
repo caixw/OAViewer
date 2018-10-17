@@ -366,6 +366,11 @@
       "title": "HTTP Version Not Supported",
       "description": "服务器不支持该 HTTP 版本。",
       "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.6.6'>RFC7231#6.6.6<a>"
+    },
+    "511": {
+      "title": "Network Authentication Required",
+      "description": "需要身份证验证才能获得网络访问权限。源服务器不会返回此状态码。一般是控制网络访问的服务产生，比如机场、KFC 等场所的网络，连接前会弹出一个验证页面。",
+      "specification": "<a href='https://tools.ietf.org/html/rfc6585#section-6'>RFC6585#6<a>"
     }
   }
 }
