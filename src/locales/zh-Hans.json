@@ -95,6 +95,22 @@
       "description": "用于向服务器传递验证身份的凭证信息。",
       "specification": "<a href='https://tools.ietf.org/html/rfc7235#section-4.2'>RFC7235#4.2</a>"
     },
+    "Content-Encoding": {
+      "description": "表示响应内容的压缩格式。",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-3.1.2.2'>RFC7231#3.1.2.2</a>"
+    },
+    "Content-Language": {
+      "description": "表示响应内容的区域语言，语言标签在 <a href='https://tools.ietf.org/html/rfc5646'>RFC5646</a> 有定义。",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-3.1.3.2'>RFC7231#3.1.3.2</a>"
+    },
+    "Content-Length": {
+      "description": "表示响应内容的长度。",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7230#section-3.3.2'>RFC7230#3.3.2</a>"
+    },
+    "Content-Location": {
+      "description": "表示最符合当前客户端环境的内容地址。比如同一资源 <code>/a</code> 同时提供了多种语言的版本：<code> /cn/a</code>、<code>/tw/a</code>，当前用户请求 <code>/a</code>时，会根据 <code>Accept-Language</code> 为用户在 <code>Content-Location</code> 返回最符合要求的 URI。",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-3.1.4.2'>RFC7231#3.1.4.2</a>"
+    },
     "Content-Type": {
       "description": "用于指定内容的类型和字符集，比如 <code>Content-Type: application/json; charset=utf-8</code>。",
       "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-3.1.1.5'>RFC7231#3.1.1.5</a>"
@@ -114,6 +130,10 @@
     "Referer": {
       "description": "表示来源页面的地址。为一个 URL。",
       "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-5.5.2'>RFC7231#5.5.2</a>"
+    },
+    "Retry-After": {
+      "description": "5xx 状态下，表示预计服务器的下线时长；3xx 状态下，则是让用户在指定时间之后再访问新的地址。时间可以是秒数或是一个 <a href='https://tools.ietf.org/html/rfc7231#section-7.1.1.2'>Date</a> 格式的时间。",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-7.1.3'>RFC7231#7.1.3</a>"
     },
     "Server": {
       "description": "表示服务软件的相关信息。",
