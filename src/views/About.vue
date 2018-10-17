@@ -10,9 +10,11 @@
     <v-divider />
     <p>apidoc.tools 是 API 文档生成工具 apidoc 的官方网站。</p>
 
-    <section>
+    <section id="dependencies">
       <h2 v-t="'about.dependencies'" />
-      <v-chip disabled small v-for="(ver, name) of deps" :key="name">{{name}}({{ver}})</v-chip>
+      <v-chip disabled small v-for="(dep, index) of deps" :key="index">
+        <a :href="dep.url">{{dep.name}}</a>({{dep.version}})
+      </v-chip>
     </section>
 
     <section id="copyright">
@@ -39,20 +41,33 @@ import { Component, Vue } from 'vue-property-decorator'
 
 interface Dep {
   [key: string]: string
+
+  name: string
+  version: string
+  url: string
 }
 
-function parseDeps(): Dep {
+function isNum(str: string): boolean { // 是否为数字
+  return '0123456789'.indexOf(str) > -1
+}
+
+function parseDeps(): Array<Dep> {
   const obj: {[key: string]: string} = pkg.dependencies
-  const dep: Dep = {}
+  const deps: Array<Dep> = []
 
   Object.keys(obj).forEach((name) => {
     let ver = obj[name]
-    if ('0123456789'.indexOf(ver.charAt(0)) === -1) {
+    if (!isNum(ver.charAt(0))) {
       ver = ver.slice(1)
     }
-    dep[name] = ver
+
+    deps.push({
+      name: name,
+      version: ver,
+      url: 'https://www.npmjs.com/package/' + name
+    })
   })
-  return dep
+  return deps
 }
 
 @Component

@@ -1,7 +1,24 @@
 {
   "name": "apidoc.tools",
-  "version": "0.1.0",
-  "private": true,
+  "version": "0.1.1+20181016",
+  "license": "MIT",
+  "author": {
+    "name": "caixw",
+    "url": "https://caixw.io"
+  },
+  "keywords": [
+    "api",
+    "apidoc",
+    "tools",
+    "document",
+    "restful"
+  ],
+  "description": "apidoc 的显示工具",
+  "homepage": "https://apidoc.tools",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/caixw/apidoc.tools"
+  },
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
@@ -14,6 +31,7 @@
     "vue-i18n": "^8.0.0",
     "vue-property-decorator": "^7.0.0",
     "vue-router": "^3.0.1",
+    "vue-shortkey": "^3.1.6",
     "vuetify": "^1.2.8"
   },
   "devDependencies": {
