@@ -13,7 +13,7 @@
     "theme-dark": "深色模式",
     "theme-default": "默認顏色",
     "theme-green": "綠色",
-    "theme-red": "红色",
+    "theme-red": "紅色",
     "theme-brown": "棕色"
   },
 
@@ -58,7 +58,9 @@
   },
 
   "about": {
-    "copyright": "版本信息"
+    "version": "版本",
+    "dependencies": "依賴包",
+    "copyright": "版權信息"
   },
 
   "headers": {
@@ -160,6 +162,11 @@
       "description": "服務器已成功處理了請求，但是不需要返回任何實體內容給用戶。與 204 不同，此狀態碼需要用戶刷新文檔視圖。",
       "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.3.6'>RFC7231#6.3.6<a>"
     },
+    "206": {
+      "title": "Partial Content",
+      "description": "表示服務器已經成功處理了部分請求，壹般用於 HTTP 下載軟件的斷點續傳或是將大文件同時分斷下載的功能。",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7233#section-4.1'>RFC7233#4.1<a>"
+    },
     "300": {
       "title": "Multiple Choices",
       "description": "被請求的資源有壹系列可供選擇的回饋信息，用戶可以選擇壹條地址進行重定向。",
@@ -167,17 +174,17 @@
     },
     "301": {
       "title": "Moved Permanently",
-      "description": "請求資源被永久性移到新位置，新資源的 URL 會從報頭 Location 中返回。",
+      "description": "請求資源被永久性移到新位置，新資源的 URL 會從報頭 <code>Location</code> 中返回。",
       "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.4.2'>RFC7231#6.4.2<a>"
     },
     "302": {
       "title": "Found",
-      "description": "",
+      "description": "臨時重定向，客戶端後續操作應該繼續請求原地址。新地址從 <code>Location</code> 報頭中返回。如果不是 GET 或是 HEAD 請求，那麽不允許瀏覽器自動重定向。",
       "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.4.3'>RFC7231#6.4.3<a>"
     },
     "303": {
       "title": "See Other",
-      "description": "",
+      "description": "重定向，新地址通過 <code>Location</code> 報頭返回。壹般用於 POST、PUT 或是 DELETE 請求，表示其上傳或是操作的進度展示頁面。",
       "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.4.4'>RFC7231#6.4.4<a>"
     },
     "304": {
@@ -197,8 +204,13 @@
     },
     "307": {
       "title": "Temporary Redirect",
-      "description": "",
+      "description": "基本與 302 相同。不過壹些舊瀏覽器在處理 302 時，可能會將非 GET 方法轉換 GET 方法，而 307 不會。",
       "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.4.7'>RFC7231#6.4.7<a>"
+    },
+    "308": {
+      "title": "Permanent Redirect",
+      "description": "基本與 301 相同。不過壹些舊瀏覽器在處理 301 時，可能會將非 GET 方法轉換 GET 方法，而 308 不會。",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7538#section-3'>RFC7538#3<a>"
     },
     "400": {
       "title": "Bad Request",
@@ -257,12 +269,17 @@
     },
     "411": {
       "title": "Length Required",
-      "description": "必須提供 Content-Length 報頭。",
+      "description": "必須提供 <code>Content-Length</code> 報頭。",
       "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.5.10'>RFC7231#6.5.10<a>"
+    },
+    "412": {
+      "title": "Length Required",
+      "description": "先決條件不足。比如在 GET 請求中拿到的 <code>ETag</code>，在 PUT 時，發現其值已經變化（說明有第三方修改過該資源），此時可能返回 412。",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7232#section-4.2'>RFC7232#4.2<a>"
     },
     "413": {
       "title": "Payload Too Large",
-      "description": "",
+      "description": "客戶端的請求主體過大。如果是臨時性的，則應該同時返回 <code>After-Retry</code> 報頭，否則關閉連接。",
       "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.5.11'>RFC7231#6.5.11<a>"
     },
     "414": {
@@ -275,15 +292,50 @@
       "description": "請求報頭 Content-Type 中指定的媒體類型，服務器不支持。",
       "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.5.13'>RFC7231#6.5.13<a>"
     },
+    "416": {
+      "title": "Range Not Satisfiable",
+      "description": "服務器無法提供客戶端要求的文件範圍，壹般情況可能是請求範圍超出文件結尾。響應中應該包含壹個 <code>Content-Range</code> 用以指出當前文件的長度：<code>Content-Range: */1024</code>。",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7233#section-4.4'>RFC7233#4.4<a>"
+    },
     "417": {
       "title": "Expectation Failed",
-      "description": "",
+      "description": "無法滿足客戶端報頭 <code>Expect</code> 中期望的內容。具體可參考 <code>Expect</code> 報頭的相關介紹。",
       "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.5.14'>RFC7231#6.5.14<a>"
+    },
+    "418": {
+      "title": "I'm a teapot",
+      "description": "我是個大茶壺！由 IETF 在愚人節發布的虛構協議 <a href='https://tools.ietf.org/html/rfc2324'>HTCPCP</a> 中指定的壹個狀態碼。",
+      "specification": "<a href='https://tools.ietf.org/html/rfc2324#section-2.3.2'>RFC2324#2.3.2<a>"
+    },
+    "421": {
+      "title": "Misdirected Request",
+      "description": "請求被直接定向到不能產生響應的服務器上。",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7540#section-9.1.2'>RFC7540#9.1.2<a>"
     },
     "426": {
       "title": "Upgrade Required",
-      "description": "",
+      "description": "服務器不接受當前客戶的請求協議，要求客戶端更換請求協議，服務端建議的協議會在 <code>Upgrade</code> 報頭中給出。",
       "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.5.15'>RFC7231#6.5.15<a>"
+    },
+    "428": {
+      "title": "Precondition Required",
+      "description": "先決條件缺失，比如修改資源時，為了防止多人同時修改，可以要求客戶端帶上資源的 <code>ETag</code>，此時如果客戶端如果未在報頭中指定 <code>If-Match</code>，則會返回此狀態碼。",
+      "specification": "<a href='https://tools.ietf.org/html/rfc6585#section-3'>RFC6585#3<a>"
+    },
+    "429": {
+      "title": "Too Many Requests",
+      "description": "在單位時間內，用戶發送了太多的請求。壹般用於限速，比如 <code>X-Rate-Limit</code>",
+      "specification": "<a href='https://tools.ietf.org/html/rfc6585#section-4'>RFC6585#4<a>"
+    },
+    "431": {
+      "title": "Request Header Fields Too Large",
+      "description": "請求中報頭數量太多或是某壹個報頭的內容過長，導致服務器不願處理該請求。",
+      "specification": "<a href='https://tools.ietf.org/html/rfc6585#section-5'>RFC6585#5<a>"
+    },
+    "451": {
+      "title": "Unavailable For Legal Reasons",
+      "description": "違法當地法律法規，不予顯示。其返回的應該帶個 Link 報頭，列出具體原因的 URL，且要帶上 <code>rel='blocked-by'</code> 屬性。",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7725'>RFC7725<a>"
     },
     "500": {
       "title": "Internal Server Error",
@@ -302,7 +354,7 @@
     },
     "503": {
       "title": "Service Unavailable",
-      "description": "服務暫時不可用，比如維護或是過載。可以通過指定 Retry-After 讓用戶稍後再試。",
+      "description": "服務暫時不可用，比如維護或是過載。可以通過指定 <code>Retry-After</code> 讓用戶稍後再試。",
       "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.6.4'>RFC7231#6.6.4<a>"
     },
     "504": {
@@ -314,6 +366,11 @@
       "title": "HTTP Version Not Supported",
       "description": "服務器不支持該 HTTP 版本。",
       "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.6.6'>RFC7231#6.6.6<a>"
+    },
+    "511": {
+      "title": "Network Authentication Required",
+      "description": "需要身份證驗證才能獲得網絡訪問權限。源服務器不會返回此狀態碼。壹般是控制網絡訪問的服務產生，比如機場、KFC 等場所的網絡，連接前會彈出壹個驗證頁面。",
+      "specification": "<a href='https://tools.ietf.org/html/rfc6585#section-6'>RFC6585#6<a>"
     }
   }
 }
