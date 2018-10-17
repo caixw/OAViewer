@@ -68,7 +68,7 @@
     "header-description": "描述",
     "header-request": "请求",
     "header-request-tip": "仅能用于向服务器请求的报头中",
-    "header-response": "返回",
+    "header-response": "响应",
     "header-response-tip": "仅能用于向服务器返回的报头中",
     "header-specification": "技术规范",
     "Accept": {

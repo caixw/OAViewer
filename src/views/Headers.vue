@@ -15,7 +15,7 @@
 
       <template slot="items" slot-scope="props">
         <th class="al">
-          <v-chip small>{{props.item.name}}</v-chip>
+          <v-chip disabled small>{{props.item.name}}</v-chip>
         </th>
         <td v-html="$t(props.item.description)" />
         <td><v-icon>{{checkbox(props.item.request)}}</v-icon></td>
