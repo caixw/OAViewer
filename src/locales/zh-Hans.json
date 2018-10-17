@@ -66,6 +66,10 @@
   "headers": {
     "header-name": "名称",
     "header-description": "描述",
+    "header-request": "请求",
+    "header-request-tip": "仅能用于向服务器请求的报头中",
+    "header-response": "返回",
+    "header-response-tip": "仅能用于向服务器返回的报头中",
     "header-specification": "技术规范",
     "Accept": {
       "description": "表示客户端能接受的内容类型，可以由多个类型通过半角逗号组成，由参数 q 决定其权重：<code>application/json,application/xml;q=0.8,*/*;q=0.1</code>",
