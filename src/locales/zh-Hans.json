@@ -162,6 +162,11 @@
       "description": "服务器已成功处理了请求，但是不需要返回任何实体内容给用户。与 204 不同，此状态码需要用户刷新文档视图。",
       "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.3.6'>RFC7231#6.3.6<a>"
     },
+    "206": {
+      "title": "Partial Content",
+      "description": "表示服务器已经成功处理了部分请求，一般用于 HTTP 下载软件的断点续传或是将大文件同时分断下载的功能。",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7233#section-4.1'>RFC7233#4.1<a>"
+    },
     "300": {
       "title": "Multiple Choices",
       "description": "被请求的资源有一系列可供选择的回馈信息，用户可以选择一条地址进行重定向。",
@@ -169,17 +174,17 @@
     },
     "301": {
       "title": "Moved Permanently",
-      "description": "请求资源被永久性移到新位置，新资源的 URL 会从报头 Location 中返回。",
+      "description": "请求资源被永久性移到新位置，新资源的 URL 会从报头 <code>Location</code> 中返回。",
       "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.4.2'>RFC7231#6.4.2<a>"
     },
     "302": {
       "title": "Found",
-      "description": "",
+      "description": "临时重定向，客户端后续操作应该继续请求原地址。新地址从 <code>Location</code> 报头中返回。如果不是 GET 或是 HEAD 请求，那么不允许浏览器自动重定向。",
       "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.4.3'>RFC7231#6.4.3<a>"
     },
     "303": {
       "title": "See Other",
-      "description": "",
+      "description": "重定向，新地址通过 <code>Location</code> 报头返回。一般用于 POST、PUT 或是 DELETE 请求，表示其上传或是操作的进度展示页面。",
       "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.4.4'>RFC7231#6.4.4<a>"
     },
     "304": {
@@ -199,8 +204,13 @@
     },
     "307": {
       "title": "Temporary Redirect",
-      "description": "",
+      "description": "基本与 302 相同。不过一些旧浏览器在处理 302 时，可能会将非 GET 方法转换 GET 方法，而 307 不会。",
       "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.4.7'>RFC7231#6.4.7<a>"
+    },
+    "308": {
+      "title": "Permanent Redirect",
+      "description": "基本与 301 相同。不过一些旧浏览器在处理 301 时，可能会将非 GET 方法转换 GET 方法，而 308 不会。",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7538#section-3'>RFC7538#3<a>"
     },
     "400": {
       "title": "Bad Request",
@@ -259,12 +269,17 @@
     },
     "411": {
       "title": "Length Required",
-      "description": "必须提供 Content-Length 报头。",
+      "description": "必须提供 <code>Content-Length</code> 报头。",
       "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.5.10'>RFC7231#6.5.10<a>"
+    },
+    "412": {
+      "title": "Length Required",
+      "description": "先决条件不足。比如在 GET 请求中拿到的 <code>ETag</code>，在 PUT 时，发现其值已经变化（说明有第三方修改过该资源），此时可能返回 412。",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7232#section-4.2'>RFC7232#4.2<a>"
     },
     "413": {
       "title": "Payload Too Large",
-      "description": "",
+      "description": "客户端的请求主体过大。如果是临时性的，则应该同时返回 <code>After-Retry</code> 报头，否则关闭连接。",
       "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.5.11'>RFC7231#6.5.11<a>"
     },
     "414": {
@@ -277,15 +292,50 @@
       "description": "请求报头 Content-Type 中指定的媒体类型，服务器不支持。",
       "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.5.13'>RFC7231#6.5.13<a>"
     },
+    "416": {
+      "title": "Range Not Satisfiable",
+      "description": "服务器无法提供客户端要求的文件范围，一般情况可能是请求范围超出文件结尾。响应中应该包含一个 <code>Content-Range</code> 用以指出当前文件的长度：<code>Content-Range: */1024</code>。",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7233#section-4.4'>RFC7233#4.4<a>"
+    },
     "417": {
       "title": "Expectation Failed",
-      "description": "",
+      "description": "无法满足客户端报头 <code>Expect</code> 中期望的内容。具体可参考 <code>Expect</code> 报头的相关介绍。",
       "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.5.14'>RFC7231#6.5.14<a>"
+    },
+    "418": {
+      "title": "I'm a teapot",
+      "description": "我是个大茶壶！由 IETF 在愚人节发布的虚构协议 <a href='https://tools.ietf.org/html/rfc2324'>HTCPCP</a> 中指定的一个状态码。",
+      "specification": "<a href='https://tools.ietf.org/html/rfc2324#section-2.3.2'>RFC2324#2.3.2<a>"
+    },
+    "421": {
+      "title": "Misdirected Request",
+      "description": "请求被直接定向到不能产生响应的服务器上。",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7540#section-9.1.2'>RFC7540#9.1.2<a>"
     },
     "426": {
       "title": "Upgrade Required",
-      "description": "",
+      "description": "服务器不接受当前客户的请求协议，要求客户端更换请求协议，服务端建议的协议会在 <code>Upgrade</code> 报头中给出。",
       "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.5.15'>RFC7231#6.5.15<a>"
+    },
+    "428": {
+      "title": "Precondition Required",
+      "description": "先决条件缺失，比如修改资源时，为了防止多人同时修改，可以要求客户端带上资源的 <code>ETag</code>，此时如果客户端如果未在报头中指定 <code>If-Match</code>，则会返回此状态码。",
+      "specification": "<a href='https://tools.ietf.org/html/rfc6585#section-3'>RFC6585#3<a>"
+    },
+    "429": {
+      "title": "Too Many Requests",
+      "description": "在单位时间内，用户发送了太多的请求。一般用于限速，比如 <code>X-Rate-Limit</code>",
+      "specification": "<a href='https://tools.ietf.org/html/rfc6585#section-4'>RFC6585#4<a>"
+    },
+    "431": {
+      "title": "Request Header Fields Too Large",
+      "description": "请求中报头数量太多或是某一个报头的内容过长，导致服务器不愿处理该请求。",
+      "specification": "<a href='https://tools.ietf.org/html/rfc6585#section-5'>RFC6585#5<a>"
+    },
+    "451": {
+      "title": "Unavailable For Legal Reasons",
+      "description": "违法当地法律法规，不予显示。其返回的应该带个 Link 报头，列出具体原因的 URL，且要带上 <code>rel='blocked-by'</code> 属性。",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7725'>RFC7725<a>"
     },
     "500": {
       "title": "Internal Server Error",
@@ -304,7 +354,7 @@
     },
     "503": {
       "title": "Service Unavailable",
-      "description": "服务暂时不可用，比如维护或是过载。可以通过指定 Retry-After 让用户稍后再试。",
+      "description": "服务暂时不可用，比如维护或是过载。可以通过指定 <code>Retry-After</code> 让用户稍后再试。",
       "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.6.4'>RFC7231#6.6.4<a>"
     },
     "504": {
