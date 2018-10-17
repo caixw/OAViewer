@@ -61,7 +61,7 @@ export default class Headers extends Vue {
     }
   ]
 
-  private items = this.getItems('Accept', 'Accept-Charset', 'Accept-Encoding', 'Accept-Language', 'Allow', 'Authorization', 'Date', 'Expect', 'Referer', 'Server', 'Upgrade', 'WWW-Authenticate')
+  private items = this.getItems('Accept', 'Accept-Charset', 'Accept-Encoding', 'Accept-Language', 'Allow', 'Authorization', 'Content-Type', 'Date', 'Expect', 'Location', 'Referer', 'Server', 'Upgrade', 'WWW-Authenticate')
 
   private getItems(...headers:string[]) :Array<Object> {
     const objs: Array<Object> = []

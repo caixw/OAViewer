@@ -91,6 +91,10 @@
       "description": "用于向服务器传递验证身份的凭证信息。",
       "specification": "<a href='https://tools.ietf.org/html/rfc7235#section-4.2'>RFC7235#4.2</a>"
     },
+    "Content-Type": {
+      "description": "用于指定内容的类型和字符集，比如 <code>Content-Type: application/json; charset=utf-8</code>。",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-3.1.1.5'>RFC7231#3.1.1.5</a>"
+    },
     "Date": {
       "description": "表示服务器产生此回应消息的时间。为 GMT 时间，而不是本地时间。<code>Date: Tue, 15 Nov 1994 08:12:31 GMT</code>",
       "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-7.1.1.2'>RFC7231#7.1.1.2</a>"
@@ -98,6 +102,10 @@
     "Expect": {
       "description": "该报头向服务器申请一个期望的操作，只有服务满足该期望，才能继续，否则将返回 417 的状态，表示无法满足要求。目前只有一种，即 <code>100-Continue</code>，具体可参考状态码 100 的相关说明。",
       "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-5.1.1'>RFC7231#5.1.1</a>"
+    },
+    "Location": {
+      "description": "如果在 3xx 状态码下，表示重定向的新地址，如果是 201 则表示新资源的地址。",
+      "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-7.1.2'>RFC7231#7.1.2</a>"
     },
     "Referer": {
       "description": "表示来源页面的地址。为一个 URL。",
@@ -129,7 +137,7 @@
     },
     "101": {
       "title": "Switching Protocol",
-      "description": "响应客户端新协议要求，并将协议切换到客户端报头 Upgrade 指定的协议。最常见提 Websocket 和 HTTP2(Upgrade:h2c) 协议切换。",
+      "description": "响应客户端新协议要求，并将协议切换到客户端报头 <code>Upgrade</code> 指定的协议。最常见提 Websocket 和 HTTP2(Upgrade:h2c) 协议切换。",
       "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.2.2'>RFC7231#6.2.2<a>"
     },
     "200": {
@@ -139,7 +147,7 @@
     },
     "201": {
       "title": "Created",
-      "description": "新资源被成功创建，一般情况可能还会伴随着一个 Location 报头，用于指定新资源的位置。",
+      "description": "新资源被成功创建，一般情况可能还会伴随着一个 <code>Location</code> 报头，用于指定新资源的位置。",
       "specification": "<a href='https://tools.ietf.org/html/rfc7231#section-6.3.2'>RFC7231#6.3.2<a>"
     },
     "202": {
