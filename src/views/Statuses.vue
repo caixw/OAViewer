@@ -1,16 +1,12 @@
 <template>
   <div>
     <v-data-table :headers="headers" :items="items" item-key="name" :hide-actions="true">
-      <template slot="headers" slot-scope="props">
-        <tr class="al">
-          <th v-for="h in props.headers" :key="h.locale">
-            <span v-t="h.locale" />
-            <v-tooltip bottom v-if="h.localeTip">
-              <v-icon slot="activator" size="14">help</v-icon>
-              <span v-t="h.localeTip" />
-            </v-tooltip>
-          </th>
-        </tr>
+      <template slot="headerCell" slot-scope="props">
+        <span v-t="props.header.locale" />
+        <v-tooltip bottom v-if="props.header.localeTip">
+          <v-icon class="show" slot="activator" size="14">help</v-icon>
+          <span v-t="props.header.localeTip" />
+        </v-tooltip>
       </template>
 
       <template slot="items" slot-scope="props">
@@ -49,23 +45,21 @@ export default class Statuses extends Vue {
       locale: 'status.header-status',
       value: 'status',
       align: 'left',
-      width: '3rem',
-      sortable: true
+      width: '3rem'
     },
     {
       locale: 'status.header-title',
-      value: 'title',
-      align: 'left'
+      value: 'title'
     },
     {
       locale: 'status.header-description',
       value: 'description',
-      align: 'left'
+      sortable: false
     },
     {
       locale: 'status.header-specification',
       value: 'specification',
-      align: 'left'
+      sortable: false
     }
   ]
 

@@ -17,6 +17,12 @@
     "theme-brown": "棕色"
   },
 
+  "doc": {
+    "header-name": "名称",
+    "header-required": "必填",
+    "header-description": "描述"
+  },
+
   "method": {
     "header-name": "名称",
     "header-description": "描述",

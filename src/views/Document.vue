@@ -43,20 +43,16 @@
       <section>
         <h4>语法:<code>{{tag.syntax.syntax}}</code></h4>
         <v-data-table :headers="headers" :items="tag.syntax.params" item-key="name" :hide-actions="true">
-          <template slot="headers" slot-scope="props">
-            <tr class="al">
-              <th v-for="h in props.headers" :key="h.locale">
-                <span v-t="h.locale" />
-                <v-tooltip bottom v-if="h.localeTip">
-                  <v-icon slot="activator" size="14">help</v-icon>
-                  <span v-t="h.localeTip" />
-                </v-tooltip>
-              </th>
-            </tr>
+          <template slot="headerCell" slot-scope="props">
+            <span v-t="props.header.locale" />
+            <v-tooltip bottom v-if="props.header.localeTip">
+              <v-icon slot="activator" size="14">help</v-icon>
+              <span v-t="props.header.localeTip" />
+            </v-tooltip>
           </template>
 
           <template slot="items" slot-scope="props">
-            <th>
+            <th class="al">
               {{props.item.name}}
             </th>
             <td><v-icon>{{checkbox(props.item.required)}}</v-icon></td>
@@ -80,6 +76,10 @@
   padding: 1rem;
 }
 
+.al {
+  text-align: left
+}
+
 h2 {
   margin-top:1.5rem
 }
@@ -101,21 +101,17 @@ export default class Document extends Vue {
     {
       locale: 'doc.header-name',
       value: 'name',
-      align: 'left',
-      width: '3rem',
-      sortable: true
+      width: '5rem'
+    },
+    {
+      locale: 'doc.header-required',
+      value: 'required',
+      width: '3rem'
     },
     {
       locale: 'doc.header-description',
-      value: 'required',
-      width: '3rem',
-      align: 'left'
-    },
-    {
-      locale: 'doc.header-safe',
       value: 'description',
-      align: 'left',
-      sortable: true
+      sortable: false
     }
   ]
 

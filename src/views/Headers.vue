@@ -1,16 +1,12 @@
 <template>
   <div>
     <v-data-table :headers="headers" :items="items" item-key="name" :hide-actions="true">
-      <template slot="headers" slot-scope="props">
-        <tr class="al">
-          <th v-for="h in props.headers" :key="h.locale">
-            <span v-t="h.locale" />
-            <v-tooltip bottom v-if="h.localeTip">
-              <v-icon slot="activator" size="14">help</v-icon>
-              <span v-t="h.localeTip" />
-            </v-tooltip>
-          </th>
-        </tr>
+      <template slot="headerCell" slot-scope="props">
+        <span v-t="props.header.locale" />
+        <v-tooltip bottom v-if="props.header.localeTip">
+          <v-icon class="show" slot="activator" size="14">help</v-icon>
+          <span v-t="props.header.localeTip" />
+        </v-tooltip>
       </template>
 
       <template slot="items" slot-scope="props">
@@ -27,8 +23,12 @@
 </template>
 
 <style scoped>
+.show {
+  opacity: 1 !important;
+}
+
 .al {
-  text-align: left
+  text-align: left;
 }
 
 .chip {
@@ -69,12 +69,12 @@ export default class Headers extends Vue {
     {
       locale: 'headers.header-name',
       value: 'name',
-      sortable: true
+      align: 'left'
     },
     {
       locale: 'headers.header-description',
       value: 'description',
-      align: 'left'
+      sortable: false
     },
     {
       locale: 'headers.header-request',
@@ -85,13 +85,12 @@ export default class Headers extends Vue {
     {
       locale: 'headers.header-response',
       localeTip: 'headers.header-response-tip',
-      value: 'description',
-      align: 'left'
+      value: 'description'
     },
     {
       locale: 'headers.header-specification',
       value: 'specification',
-      align: 'left'
+      sortable: false
     }
   ]
 
