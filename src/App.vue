@@ -3,13 +3,10 @@
     <v-toolbar app="app">
       <v-toolbar-title class="title" @click="$router.push({name:'home'})">
         <img src="./assets/logo.svg" alt="LOGO" />
-        <span>APIDOC</span>
+        <span class="hidden-sm-and-down">APIDOC</span>
       </v-toolbar-title>
 
-      <v-btn fab flat><v-icon>search</v-icon></v-btn>
-
       <v-spacer />
-
       <v-toolbar-items>
         <!-- 文档 -->
         <v-menu offset-y>
@@ -131,9 +128,9 @@ import getThemes from './themes'
 
 @Component
 export default class App extends Vue {
-  private dark: boolean = false
+  private dark = false
   private themes = getThemes(this.$vuetify)
-  private theme_: string = 'toolbar.theme-default'
+  private theme_ = 'toolbar.theme-default'
 
   /**
    * 保存当前支持的语言以及该语言下的显示名称

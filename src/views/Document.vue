@@ -16,11 +16,11 @@
     <pre>
 /**
   * @api GET /users/:id 获取指定用户的相关信息
-  * @apiGroup users
+  * @apiTags users
   * @apiParam id int 表示用户 id 的唯一值
   *
-  * @apiSuccess 200 json ok
-  * @apiExample
+  * @apiResponse 200 object *
+  * @apiExample application/json
   * {"id":1, "name": "n1"}
   */
     </pre>
@@ -36,62 +36,41 @@
     <h2>语法</h2>
     <p>在 apidoc 中，标签存在一定的从属关系，下文中均会注明所有标签的父标或及子标签。判断一个标签属于哪个父标签，只需要根据当前标签往前查找，直到找到可作为该标签的父标签的标签即可。</p>
 
-    <!-- @apidoc -->
-    <section id="syntax-apidoc">
-      <h3>@apidoc</h3>
-      <p>@apidoc 用于指定一些全局性的设定，本身带一个标题属性，整个文档中只能出现一次。子元素有：
-        <a href="#syntax-apiversion">@apiVersion</a>、
-        <a href="#syntax-apibaseurl">@apiBaseURL</a>、
-        <a href="#syntax-apilicense">@apiLicense</a> 和
-        <a href="#syntax-apicontent">@apiContent</a>。
-      </p>
-      <p>语法:<code>@apidoc title</code></p>
-      <table class="ui very compact table">
-        <thead>
-          <tr>
-            <th>参数</th><th>必填</th><th>说明</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>title</td><td>true</td><td>文档的标题，到行尾</td>
-          </tr>
-        </tbody>
-      </table>
-      <p>示例：</p>
-        <pre>
-/**
-  * @apidoc title of doc
-  * @apiVersion 2.0
-  * @apiBaseURL https://api.caixw.io
-  * @apiLicense MIT https://opensource.org/licenses/MIT
-  * @apiContent
-  * &lt;p&gt;这里可以是html&lt;/p&gt;
-  * &lt;p&gt;会被原样输出&lt;/p&gt;
-  */
-      </pre>
+    <section :id="'syntax'+tag.name" v-for="tag of tags" :key="tag.name">
+      <h3>{{tag.name}}</h3>
+      <p>{{tag.description}}</p>
+
+      <section>
+        <h4>语法:<code>{{tag.syntax.syntax}}</code></h4>
+        <v-data-table :headers="headers" :items="tag.syntax.params" item-key="name" :hide-actions="true">
+          <template slot="headers" slot-scope="props">
+            <tr class="al">
+              <th v-for="h in props.headers" :key="h.locale">
+                <span v-t="h.locale" />
+                <v-tooltip bottom v-if="h.localeTip">
+                  <v-icon slot="activator" size="14">help</v-icon>
+                  <span v-t="h.localeTip" />
+                </v-tooltip>
+              </th>
+            </tr>
+          </template>
+
+          <template slot="items" slot-scope="props">
+            <th>
+              {{props.item.name}}
+            </th>
+            <td><v-icon>{{checkbox(props.item.required)}}</v-icon></td>
+            <td v-html="$t(props.item.description)" />
+          </template>
+        </v-data-table>
+      </section>
+
+      <section v-if="tag.children">
+        <h4>子标签</h4>
+        <v-chip small v-for="child of tag.children" :key="child">{{child}}</v-chip>
+      </section>
     </section>
 
-    <!-- @apiVersion -->
-    <section id="syntax-apiversion">
-      <h3>@apiVerson</h3>
-      <p>用于指定文档的版本号。父标签：<a href="#apidoc">@apidoc</a>。</p>
-      <p>语法:<code>@apiVersion version</code>。</p>
-      <table class="ui very compact table">
-        <thead>
-          <tr>
-            <th>参数</th><th>必填</th><th>说明</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>title</td>
-            <td>true</td>
-            <td>文档的版本号，可以是任何字符串形式的内容</td>
-          </tr>
-        </tbody>
-      </table>
-    </section>
   </section>
 </v-card>
 </template>
@@ -100,11 +79,51 @@
 .article {
   padding: 1rem;
 }
+
+h2 {
+  margin-top:1.5rem
+}
+
+h3 {
+  margin-top: 1rem
+}
 </style>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
+import { DataTableHeadersItem } from '../vuetify-types'
+import tags from './tags'
 
 @Component
-export default class Document extends Vue {}
+export default class Document extends Vue {
+  private tags = tags
+  private headers: Array<DataTableHeadersItem> = [
+    {
+      locale: 'doc.header-name',
+      value: 'name',
+      align: 'left',
+      width: '3rem',
+      sortable: true
+    },
+    {
+      locale: 'doc.header-description',
+      value: 'required',
+      width: '3rem',
+      align: 'left'
+    },
+    {
+      locale: 'doc.header-safe',
+      value: 'description',
+      align: 'left',
+      sortable: true
+    }
+  ]
+
+  /**
+   * 生成布尔值的图标内容
+   */
+  private checkbox(check: boolean): string {
+    return check ? 'check_box' : 'check_box_outline_blank'
+  }
+}
 </script>
