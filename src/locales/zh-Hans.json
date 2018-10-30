@@ -20,7 +20,8 @@
   "doc": {
     "header-name": "名称",
     "header-required": "必填",
-    "header-description": "描述"
+    "header-description": "描述",
+    "syntax": "语法"
   },
 
   "method": {

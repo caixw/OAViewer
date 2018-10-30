@@ -33,22 +33,25 @@
   </section>
 
   <section id="syntax">
-    <h2>语法</h2>
+    <h2 v-t="'doc.syntax'" />
     <p>在 apidoc 中，标签存在一定的从属关系，下文中均会注明所有标签的父标或及子标签。判断一个标签属于哪个父标签，只需要根据当前标签往前查找，直到找到可作为该标签的父标签的标签即可。</p>
 
-    <section :id="'syntax'+tag.name" v-for="tag of tags" :key="tag.name">
+    <!-- 加载 tags.ts 中的内容 -->
+    <section :id="'syntax-'+tag.name" v-for="tag of tags" :key="tag.name">
       <h3>{{tag.name}}</h3>
       <p>{{tag.description}}</p>
 
       <section>
-        <h4>语法:<code>{{tag.syntax.syntax}}</code></h4>
-        <v-data-table :headers="headers" :items="tag.syntax.params" item-key="name" :hide-actions="true">
+        <h4 v-t="'doc.syntax'" />
+        <p><code>{{tag.syntax.syntax}}</code></p>
+        <v-data-table
+        class="elevation-1"
+        :headers="headers"
+        :items="tag.syntax.params"
+        item-key="name"
+        :hide-actions="true">
           <template slot="headerCell" slot-scope="props">
             <span v-t="props.header.locale" />
-            <v-tooltip bottom v-if="props.header.localeTip">
-              <v-icon slot="activator" size="14">help</v-icon>
-              <span v-t="props.header.localeTip" />
-            </v-tooltip>
           </template>
 
           <template slot="items" slot-scope="props">
@@ -66,8 +69,8 @@
         <v-chip small v-for="child of tag.children" :key="child">{{child}}</v-chip>
       </section>
     </section>
+  </section> <!-- end tags.ts -->
 
-  </section>
 </v-card>
 </template>
 
@@ -86,6 +89,10 @@ h2 {
 
 h3 {
   margin-top: 1rem
+}
+
+h4 {
+  margin-top: .5rem
 }
 </style>
 

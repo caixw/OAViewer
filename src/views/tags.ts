@@ -8,12 +8,12 @@ interface Tag {
   syntax: Syntax
   parent?: string[]
   children?: string[]
-  example?: string
 }
 
 interface Syntax {
   syntax: string
   params: Param[]
+  example?: string
 }
 
 interface Param {
@@ -230,7 +230,7 @@ const tags: Array<Tag> = [
         }
       ]
     },
-    children: ['@apiTags', '@apiServers', '@apiDeprecated', '@apiParam', '@apiQuery', '@apiRequest', '@apiResponse']
+    children: ['@apiTags', '@apiServer', '@apiDeprecated', '@apiParam', '@apiQuery', '@apiRequest', '@apiResponse']
   }
 ]
 
