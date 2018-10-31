@@ -108,12 +108,12 @@ export default class Document extends Vue {
     {
       locale: 'doc.header-name',
       value: 'name',
-      width: '5rem'
+      width: '4rem'
     },
     {
       locale: 'doc.header-required',
       value: 'required',
-      width: '3rem'
+      width: '2rem'
     },
     {
       locale: 'doc.header-description',

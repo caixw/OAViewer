@@ -6,7 +6,7 @@ interface Tag {
   name: string
   description: string
   syntax: Syntax
-  parent?: string[]
+  parents?: string[]
   children?: string[]
 }
 
@@ -55,7 +55,7 @@ const tags: Array<Tag> = [
         }
       ]
     },
-    parent: ['@apidoc']
+    parents: ['@apidoc']
   },
 
   // @apiServer
@@ -82,7 +82,7 @@ const tags: Array<Tag> = [
         }
       ]
     },
-    parent: ['@apidoc']
+    parents: ['@apidoc']
   },
 
   // @apiTag
@@ -104,7 +104,7 @@ const tags: Array<Tag> = [
         }
       ]
     },
-    parent: ['@apidoc']
+    parents: ['@apidoc']
   },
 
   // @apiResponse
@@ -137,7 +137,7 @@ const tags: Array<Tag> = [
       ]
     },
     children: ['@apiHeader', '@apiParam', '@apiExample'],
-    parent: ['@apidoc']
+    parents: ['@apidoc']
   },
 
   // @apiLicense
@@ -159,7 +159,7 @@ const tags: Array<Tag> = [
         }
       ]
     },
-    parent: ['@apidoc', '@api']
+    parents: ['@apidoc', '@api']
   },
 
   // @apiContent
@@ -176,7 +176,7 @@ const tags: Array<Tag> = [
         }
       ]
     },
-    parent: ['@apidoc']
+    parents: ['@apidoc']
   },
 
   // @apiContact
@@ -203,7 +203,7 @@ const tags: Array<Tag> = [
         }
       ]
     },
-    parent: ['@apidoc']
+    parents: ['@apidoc']
   },
 
   // @api
@@ -230,7 +230,240 @@ const tags: Array<Tag> = [
         }
       ]
     },
-    children: ['@apiTags', '@apiServer', '@apiDeprecated', '@apiParam', '@apiQuery', '@apiRequest', '@apiResponse']
+    children: ['@apiTags', '@apiServers', '@apiDeprecated', '@apiParam', '@apiQuery', '@apiRequest', '@apiResponse']
+  },
+
+  // @apiTags
+  {
+    name: '@apiTags',
+    description: '指定标签 ID，文档可以根据标签进行分类。',
+    syntax: {
+      syntax: '@apiTags tags',
+      params: [
+        {
+          name: 'tags',
+          required: true,
+          description: '在 @api'
+        },
+        {
+          name: 'path',
+          required: true,
+          description: '路径'
+        },
+        {
+          name: 'summary',
+          required: true,
+          description: '文档的简要说明'
+        }
+      ]
+    },
+    children: ['@apiTags', '@apiServers', '@apiDeprecated', '@apiParam', '@apiQuery', '@apiRequest', '@apiResponse']
+  },
+
+  // @apiServers
+  {
+    name: '@apiServers',
+    description: '指定该接口文档所属于服务器信息',
+    syntax: {
+      syntax: '@apiServers servers',
+      params: [
+        {
+          name: 'servrs',
+          required: true,
+          description: '指定由 @apidoc 的子标签 @apiServer 中的服务名称'
+        }
+      ]
+    },
+    parents: ['@api']
+  },
+
+  // @apiDeprecated
+  {
+    name: '@apiDeprecated',
+    description: '表示该文档已经废弃',
+    syntax: {
+      syntax: '@apiDeprecated reason',
+      params: [
+        {
+          name: 'reason',
+          required: true,
+          description: '废弃的理由，以及替代方法等。'
+        }
+      ]
+    },
+    parents: ['@api']
+  },
+
+  // @apiParam
+  {
+    name: '@apiParam',
+    description: '指定参数类型',
+    syntax: {
+      syntax: '@apiParam name type optional description',
+      params: [
+        {
+          name: 'name',
+          required: true,
+          description: '参数名称，子元素则使用 name.subname 的格式'
+        },
+        {
+          name: 'type',
+          required: true,
+          description: '类型，如果是数组，还需要指定其子类型，比如 array.string 表示一个字符串数组'
+        },
+        {
+          name: 'optional',
+          required: true,
+          description: '是否为可选的类型，required 表示必填，optional 表示可选，如果有默认值，则应该是 optional.default 的形式指定默认值。'
+        },
+        {
+          name: 'description',
+          required: true,
+          description: '该变量的描述信息'
+        }
+      ]
+    },
+    parents: ['@api', '@apiRequest', '@apiResponse']
+  },
+
+  // @apiQuery
+  {
+    name: '@apiQuery',
+    description: '指定参数类型',
+    syntax: {
+      syntax: '@apiQuery name type optional description',
+      params: [
+        {
+          name: 'name',
+          required: true,
+          description: '参数名称，子元素则使用 name.subname 的格式'
+        },
+        {
+          name: 'type',
+          required: true,
+          description: '类型，如果是数组，还需要指定其子类型，比如 array.string 表示一个字符串数组'
+        },
+        {
+          name: 'optional',
+          required: true,
+          description: '是否为可选的类型，required 表示必填，optional 表示可选，如果有默认值，则应该是 optional.default 的形式指定默认值。'
+        },
+        {
+          name: 'description',
+          required: true,
+          description: '该变量的描述信息'
+        }
+      ]
+    },
+    parents: ['@api', '@apiRequest', '@apiResponse']
+  },
+
+  // @apiRequest
+  {
+    name: '@apiRequest',
+    description: '指定请求的内容',
+    syntax: {
+      syntax: '@apiRequest type mimetype description',
+      params: [
+        {
+          name: 'type',
+          required: true,
+          description: '类型，如果是数组类型，还需要指定子类型，比如 array.object'
+        },
+        {
+          name: 'mimetype',
+          required: true,
+          description: '媒体类型，可以使用 * 代替适用所有非特定类型'
+        },
+        {
+          name: 'description',
+          required: false,
+          description: '描述信息'
+        }
+      ]
+    },
+    parents: ['@api'],
+    children: ['@apiHeader', '@apiParam', '@apiExample']
+  },
+
+  // @apiResponse
+  {
+    name: '@apiResponse',
+    description: '指定返回的内容',
+    syntax: {
+      syntax: '@apiRequest status type mimetype description',
+      params: [
+        {
+          name: 'status',
+          required: true,
+          description: '返回的状态码'
+        },
+        {
+          name: 'type',
+          required: true,
+          description: '类型，如果是数组类型，还需要指定子类型，比如 array.object'
+        },
+        {
+          name: 'mimetype',
+          required: true,
+          description: '媒体类型，可以使用 * 代替适用所有非特定类型'
+        },
+        {
+          name: 'description',
+          required: false,
+          description: '描述信息'
+        }
+      ]
+    },
+    parents: ['@api'],
+    children: ['@apiHeader', '@apiParam', '@apiExample']
+  },
+
+  // @apiHeader
+  {
+    name: '@apiHeader',
+    description: '指定报头',
+    syntax: {
+      syntax: '@apiHeader name optional description',
+      params: [
+        {
+          name: 'name',
+          required: true,
+          description: '报头名称'
+        },
+        {
+          name: 'optional',
+          required: true,
+          description: '是否为可选，值可以是 required 和 optional'
+        },
+        {
+          name: 'description',
+          required: true,
+          description: '描述信息'
+        }
+      ]
+    }
+  },
+
+  // @apiExample
+  {
+    name: '@apiExample',
+    description: '示例代码',
+    syntax: {
+      syntax: '@apiExample mimetype code',
+      params: [
+        {
+          name: 'mimetype',
+          required: true,
+          description: '媒体类型，比如 application/json'
+        },
+        {
+          name: 'code',
+          required: true,
+          description: '示例代码，可以是多行，直到下一个标签或是结束。'
+        }
+      ]
+    }
   }
 ]
 
