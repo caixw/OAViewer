@@ -21,7 +21,9 @@
     "header-name": "名称",
     "header-required": "必填",
     "header-description": "描述",
-    "syntax": "语法"
+    "syntax": "语法",
+    "sub-tag": "子标签",
+    "usage": "基本用法"
   },
 
   "method": {

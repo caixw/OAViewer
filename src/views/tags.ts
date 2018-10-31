@@ -36,7 +36,19 @@ const tags: Array<Tag> = [
           required: true,
           description: '标题内容'
         }
-      ]
+      ],
+      example: `
+      @apidoc APIDOC
+      @apiVersion 0.1.0
+      @apiServer admin https://admin.example.com 后台操作
+      @apiServer client https://api.example.com 开放给用户的 API
+      @apiTag user 用户相关操作
+      @apiTag order 订单模块的操作
+      @apiTag auth 权限验证的相关功能
+      @apiLicense MIT https://opensource.org/licenses/MIT
+      @apiContact admin webmaster@example.com https://example.com
+      @apiContent 这是一个支持 markdown 格式的多行文本，
+      可以介绍该文档相关的一些注意事项等内容。`
     },
     children: ['@apiVersion', '@apiServer', '@apiTag', '@apiResponse', '@apiLicense', '@apiContent', '@apiContact']
   },

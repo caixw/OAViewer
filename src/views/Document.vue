@@ -28,7 +28,7 @@
   </section>
 
   <section id="usage">
-    <h2>基本用法</h2>
+    <h2 v-t="'doc.usage'" />
     <p>TODO</p>
   </section>
 
@@ -62,11 +62,20 @@
             <td v-html="$t(props.item.description)" />
           </template>
         </v-data-table>
+
+        <h5 v-t="'doc.example'" />
+        <pre v-if="tag.syntax.example">
+          <code>
+            {{tag.syntax.example}}
+          </code>
+        </pre>
       </section>
 
       <section v-if="tag.children">
-        <h4>子标签</h4>
-        <v-chip small v-for="child of tag.children" :key="child">{{child}}</v-chip>
+        <h4 v-t="'doc.sub-tag'" />
+        <v-chip small v-for="child of tag.children" :key="child">
+          <a :href="'#syntax-'+child">{{child}}</a>
+        </v-chip>
       </section>
     </section>
   </section> <!-- end tags.ts -->
