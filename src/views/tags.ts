@@ -242,7 +242,7 @@ const tags: Array<Tag> = [
         }
       ]
     },
-    children: ['@apiTags', '@apiServers', '@apiDeprecated', '@apiParam', '@apiQuery', '@apiRequest', '@apiResponse']
+    children: ['@apiTags', '@apiServers', '@apiDeprecated', '@apiParam', '@apiQuery', '@apiRequest', '@apiResponse', '@apiCallback']
   },
 
   // @apiTags
@@ -335,7 +335,7 @@ const tags: Array<Tag> = [
         }
       ]
     },
-    parents: ['@api', '@apiRequest', '@apiResponse']
+    parents: ['@api', '@apiCallback', '@apiRequest', '@apiResponse']
   },
 
   // @apiQuery
@@ -367,7 +367,7 @@ const tags: Array<Tag> = [
         }
       ]
     },
-    parents: ['@api', '@apiRequest', '@apiResponse']
+    parents: ['@api', '@apiCallback', '@apiRequest', '@apiResponse']
   },
 
   // @apiRequest
@@ -394,7 +394,7 @@ const tags: Array<Tag> = [
         }
       ]
     },
-    parents: ['@api'],
+    parents: ['@api', '@apiCallback'],
     children: ['@apiHeader', '@apiParam', '@apiExample']
   },
 
@@ -427,7 +427,7 @@ const tags: Array<Tag> = [
         }
       ]
     },
-    parents: ['@api'],
+    parents: ['@api', '@apiCallback'],
     children: ['@apiHeader', '@apiParam', '@apiExample']
   },
 
@@ -476,6 +476,29 @@ const tags: Array<Tag> = [
         }
       ]
     }
+  },
+
+  // @apiCallback
+  {
+    name: '@apiCallback',
+    description: '回调内容',
+    syntax: {
+      syntax: '@apiCallback method description',
+      params: [
+        {
+          name: 'method',
+          required: true,
+          description: '回调时采用的请法语方法'
+        },
+        {
+          name: 'description',
+          required: false,
+          description: '该回调的描述信息'
+        }
+      ]
+    },
+    parents: ['@api'],
+    children: ['@apiQuery', '@apiParam', '@apiRequest', '@apiResponse']
   }
 ]
 
