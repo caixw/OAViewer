@@ -8,7 +8,7 @@ import Methods from './views/Methods.vue'
 import Statuses from './views/Statuses.vue'
 import Document from './views/Document.vue'
 import Auths from './views/Auths.vue'
-import Apidoc from './views/Apidoc.vue'
+import Viewer from './views/Viewer.vue'
 import Headers from './views/Headers.vue'
 import About from './views/About.vue'
 
@@ -39,9 +39,9 @@ export default new Router({
       component: Auths
     },
     {
-      path: '/apidoc',
-      name: 'apidoc',
-      component: Apidoc
+      path: '/viewer',
+      name: 'viewer',
+      component: Viewer
     },
     {
       path: '/headers',

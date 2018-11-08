@@ -26,6 +26,14 @@
     "usage": "基本用法"
   },
 
+  "viewer": {
+    "close": "关闭",
+    "header-method": "方法",
+    "header-path": "地址",
+    "header-tags": "标签",
+    "header-description": "描述"
+  },
+
   "method": {
     "header-name": "名称",
     "header-description": "描述",
