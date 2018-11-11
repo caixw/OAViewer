@@ -6,9 +6,46 @@
     </v-snackbar>
 
     <v-subheader>
-      <span class="display-2 text-uppercase">{{data.title}}</span>
+      <span class="display-1 text-uppercase">{{data.title}}</span>
       <v-chip v-if="data.version" disabled small>{{data.version}}</v-chip>
     </v-subheader>
+
+    <v-layout row>
+      <v-flex v-if="data.contact">
+        <v-list two-line>
+          <v-list-tile>
+            <v-list-tile-avatar><v-icon>contacts</v-icon></v-list-tile-avatar>
+            <v-list-tile-content>
+              <v-list-tile-title v-t="'viewer.contacts'" />
+              <v-list-tile-sub-title class="info-content">
+                {{data.contact.name}}
+                <a v-if="data.contact.email" :href="'mailto:'+data.contact.email">{{data.contact.email}}</a>
+                <a v-if="data.contact.url" :href="data.contact.email">{{data.contact.url}}</a>
+              </v-list-tile-sub-title>
+            </v-list-tile-content>
+          </v-list-tile>
+        </v-list>
+      </v-flex>
+
+      <v-flex v-if="data.license">
+        <v-list two-line>
+          <v-list-tile>
+            <v-list-tile-avatar><v-icon>copyright</v-icon></v-list-tile-avatar>
+            <v-list-tile-contact>
+              <v-list-tile-title v-t="'viewer.license'" />
+              <v-list-tile-sub-title class="info-content">
+                <span class="text-uppercase">{{data.license.text}}</span>
+                <a :href="data.license.url">{{data.license.url}}</a>
+              </v-list-tile-sub-title>
+            </v-list-tile-contact>
+          </v-list-tile>
+        </v-list>
+      </v-flex>
+    </v-layout>
+
+    <v-layout>
+      <v-card width="100%" flat><article>{{data.content}}</article></v-card>
+    </v-layout>
 
     <v-data-table class="elevation-1" :headers="headers" :items="data.apis" :hide-actions="true">
       <template slot="headerCell" slot-scope="props">
@@ -33,6 +70,10 @@
 <style scoped>
 .api {
   cursor: pointer;
+}
+
+.info-content a {
+  margin-left: 1rem;
 }
 </style>
 

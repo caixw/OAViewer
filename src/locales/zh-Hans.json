@@ -28,6 +28,8 @@
 
   "viewer": {
     "close": "关闭",
+    "contacts":"联系方式",
+    "license":"版权",
     "header-method": "方法",
     "header-path": "地址",
     "header-tags": "标签",
