@@ -31,20 +31,22 @@
         <v-list two-line>
           <v-list-tile>
             <v-list-tile-avatar><v-icon>copyright</v-icon></v-list-tile-avatar>
-            <v-list-tile-contact>
+            <v-list-tile-content>
               <v-list-tile-title v-t="'viewer.license'" />
               <v-list-tile-sub-title class="info-content">
                 <span class="text-uppercase">{{data.license.text}}</span>
                 <a :href="data.license.url">{{data.license.url}}</a>
               </v-list-tile-sub-title>
-            </v-list-tile-contact>
+            </v-list-tile-content>
           </v-list-tile>
         </v-list>
       </v-flex>
     </v-layout>
 
     <v-layout>
-      <v-card width="100%" flat><article>{{data.content}}</article></v-card>
+      <v-card width="100%" flat class="pl-3 pr-3">
+        <vue-markdown :source="data.content" />
+      </v-card>
     </v-layout>
 
     <v-data-table class="elevation-1" :headers="headers" :items="data.apis" :hide-actions="true">
@@ -72,21 +74,26 @@
   cursor: pointer;
 }
 
+.article {
+  padding: 1rem
+}
+
 .info-content a {
   margin-left: 1rem;
 }
 </style>
 
 <script lang="ts">
+import VueMarkdown from 'vue-markdown'
 import { Component, Vue, Prop } from 'vue-property-decorator'
 import { DataTableHeadersItem } from '../vuetify-types'
 import { API } from './viewer/types'
-import VAPI from './viewer/API.vue'
+// import VAPI from './viewer/API.vue'
 import yaml from 'js-yaml'
 
 @Component({
   components: {
-  VAPI
+  VueMarkdown
   }
   })
 export default class Viewer extends Vue {
