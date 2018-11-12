@@ -5,49 +5,55 @@
       <v-btn dark>{{$t('viewer.close')}}</v-btn>
     </v-snackbar>
 
-    <v-subheader>
-      <span class="display-1 text-uppercase">{{data.title}}</span>
-      <v-chip v-if="data.version" disabled small>{{data.version}}</v-chip>
-    </v-subheader>
+    <v-expansion-panel>
+      <v-expansion-panel-content>
 
-    <v-layout row>
-      <v-flex v-if="data.contact">
-        <v-list two-line>
-          <v-list-tile>
-            <v-list-tile-avatar><v-icon>contacts</v-icon></v-list-tile-avatar>
-            <v-list-tile-content>
-              <v-list-tile-title v-t="'viewer.contacts'" />
-              <v-list-tile-sub-title class="info-content">
-                {{data.contact.name}}
-                <a v-if="data.contact.email" :href="'mailto:'+data.contact.email">{{data.contact.email}}</a>
-                <a v-if="data.contact.url" :href="data.contact.email">{{data.contact.url}}</a>
-              </v-list-tile-sub-title>
-            </v-list-tile-content>
-          </v-list-tile>
-        </v-list>
-      </v-flex>
+        <v-subheader slot="header">
+          <span class="display-1 text-uppercase">{{data.title}}</span>
+          <v-chip v-if="data.version" disabled small>{{data.version}}</v-chip>
+        </v-subheader>
 
-      <v-flex v-if="data.license">
-        <v-list two-line>
-          <v-list-tile>
-            <v-list-tile-avatar><v-icon>copyright</v-icon></v-list-tile-avatar>
-            <v-list-tile-content>
-              <v-list-tile-title v-t="'viewer.license'" />
-              <v-list-tile-sub-title class="info-content">
-                <span class="text-uppercase">{{data.license.text}}</span>
-                <a :href="data.license.url">{{data.license.url}}</a>
-              </v-list-tile-sub-title>
-            </v-list-tile-content>
-          </v-list-tile>
-        </v-list>
-      </v-flex>
-    </v-layout>
+        <v-layout row>
+          <v-flex v-if="data.contact">
+            <v-list two-line>
+              <v-list-tile>
+                <v-list-tile-avatar><v-icon>contacts</v-icon></v-list-tile-avatar>
+                <v-list-tile-content>
+                  <v-list-tile-title v-t="'viewer.contacts'" />
+                  <v-list-tile-sub-title class="info-content">
+                    {{data.contact.name}}
+                    <a v-if="data.contact.email" :href="'mailto:'+data.contact.email">{{data.contact.email}}</a>
+                    <a v-if="data.contact.url" :href="data.contact.email">{{data.contact.url}}</a>
+                  </v-list-tile-sub-title>
+                </v-list-tile-content>
+              </v-list-tile>
+            </v-list>
+          </v-flex>
 
-    <v-layout>
-      <v-card width="100%" flat class="pl-3 pr-3">
-        <vue-markdown :source="data.content" />
-      </v-card>
-    </v-layout>
+          <v-flex v-if="data.license">
+            <v-list two-line>
+              <v-list-tile>
+                <v-list-tile-avatar><v-icon>copyright</v-icon></v-list-tile-avatar>
+                <v-list-tile-content>
+                  <v-list-tile-title v-t="'viewer.license'" />
+                  <v-list-tile-sub-title class="info-content">
+                    <span class="text-uppercase">{{data.license.text}}</span>
+                    <a :href="data.license.url">{{data.license.url}}</a>
+                  </v-list-tile-sub-title>
+                </v-list-tile-content>
+              </v-list-tile>
+            </v-list>
+          </v-flex>
+        </v-layout>
+
+        <v-layout>
+          <v-card width="100%" flat class="pl-3 pr-3">
+            <vue-markdown :source="data.content" />
+          </v-card>
+        </v-layout>
+
+      </v-expansion-panel-content>
+    </v-expansion-panel>
 
     <v-data-table class="elevation-1" :headers="headers" :items="data.apis" :hide-actions="true">
       <template slot="headerCell" slot-scope="props">
@@ -74,10 +80,6 @@
   cursor: pointer;
 }
 
-.article {
-  padding: 1rem
-}
-
 .info-content a {
   margin-left: 1rem;
 }
@@ -88,12 +90,13 @@ import VueMarkdown from 'vue-markdown'
 import { Component, Vue, Prop } from 'vue-property-decorator'
 import { DataTableHeadersItem } from '../vuetify-types'
 import { API } from './viewer/types'
-// import VAPI from './viewer/API.vue'
+import Dlg from './viewer/Dlg.vue'
 import yaml from 'js-yaml'
 
 @Component({
   components: {
-  VueMarkdown
+  VueMarkdown,
+  Dlg
   }
   })
 export default class Viewer extends Vue {
