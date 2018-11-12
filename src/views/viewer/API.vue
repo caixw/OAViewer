@@ -18,21 +18,21 @@
         <vue-markdown v-if="api.description" :source="api.description" />
       </v-card-text>
 
-      <v-expansion-panel style="outline:none">
+      <v-expansion-panel expand>
         <v-expansion-panel-content>
-          <v-subheader class="pl-0 pr-0" slot="header" v-t="'viewer.api.response'" />
+          <h2 class="pl-0 pr-0 subheading" slot="header" v-t="'viewer.api.request'" />
           <v-card>
             <v-card-text>
-              ddd
+              //test
             </v-card-text>
           </v-card>
         </v-expansion-panel-content>
 
         <v-expansion-panel-content>
-          <v-subheader class="pl-0 pr-0" slot="header" v-t="'viewer.api.request'" />
+          <h2 class="pl-0 pr-0 subheading" slot="header" v-t="'viewer.api.response'" />
           <v-card>
             <v-card-text>
-              //test
+              ddd
             </v-card-text>
           </v-card>
         </v-expansion-panel-content>
