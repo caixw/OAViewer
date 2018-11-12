@@ -33,7 +33,11 @@
     "header-method": "方法",
     "header-path": "地址",
     "header-tags": "标签",
-    "header-description": "描述"
+    "header-description": "描述",
+    "api": {
+      "response": "返回",
+      "request": "请求"
+    }
   },
 
   "method": {
