@@ -2,7 +2,6 @@
 // Use of this source code is governed by a MIT
 // license that can be found in the LICENSE file.
 
-
 export interface API {
   method: string
   path: string
@@ -63,4 +62,15 @@ export interface Example{
 
 export interface Schema {
   [key: string]: any
+}
+
+// 默认的 API 对象
+export const api = {
+  method: 'GET',
+  path: '/test',
+  params: [],
+  queries: [],
+  summary: 'test',
+  requests: [],
+  responses: [],
 }

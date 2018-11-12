@@ -71,7 +71,7 @@
       </template>
     </v-data-table>
 
-    <v-api data="api.data" />
+    <v-api ref="api" />
   </div>
 </template>
 
@@ -90,23 +90,24 @@ import VueMarkdown from 'vue-markdown'
 import { Component, Vue, Prop } from 'vue-property-decorator'
 import { DataTableHeadersItem } from '../vuetify-types'
 import { API } from './viewer/types'
-import Dlg from './viewer/Dlg.vue'
+import VApi from './viewer/API.vue'
 import yaml from 'js-yaml'
 
 @Component({
   components: {
   VueMarkdown,
-  Dlg
+  VApi
   }
   })
 export default class Viewer extends Vue {
-  private snackbar = {
+  private snackbar: {visible: boolean, text: string} = {
     visible: false,
     text: ''
   }
 
-  private api: Object = {}
-
+  /**
+   * 加载的所有文档数据
+   */
   private data: Object = {}
 
   private headers: Array<DataTableHeadersItem> = [
@@ -134,8 +135,12 @@ export default class Viewer extends Vue {
     }
   ]
 
+  public $refs!: {
+    api: VApi
+  }
+
   private setAPI(api: API) {
-    // TODO
+    this.$refs.api.show(api)
   }
 
   /**
