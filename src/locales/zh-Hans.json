@@ -37,6 +37,8 @@
     "api": {
       "response": "返回",
       "request": "请求",
+      "params": "地址参数",
+      "queries": "查询参数",
       "header-name": "名称",
       "header-required": "必填",
       "header-default": "默认值",

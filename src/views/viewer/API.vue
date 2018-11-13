@@ -15,23 +15,53 @@
         <v-chip disabled label small :color="methodColor(api.method)">{{api.method}}</v-chip>
         {{api.path}}
 
-        <v-data-table v-if="api.params"
-        :headrs="paramsHeaders"
-        :items="api.params"
-        item-key="name"
-        :hide-actions="true">
-          <template slot="headerCell" slot-scope="props">
-            <span v-t="props.header.locale" />
-          </template>
+        <v-tabs right v-if="hasParams || hasQueries">
+          <v-tab v-if="hasParams">{{$t('viewer.api.params')}}</v-tab>
+          <v-tab v-if="hasQueries">{{$t('viewer.api.queries')}}</v-tab>
 
-          <template slot="items" slot-scope="props">
-            <th>{{props.item.name}}</th>
-            <td><v-icon>{{checkbox(!props.item.optional)}}</v-icon></td>
-            <td>{{props.item.type.default}}</td>
-            <td>{{props.item.type.type}}</td>
-            <td v-html="props.item.summary" />
-          </template>
-        </v-data-table>
+          <!-- params -->
+          <v-tab-item v-if="hasParams">
+            <v-data-table
+            :headers="paramsHeaders"
+            :items="api.params"
+            item-key="name"
+            :hide-actions="true">
+              <template slot="headerCell" slot-scope="props">
+                <span v-t="props.header.locale" />
+              </template>
+
+              <template slot="items" slot-scope="props">
+                <th class="text-xs-left">{{props.item.name}}</th>
+                <td><v-icon>{{checkbox(!props.item.optional)}}</v-icon></td>
+                <td>{{props.item.type.default}}</td>
+                <td>{{props.item.type.type}}</td>
+                <td v-html="props.item.summary" />
+              </template>
+            </v-data-table>
+          </v-tab-item>
+
+          <!-- query -->
+          <v-tab-item v-if="hasQueries">
+            <v-data-table
+            :headers="paramsHeaders"
+            :items="api.queries"
+            item-key="name"
+            :hide-actions="true">
+              <template slot="headerCell" slot-scope="props">
+                <span v-t="props.header.locale" />
+              </template>
+
+              <template slot="items" slot-scope="props">
+                <th class="text-xs-left">{{props.item.name}}</th>
+                <td><v-icon>{{checkbox(!props.item.optional)}}</v-icon></td>
+                <td>{{props.item.type.default}}</td>
+                <td>{{props.item.type.type}}</td>
+                <td v-html="props.item.summary" />
+              </template>
+            </v-data-table>
+          </v-tab-item>
+
+        </v-tabs>
 
         <vue-markdown v-if="api.description" :source="api.description" />
 
@@ -61,7 +91,7 @@
 import VueMarkdown from 'vue-markdown'
 import VSchema from './Schema.vue'
 import { Component, Vue } from 'vue-property-decorator'
-import { API, api } from './types'
+import { API, Param, api as apiDefault } from './types'
 import { DataTableHeadersItem } from '../../vuetify-types'
 import { methodColor } from '../../utils'
 
@@ -72,8 +102,8 @@ import { methodColor } from '../../utils'
   }
   })
 export default class VApi extends Vue {
-  api: API = api
-  visible: boolean = false
+  api: API = apiDefault
+  visible_: boolean = false
 
   private paramsHeaders: Array<DataTableHeadersItem> = [
     {
@@ -90,17 +120,31 @@ export default class VApi extends Vue {
     {
       locale: 'viewer.api.header-default',
       value: 'default',
+      sortable: false,
       width: '3rem'
     },
     {
       locale: 'viewer.api.header-type',
+      sortable: false,
       value: 'type'
     },
     {
       locale: 'viewer.api.header-summary',
+      sortable: false,
       value: 'summary'
     }
   ]
+
+  private get visible(): boolean {
+    return this.visible_
+  }
+
+  private set visible(v: boolean) {
+    this.visible_ = v
+    if (!v) {
+      this.api = apiDefault
+    }
+  }
 
   /**
    * 设置 API 的内容。
@@ -109,6 +153,17 @@ export default class VApi extends Vue {
   public show(api: API) {
     this.api = api
     this.visible = true
+  }
+
+  /**
+   * 是否存在地址参数或是查询参数
+   */
+  private get hasParams(): boolean {
+    return !!this.api.params && this.api.params.length > 0
+  }
+
+  private get hasQueries(): boolean {
+    return !!this.api.queries && this.api.queries.length > 0
   }
 
   /**
