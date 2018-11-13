@@ -10,7 +10,7 @@
       </template>
 
       <template slot="items" slot-scope="props">
-        <th class="al">
+        <th class="text-xs-left">
           <v-chip disabled small>{{props.item.name}}</v-chip>
         </th>
         <td v-html="$t(props.item.description)" />
@@ -25,10 +25,6 @@
 <style scoped>
 .show {
   opacity: 1 !important;
-}
-
-.al {
-  text-align: left;
 }
 
 .chip {
