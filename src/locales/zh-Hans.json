@@ -36,7 +36,12 @@
     "header-description": "描述",
     "api": {
       "response": "返回",
-      "request": "请求"
+      "request": "请求",
+      "header-name": "名称",
+      "header-required": "必填",
+      "header-default": "默认值",
+      "header-type": "类型",
+      "header-summary": "描述"
     }
   },
 

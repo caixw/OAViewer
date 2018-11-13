@@ -39,6 +39,7 @@
 <script lang="ts">
 import { DataTableHeadersItem } from '../vuetify-types'
 import { Component, Vue } from 'vue-property-decorator'
+import { methodColor } from '../utils'
 
 @Component
 export default class Methods extends Vue {
@@ -151,16 +152,7 @@ export default class Methods extends Vue {
   }
 
   private methodColor(method: string): string {
-    switch (method) {
-      case 'PUT':
-      case 'POST':
-      case 'PATCH':
-        return this.$vuetify.theme.warning.toString()
-      case 'DELETE':
-        return this.$vuetify.theme.error.toString()
-      default:
-        return this.$vuetify.theme.success.toString()
-    }
+    return methodColor(this.$vuetify.theme, method)
   }
 }
 </script>

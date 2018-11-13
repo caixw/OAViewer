@@ -61,7 +61,7 @@
       </template>
       <template slot="items" slot-scope="props">
         <tr @click="setAPI(props.item)" class="api">
-          <td><v-chip small label>{{props.item.method}}</v-chip></td>
+          <td><v-chip small label :color="methodColor(props.item.method)">{{props.item.method}}</v-chip></td>
           <td>{{props.item.path}}</td>
           <td>
             <v-chip small v-for="tag of props.item.tags" :key="tag">{{tag}}</v-chip>
@@ -92,6 +92,7 @@ import { DataTableHeadersItem } from '../vuetify-types'
 import { API } from './viewer/types'
 import VApi from './viewer/API.vue'
 import yaml from 'js-yaml'
+import { methodColor } from '../utils'
 
 @Component({
   components: {
@@ -190,6 +191,10 @@ export default class Viewer extends Vue {
    */
   public mounted() {
     this.load()
+  }
+
+  private methodColor(method: string): string {
+    return methodColor(this.$vuetify.theme, method)
   }
 }
 </script>
