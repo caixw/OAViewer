@@ -71,6 +71,17 @@ export const api = {
   params: [],
   queries: [],
   summary: 'test',
-  requests: [],
-  responses: []
+  requests: [{
+    mimetype: 'application/json',
+    type: {
+      type: 'int'
+    }
+  }],
+  responses: [{
+    status: 200,
+    mimetype: 'application/json',
+    type: {
+      type: 'object'
+    }
+  }]
 }
