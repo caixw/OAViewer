@@ -11,7 +11,7 @@
 
       <template slot="items" slot-scope="props">
         <th>
-          <div class="chip white--text" :style="{background:methodColor(props.item.status)}">{{props.item.status}}</div>
+          <div class="chip white--text" :style="{background:statusColor(props.item.status)}">{{props.item.status}}</div>
         </th>
         <td v-t="props.item.title" />
         <td v-html="$t(props.item.description)" />
@@ -22,10 +22,6 @@
 </template>
 
 <style scoped>
-.al {
-  text-align: left
-}
-
 .chip {
   min-width: 6rem;
   text-align: center !important;
@@ -87,7 +83,7 @@ export default class Statuses extends Vue {
     return check ? 'check_box' : 'check_box_outline_blank'
   }
 
-  private methodColor(code: number): string {
+  private statusColor(code: number): string {
     const theme = this.$vuetify.theme
 
     switch (true) {
