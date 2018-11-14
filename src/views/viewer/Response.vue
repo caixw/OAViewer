@@ -19,9 +19,25 @@
 
     <v-schema :schema="response.type" />
 
-    <!--v-example :example="response.example" /-->
+    <!-- examples -->
+    <h4 v-if="hasExamples" class="subheading pl-3 mt-3" v-t="'viewer.api.examples'" />
+    <v-tabs v-if="hasExamples">
+      <v-tab v-for="(exp, index) of response.examples" :key="index">{{exp.mimetype}}</v-tab>
+
+      <v-tab-item v-for="(exp, index) of response.examples" :key="index">
+        <p>{{exp.summary}}</p>
+        <code class="code">{{exp.value}}</code>
+      </v-tab-item>
+    </v-tabs>
   </div>
 </template>
+
+<style scoped>
+.code {
+  box-shadow: none;
+  width: 100%
+}
+</style>
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator'
@@ -29,12 +45,10 @@ import { Response } from './types'
 import { DataTableHeadersItem } from '../../vuetify-types'
 import { checkbox } from '../../utils'
 import VSchema from './Schema.vue'
-import VExample from './Example.vue'
 
 @Component({
   components:{
-  VSchema,
-  VExample
+  VSchema
   }
   })
 export default class VResponse extends Vue {
@@ -67,6 +81,15 @@ export default class VResponse extends Vue {
     return !!this.response &&
       !!this.response.headers &&
       this.response.headers.length > 0
+  }
+
+  /**
+   * 是否存在示例代码
+   */
+  private get hasExamples(): boolean {
+    return !!this.response &&
+      !!this.response.examples &&
+      this.response.examples.length > 0
   }
 
   private checkbox(check: boolean): string {

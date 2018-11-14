@@ -2,7 +2,7 @@
   <div>
     <h3 class="subheading" v-if="request.mimetype != '*'">{{request.mimetype}}</h3>
 
-    <h4 class="subheading" v-t="'viewer.api.headers'" />
+    <h4 class="subheading pl-3 mt-3" v-t="'viewer.api.headers'" />
     <v-data-table v-if="hasHeaders"
     :headers="paramsHeaders"
     :items="request.headers"
@@ -20,9 +20,26 @@
 
     <v-schema :schema="request.type" />
 
-    <!--v-example :example="request.exampl" /-->
+    <!-- examples -->
+    <h4 v-if="hasExamples" class="subheading pl-3 mt-3" v-t="'viewer.api.examples'" />
+    <v-tabs v-if="hasExamples">
+      <v-tab v-for="(exp, index) of request.examples" :key="index">{{exp.mimetype}}</v-tab>
+
+      <v-tab-item v-for="(exp, index) of request.examples" :key="index">
+        <p>{{exp.summary}}</p>
+        <code class="code">{{exp.value}}</code>
+      </v-tab-item>
+    </v-tabs>
+
   </div>
 </template>
+
+<style scoped>
+.code {
+  box-shadow: none;
+  width: 100%
+}
+</style>
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator'
@@ -30,12 +47,10 @@ import { Request } from './types'
 import { DataTableHeadersItem } from '../../vuetify-types'
 import { checkbox } from '../../utils'
 import VSchema from './Schema.vue'
-import VExample from './Example.vue'
 
 @Component({
   components:{
-  VSchema,
-  VExample
+  VSchema
   }
   })
 export default class VRequest extends Vue {
@@ -68,6 +83,15 @@ export default class VRequest extends Vue {
     return !!this.request &&
       !!this.request.headers &&
       this.request.headers.length > 0
+  }
+
+  /**
+   * 是否存在示例代码
+   */
+  private get hasExamples(): boolean {
+    return !!this.request &&
+      !!this.request.examples &&
+      this.request.examples.length > 0
   }
 
   private checkbox(check: boolean): string {

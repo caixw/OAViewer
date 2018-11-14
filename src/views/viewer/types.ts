@@ -30,7 +30,7 @@ export interface Request {
   mimetype: string
   type: Schema
   headers?: Header[]
-  examples?: Example
+  examples?: Example[]
 }
 
 export interface Response {
@@ -38,7 +38,7 @@ export interface Response {
   mimetype: string
   type: Schema
   headers?: Header[]
-  examples?: Example
+  examples?: Example[]
 }
 
 export interface Param {
