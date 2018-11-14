@@ -11,11 +11,18 @@
           </v-btn>
         </v-toolbar>
 
-      <v-card-text>
-        <v-chip disabled label small :color="methodColor(api.method)">{{api.method}}</v-chip>
-        {{api.path}}
+      <v-card-text class="pl-0 pr-0">
 
-        <v-tabs>
+        <h1 class="pl-3 pr-3 subheading">
+        <v-chip disabled label small :color="methodColor(api.method)">
+          {{api.method}}
+        </v-chip>
+        {{api.path}}
+        </h1>
+
+        <vue-markdown class="pl-3 pr-3" v-if="api.description" :source="api.description" />
+
+        <v-tabs class="mt-3 pl-3 pr-3">
           <v-tab v-if="hasParams">{{$t('viewer.api.params')}}</v-tab>
           <v-tab v-if="hasQueries">{{$t('viewer.api.queries')}}</v-tab>
           <v-tab>{{$t('viewer.api.request')}}</v-tab>
@@ -72,8 +79,6 @@
           </v-tab-item>
 
         </v-tabs>
-
-        <vue-markdown v-if="api.description" :source="api.description" />
       </v-card-text>
     </v-card>
   </v-dialog>

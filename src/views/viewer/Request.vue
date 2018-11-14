@@ -2,6 +2,7 @@
   <div>
     <h3 class="subheading" v-if="request.mimetype != '*'">{{request.mimetype}}</h3>
 
+    <h4 class="subheading" v-t="'viewer.api.headers'" />
     <v-data-table v-if="hasHeaders"
     :headers="paramsHeaders"
     :items="request.headers"
