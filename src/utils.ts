@@ -22,7 +22,6 @@ export function methodColor (theme: VuetifyTheme, method: string): string {
   }
 }
 
-
 /**
  * 生成布尔值的图标内容
  */
