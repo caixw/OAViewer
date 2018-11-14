@@ -22,7 +22,7 @@
 
         <vue-markdown class="pl-3 pr-3" v-if="api.description" :source="api.description" />
 
-        <v-tabs class="mt-3 pl-3 pr-3">
+        <v-tabs class="mt-3">
           <v-tab v-if="hasParams">{{$t('viewer.api.params')}}</v-tab>
           <v-tab v-if="hasQueries">{{$t('viewer.api.queries')}}</v-tab>
           <v-tab>{{$t('viewer.api.request')}}</v-tab>
@@ -30,6 +30,8 @@
 
           <!-- params -->
           <v-tab-item v-if="hasParams">
+            <v-divider /><!-- tab 的下划线 -->
+
             <v-data-table
             :headers="paramsHeaders"
             :items="api.params"
@@ -51,6 +53,8 @@
 
           <!-- query -->
           <v-tab-item v-if="hasQueries">
+            <v-divider /><!-- tab 的下划线 -->
+
             <v-data-table
             :headers="paramsHeaders"
             :items="api.queries"
@@ -71,10 +75,12 @@
           </v-tab-item>
 
           <v-tab-item>
+            <v-divider /><!-- tab 的下划线 -->
             <v-request v-for="(val, index) of api.requests" :key="index" :request="val" />
           </v-tab-item>
 
           <v-tab-item>
+            <v-divider /><!-- tab 的下划线 -->
             <v-response v-for="(val, index) of api.responses" :key="index" :response="val" />
           </v-tab-item>
 
