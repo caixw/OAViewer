@@ -64,11 +64,11 @@
           </v-tab-item>
 
           <v-tab-item>
-            <v-schema v-for="(req, index) of api.requests" :key="index" :schema="req.type" />
+            <v-request v-for="(val, index) of api.requests" :key="index" :request="val" />
           </v-tab-item>
 
           <v-tab-item>
-            <v-schema v-for="(resp, index) of api.responses" :key="index" :schema="resp.type" />
+            <v-response v-for="(val, index) of api.responses" :key="index" :response="val" />
           </v-tab-item>
 
         </v-tabs>
@@ -81,7 +81,8 @@
 
 <script lang="ts">
 import VueMarkdown from 'vue-markdown'
-import VSchema from './Schema.vue'
+import VRequest from './Request.vue'
+import VResponse from './Response.vue'
 import { Component, Vue } from 'vue-property-decorator'
 import { API, Param, api as apiDefault } from './types'
 import { DataTableHeadersItem } from '../../vuetify-types'
@@ -90,7 +91,8 @@ import { methodColor } from '../../utils'
 @Component({
   components: {
   VueMarkdown,
-  VSchema
+  VRequest,
+  VResponse
   }
   })
 export default class VApi extends Vue {
@@ -154,6 +156,9 @@ export default class VApi extends Vue {
     return !!this.api.params && this.api.params.length > 0
   }
 
+  /**
+   * 是否存在查询参数
+   */
   private get hasQueries(): boolean {
     return !!this.api.queries && this.api.queries.length > 0
   }
