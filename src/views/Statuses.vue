@@ -33,6 +33,7 @@
 <script lang="ts">
 import { DataTableHeadersItem } from '../vuetify-types'
 import { Component, Vue } from 'vue-property-decorator'
+import { checkbox } from '../utils'
 
 @Component
 export default class Statuses extends Vue {
@@ -80,7 +81,7 @@ export default class Statuses extends Vue {
    * 生成布尔值的图标内容
    */
   private checkbox(check: boolean): string {
-    return check ? 'check_box' : 'check_box_outline_blank'
+    return checkbox(check)
   }
 
   private statusColor(code: number): string {

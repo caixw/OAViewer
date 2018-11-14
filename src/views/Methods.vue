@@ -39,7 +39,7 @@
 <script lang="ts">
 import { DataTableHeadersItem } from '../vuetify-types'
 import { Component, Vue } from 'vue-property-decorator'
-import { methodColor } from '../utils'
+import { methodColor, checkbox } from '../utils'
 
 @Component
 export default class Methods extends Vue {
@@ -148,7 +148,7 @@ export default class Methods extends Vue {
    * 生成布尔值的图标内容
    */
   private checkbox(check: boolean): string {
-    return check ? 'check_box' : 'check_box_outline_blank'
+    return checkbox(check)
   }
 
   private methodColor(method: string): string {

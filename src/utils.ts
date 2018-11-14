@@ -21,3 +21,11 @@ export function methodColor (theme: VuetifyTheme, method: string): string {
       return theme.success.toString()
   }
 }
+
+
+/**
+ * 生成布尔值的图标内容
+ */
+export function checkbox(check: boolean): string {
+  return check ? 'check_box' : 'check_box_outline_blank'
+}
