@@ -15,9 +15,11 @@
         <v-chip disabled label small :color="methodColor(api.method)">{{api.method}}</v-chip>
         {{api.path}}
 
-        <v-tabs right v-if="hasParams || hasQueries">
+        <v-tabs v-if="hasParams || hasQueries">
           <v-tab v-if="hasParams">{{$t('viewer.api.params')}}</v-tab>
           <v-tab v-if="hasQueries">{{$t('viewer.api.queries')}}</v-tab>
+          <v-tab v-if="hasQueries">{{$t('viewer.api.request')}}</v-tab>
+          <v-tab v-if="hasQueries">{{$t('viewer.api.response')}}</v-tab>
 
           <!-- params -->
           <v-tab-item v-if="hasParams">
@@ -61,31 +63,21 @@
             </v-data-table>
           </v-tab-item>
 
+          <v-tab-item>
+            <v-schema v-for="(req, index) of api.requests" :key="index" :schema="req.type" />
+          </v-tab-item>
+
+          <v-tab-item>
+            <v-schema v-for="(resp, index) of api.responses" :key="index" :schema="resp.type" />
+          </v-tab-item>
+
         </v-tabs>
 
         <vue-markdown v-if="api.description" :source="api.description" />
-
-        <v-expansion-panel expand class="panel">
-          <v-expansion-panel-content>
-            <h2 class="pl-0 pr-0 subheading" slot="header" v-t="'viewer.api.request'" />
-            <v-schema v-for="(req, index) of api.requests" :key="index" :schema="req.type" />
-          </v-expansion-panel-content>
-
-          <v-expansion-panel-content>
-            <h2 class="pl-0 pr-0 subheading" slot="header" v-t="'viewer.api.response'" />
-            <v-schema v-for="(resp, index) of api.responses" :key="index" :schema="resp.type" />
-          </v-expansion-panel-content>
-        </v-expansion-panel>
       </v-card-text>
     </v-card>
   </v-dialog>
 </template>
-
-<style scoped>
-.panel{
-  box-shadow: none
-}
-</style>
 
 <script lang="ts">
 import VueMarkdown from 'vue-markdown'
