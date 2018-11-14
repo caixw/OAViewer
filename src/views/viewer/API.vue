@@ -15,11 +15,11 @@
         <v-chip disabled label small :color="methodColor(api.method)">{{api.method}}</v-chip>
         {{api.path}}
 
-        <v-tabs v-if="hasParams || hasQueries">
+        <v-tabs>
           <v-tab v-if="hasParams">{{$t('viewer.api.params')}}</v-tab>
           <v-tab v-if="hasQueries">{{$t('viewer.api.queries')}}</v-tab>
-          <v-tab v-if="hasQueries">{{$t('viewer.api.request')}}</v-tab>
-          <v-tab v-if="hasQueries">{{$t('viewer.api.response')}}</v-tab>
+          <v-tab>{{$t('viewer.api.request')}}</v-tab>
+          <v-tab>{{$t('viewer.api.response')}}</v-tab>
 
           <!-- params -->
           <v-tab-item v-if="hasParams">
