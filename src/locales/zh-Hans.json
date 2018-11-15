@@ -41,6 +41,7 @@
       "queries": "查询参数",
       "headers": "报头",
       "examples": "示例代码",
+      "schema": "类型定义",
       "header-name": "名称",
       "header-required": "必填",
       "header-default": "默认值",

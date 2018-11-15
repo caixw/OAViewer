@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h4 class="subheading pl-3 mt-3" v-t="'viewer.api.headers'" />
+    <v-toolbar flat dense><v-toolbar-title v-t="'viewer.api.headers'" /></v-toolbar>
     <v-data-table
     :headers="paramsHeaders"
     :items="headers"

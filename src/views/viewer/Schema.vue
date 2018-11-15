@@ -1,17 +1,18 @@
 <template>
   <div>
-    <v-toolbar flat>
-      <v-toolbar-title>test</v-toolbar-title>
+    <v-toolbar flat dense>
+      <v-toolbar-title v-t="'viewer.api.schema'" />
       <v-spacer></v-spacer>
-      <v-btn-toggle>
-        <v-btn flat @click="list=false">schema</v-btn>
-        <v-btn flat @click="list=true">list</v-btn>
+      <v-btn-toggle v-model="state">
+        <v-btn flat value="schema">schema</v-btn>
+        <v-btn flat value="list">list</v-btn>
       </v-btn-toggle>
     </v-toolbar>
 
-    <code v-show="!list" class="code overflow-y-hidden pr-1 pl-1 pt-1 pb-1">{{schema}}</code>
-
-    <code v-show="list" class="code overflow-y-hidden pr-1 pl-1 pt-1 pb-1">{{schema.type}}</code>
+    <v-card flat class="pl-2 pr-2 pt-2 pb-2">
+    <code v-show="state=='schema'" class="code overflow-y-hidden pr-1 pl-1 pt-1 pb-1">{{schema}}</code>
+    <code v-show="state=='list'" class="code overflow-y-hidden pr-1 pl-1 pt-1 pb-1">{{schema.type}}</code>
+    </v-card>
   </div>
 </template>
 
@@ -31,6 +32,6 @@ export default class VSchema extends Vue {
   @Prop()
   schema?: Schema
 
-  private list: boolean = false
+  private state: 'list'|'schema' = 'schema'
 }
 </script>
