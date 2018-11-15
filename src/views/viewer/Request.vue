@@ -2,21 +2,7 @@
   <div>
     <h3 class="subheading" v-if="request.mimetype != '*'">{{request.mimetype}}</h3>
 
-    <h4 class="subheading pl-3 mt-3" v-t="'viewer.api.headers'" />
-    <v-data-table v-if="hasHeaders"
-    :headers="paramsHeaders"
-    :items="request.headers"
-    :hide-actions="true">
-      <template slot="headerCell" slot-scope="props">
-        <span v-t="props.header.locale" />
-      </template>
-
-      <template slot="items" slot-scope="props">
-        <th class="text-xs-left">{{props.item.name}}</th>
-        <td><v-icon>{{checkbox(!props.item.optional)}}</v-icon></td>
-        <td v-html="props.item.summary" />
-      </template>
-    </v-data-table>
+    <v-headers :headers="request.headers" v-if="hasHeaders" />
 
     <v-schema :schema="request.type" />
 
@@ -47,34 +33,17 @@ import { Request } from './types'
 import { DataTableHeadersItem } from '../../vuetify-types'
 import { checkbox } from '../../utils'
 import VSchema from './Schema.vue'
+import VHeaders from './Headers.vue'
 
 @Component({
   components:{
-  VSchema
+  VSchema,
+  VHeaders
   }
   })
 export default class VRequest extends Vue {
   @Prop()
   request?: Request
-
-  private paramsHeaders: Array<DataTableHeadersItem> = [
-    {
-      locale: 'viewer.api.header-name',
-      value: 'name',
-      align: 'left',
-      width: '3rem'
-    },
-    {
-      locale: 'viewer.api.header-required',
-      value: 'required',
-      width: '3rem'
-    },
-    {
-      locale: 'viewer.api.header-summary',
-      sortable: false,
-      value: 'summary'
-    }
-  ]
 
   /**
    * 是否存在报头内容

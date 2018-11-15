@@ -1,16 +1,18 @@
 <template>
-  <v-tabs right>
-    <v-tab>schema</v-tab>
-    <v-tab>list</v-tab>
+  <div>
+    <v-toolbar flat>
+      <v-toolbar-title>test</v-toolbar-title>
+      <v-spacer></v-spacer>
+      <v-btn-toggle>
+        <v-btn flat @click="list=false">schema</v-btn>
+        <v-btn flat @click="list=true">list</v-btn>
+      </v-btn-toggle>
+    </v-toolbar>
 
-    <v-tab-item>
-      <code class="code overflow-y-hidden pr-1 pl-1 pt-1 pb-1">{{schema}}</code>
-    </v-tab-item>
+    <code v-show="!list" class="code overflow-y-hidden pr-1 pl-1 pt-1 pb-1">{{schema}}</code>
 
-    <v-tab-item>
-      {{schema}}
-    </v-tab-item>
-  </v-tabs>
+    <code v-show="list" class="code overflow-y-hidden pr-1 pl-1 pt-1 pb-1">{{schema.type}}</code>
+  </div>
 </template>
 
 <style scoped>
@@ -28,5 +30,7 @@ import { Schema } from './types'
 export default class VSchema extends Vue {
   @Prop()
   schema?: Schema
+
+  private list: boolean = false
 }
 </script>
