@@ -31,47 +31,13 @@
           <!-- params -->
           <v-tab-item v-if="hasParams">
             <v-divider /><!-- tab 的下划线 -->
-
-            <v-data-table
-            :headers="paramsHeaders"
-            :items="api.params"
-            item-key="name"
-            :hide-actions="true">
-              <template slot="headerCell" slot-scope="props">
-                <span v-t="props.header.locale" />
-              </template>
-
-              <template slot="items" slot-scope="props">
-                <th class="text-xs-left">{{props.item.name}}</th>
-                <td><v-icon>{{checkbox(!props.item.optional)}}</v-icon></td>
-                <td>{{props.item.type.default}}</td>
-                <td>{{props.item.type.type}}</td>
-                <td v-html="props.item.summary" />
-              </template>
-            </v-data-table>
+            <v-params :params="api.params" />
           </v-tab-item>
 
           <!-- query -->
           <v-tab-item v-if="hasQueries">
             <v-divider /><!-- tab 的下划线 -->
-
-            <v-data-table
-            :headers="paramsHeaders"
-            :items="api.queries"
-            item-key="name"
-            :hide-actions="true">
-              <template slot="headerCell" slot-scope="props">
-                <span v-t="props.header.locale" />
-              </template>
-
-              <template slot="items" slot-scope="props">
-                <th class="text-xs-left">{{props.item.name}}</th>
-                <td><v-icon>{{checkbox(!props.item.optional)}}</v-icon></td>
-                <td>{{props.item.type.default}}</td>
-                <td>{{props.item.type.type}}</td>
-                <td v-html="props.item.summary" />
-              </template>
-            </v-data-table>
+            <v-params :params="api.queries" />
           </v-tab-item>
 
           <v-tab-item>
@@ -94,51 +60,22 @@
 import VueMarkdown from 'vue-markdown'
 import VRequest from './Request.vue'
 import VResponse from './Response.vue'
+import VParams from './Params.vue'
 import { Component, Vue } from 'vue-property-decorator'
-import { API, Param, api as apiDefault } from './types'
-import { DataTableHeadersItem } from '../../vuetify-types'
+import { API, api as apiDefault } from './types'
 import { methodColor } from '../../utils'
 
 @Component({
   components: {
   VueMarkdown,
   VRequest,
-  VResponse
+  VResponse,
+  VParams
   }
   })
 export default class VApi extends Vue {
   api: API = apiDefault
   visible_: boolean = false
-
-  private paramsHeaders: Array<DataTableHeadersItem> = [
-    {
-      locale: 'viewer.api.header-name',
-      value: 'name',
-      align: 'left',
-      width: '3rem'
-    },
-    {
-      locale: 'viewer.api.header-required',
-      value: 'required',
-      width: '3rem'
-    },
-    {
-      locale: 'viewer.api.header-default',
-      value: 'default',
-      sortable: false,
-      width: '3rem'
-    },
-    {
-      locale: 'viewer.api.header-type',
-      sortable: false,
-      value: 'type'
-    },
-    {
-      locale: 'viewer.api.header-summary',
-      sortable: false,
-      value: 'summary'
-    }
-  ]
 
   private get visible(): boolean {
     return this.visible_
