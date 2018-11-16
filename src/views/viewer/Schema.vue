@@ -4,8 +4,8 @@
       <v-toolbar-title v-t="'viewer.api.schema'" />
       <v-spacer></v-spacer>
       <v-btn-toggle v-model="state">
-        <v-btn flat value="schema">schema</v-btn>
-        <v-btn flat value="list">list</v-btn>
+        <v-btn flat value="schema"><v-icon>code</v-icon></v-btn>
+        <v-btn flat value="list"><v-icon>list</v-icon></v-btn>
       </v-btn-toggle>
     </v-toolbar>
 

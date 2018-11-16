@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h3 class="subheading" v-if="request.mimetype != '*'">{{request.mimetype}}</h3>
+    <h3 class="display-1 mt-1 pl-3 pr-3 pt-1 pb-1 primary" v-if="request.mimetype != '*'">{{request.mimetype}}</h3>
 
     <v-headers :headers="request.headers" v-if="hasHeaders" />
 
