@@ -1,0 +1,10 @@
+{
+  "displayName": "繁體中文",
+  "language": "語言",
+
+  "theme": "主題",
+  "theme.dark": "深色模式",
+  "theme.purple": "紫色",
+  "theme.green": "绿色",
+  "theme.default": "默认"
+}

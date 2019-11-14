@@ -15,9 +15,9 @@ npm run serve
 npm run build
 ```
 
-### Run your tests
+### Run your unit tests
 ```
-npm run test
+npm run test:unit
 ```
 
 ### Lints and fixes files
@@ -25,4 +25,5 @@ npm run test
 npm run lint
 ```
 
-method 页面借鉴了 https://darosh.github.io/oax/#/methods
+### Customize configuration
+See [Configuration Reference](https://cli.vuejs.org/config/).
