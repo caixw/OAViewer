@@ -1,16 +1,16 @@
 module.exports = {
-  "outputDir": "docs",
+    'outputDir': 'dist',
 
-  "transpileDependencies": [
-    "vuetify"
-  ],
+    'transpileDependencies': [
+        'vuetify'
+    ],
 
-  pluginOptions: {
-    i18n: {
-      locale: 'zh-hans',
-      fallbackLocale: 'zh-hans',
-      localeDir: 'locales',
-      enableInSFC: false
+    pluginOptions: {
+        i18n: {
+            locale: 'zh-hans',
+            fallbackLocale: 'zh-hans',
+            localeDir: 'locales',
+            enableInSFC: false
+        }
     }
-  }
-}
+};

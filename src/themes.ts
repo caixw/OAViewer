@@ -2,47 +2,47 @@
 
 // 自定义的主题
 const themes: { [name: string]: Theme } = {
-  purple: {
-    dark: {
-      primary: '#673ab7',
-      secondary: '#9c27b0',
-      accent: '#f44336'
+    purple: {
+        dark: {
+            primary: '#673ab7',
+            secondary: '#9c27b0',
+            accent: '#f44336'
+        },
+        light: {
+            primary: '#673ab7',
+            secondary: '#9c27b0',
+            accent: '#f44336'
+        }
     },
-    light: {
-      primary: '#673ab7',
-      secondary: '#9c27b0',
-      accent: '#f44336'
-    }
-  },
 
-  green: {
-    dark: {
-      primary: '#4caf50',
-      secondary: '#8bc34a',
-      accent: '#009688'
-    },
-    light: {
-      primary: '#4caf50',
-      secondary: '#8bc34a',
-      accent: '#009688'
+    green: {
+        dark: {
+            primary: '#4caf50',
+            secondary: '#8bc34a',
+            accent: '#009688'
+        },
+        light: {
+            primary: '#4caf50',
+            secondary: '#8bc34a',
+            accent: '#009688'
+        }
     }
-  }
 }
 
 export default themes;
 
 interface Theme {
-  dark: Colors
-  light: Colors
+    dark: Colors
+    light: Colors
 }
 
 interface Colors {
-  primary: string
-  secondary: string
-  accent: string
-  info?: string
-  warning?: string
-  error?: string
-  success?: string
-  anchor?: string
+    primary: string
+    secondary: string
+    accent: string
+    info?: string
+    warning?: string
+    error?: string
+    success?: string
+    anchor?: string
 }

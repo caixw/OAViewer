@@ -10,12 +10,12 @@ import zhHant from 'vuetify/src/locale/zh-Hant';
 Vue.use(Vuetify);
 
 export default new Vuetify({
-  theme: {
-    dark: true,
-  },
+    theme: {
+        dark: true
+    },
 
-  lang: {
-    locales: { en, zhHans, zhHant },
-    current: 'zh-Hans'
-  }
+    lang: {
+        locales: { en, zhHans, zhHant },
+        current: 'zh-Hans'
+    }
 });
