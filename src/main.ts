@@ -21,12 +21,7 @@ const i18n = new VueI18n({
     messages: locale.messages
 });
 
-const vuetify = new Vuetify({
-    lang: {
-        locales: locale.vuetifyLocales,
-        current: locale.locale
-    }
-});
+const vuetify = new Vuetify();
 
 const router = new Router({
     mode: mode,
