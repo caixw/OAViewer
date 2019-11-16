@@ -1,0 +1,80 @@
+# SPDX-License-Identifier: MIT
+
+displayName: 简体中文
+language: 语言
+
+theme: 主题
+theme.dark: 深色模式
+theme.purple: 紫色
+theme.green: 绿色
+theme.default: 默认
+
+nav: 导航
+nav.home: 首页
+nav.api: API
+nav.about: 关于
+
+doc.about: 关于
+doc.about.content: |
+  <p>apidoc 是一个简单的 <abbr title="Representational State Transfer">RESTful</abbr> <abbr title="Application Programming Interface">API</abbr> 文档生成工具，它从代码注释中提取特定格式的内容生成文档。支持诸如 Go、Java、C++、Rust 等大部分开发语言，具体可使用 <code>apidoc -l</code> 命令行查看所有的支持列表。</p>
+
+        <p>apidoc 拥有以下特点：</p>
+        <ol>
+            <li>跨平台，linux、windows、macOS 等都支持；</li>
+            <li>支持语言广泛，即使是不支持，也很方便扩展；</li>
+            <li>支持多个不同语言的多个项目生成一份文档；</li>
+            <li>输出模板可自定义；</li>
+        </ol>
+
+        <p>以下是一段简短的 C 语言风格代码下的示例：</p>
+        <pre>/**
+   * &lt;api method="GET" summary="获取所有的用户信息"&gt;
+   *     &lt;path path="/users"&gt;
+   *         &lt;query name="page" type="number" default="0"&gt;显示第几页的内容&lt;/query&gt;
+   *         &lt;query name="size" type="number" default="20"&gt;每页显示的数量&lt;/query&gt;
+   *     &lt;/path&gt;
+   *     &lt;tag&gt;user&lt;/tag&gt;
+   *     &lt;server&gt;users&lt;/server&gt;
+   *     &lt;response status="200" type="object" mimetype="application/json"&gt;
+   *         &lt;param name="count" type="int" optional="false" summary="符合条件的所有用户数量" /&gt;
+   *         &lt;param name="users" type="object" array="true" summary="用户列表"&gt;
+   *             &lt;param name="id" type="int" summary="唯一 ID" /&gt;
+   *             &lt;param name="name" type="string" summary="姓名" /&gt;
+   *         &lt;/param&gt;
+   *     &lt;/response&gt;
+   *     &lt;response status="500" mimetype="application/json" type="obj"&gt;
+   *         &lt;param name="code" type="int" summary="错误代码" /&gt;
+   *         &lt;param name="msg" type="string" summary="错误内容" /&gt;
+   *     &lt;/response&gt;
+   * &lt;/api&gt;
+   */</pre>
+  <p>多行注释中，每一行中以<code>空白字符+symbol+空白字符</code>开头的，这些字符将会被过滤，symbol 表示该注释块的起始字符中的任意字符。比如以上代码中，所有的 <var>*</var> 将被过滤。</p>
+
+doc.usage: 使用
+doc.usage.install: 安装
+doc.usage.install.content: |
+  <p>可以直接从 <a href="https://github.com/caixw/apidoc/releases">https://github.com/caixw/apidoc/releases</a> 查找你需要的版本下载，放入 <code>PATH</code> 中即可使用。如果没有你需要的平台文件，则需要从源代码编译：</p>
+  <ul>
+      <li>下载 Go 编译工具</li>
+      <li>下载源代码</li>
+      <li>执行代码中 <code>build/build.sh</code> 或是 <code>build/build.cmd</code> 进行编译</li>
+      <li>编译好的文件存放在 cmd/apidoc 下，可以将该文件放置在 PATH 目录</li>
+  </ul>
+
+doc.usage.env: 环境变量
+doc.usage.env.content: |
+  <p>apidoc 会读取 <var>LANG</var> 的环境变量作为其本地化的依据，若想指定其它语种，可以手动指定 <var>LANG</var> 环境变量：<samp>LANG=zh-Hant apidoc</samp>。在 windows 系统中，若不存在 <var>LANG</var> 环境变量，则会调用 <samp>GetUserDefaultLocaleName</samp> 函数来获取相应的语言信息。</p>
+
+doc.usage.cli: 命令行
+doc.usage.cli.content: |
+  <p>可以通过 <code>apidoc -h</code> 查看命令行支持的参数。主要包含了以下几个参数：</p>
+  <table>
+      <thead><tr><th>参数</th><th>描述</th></tr></thead>
+      <tbody>
+          <tr><td>-h</td><td>显示帮助信息</td></tr>
+          <tr><td>-v</td><td>显示版本信息</td></tr>
+          <tr><td>-l</td><td>列出当前支持的语言</td></tr>
+          <tr><td>-d</td><td>根据指定的目录生成配置文件</td></tr>
+          <tr><td>-t</td><td>检测语法是否准确</td></tr>
+      </tbody>
+  </table>
