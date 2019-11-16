@@ -21,7 +21,7 @@
                         </v-btn>
                     </template>
                     <v-list>
-                        <v-list-item v-for="val of menus" :key="val.langID" :to="{name: val.url}">
+                        <v-list-item v-for="val of menus" :key="val.langID" :to="{name: val.url}" exact>
                             <v-list-item-title>{{$i18n.t(val.langID)}}</v-list-item-title>
                         </v-list-item>
                     </v-list>

@@ -7,7 +7,7 @@ import en from 'vuetify/src/locale/en';
 import zhHans from 'vuetify/src/locale/zh-Hans';
 import zhHant from 'vuetify/src/locale/zh-Hant';
 
-export const messages = loadLocaleMessages()
+export const messages = loadLocaleMessages();
 export const locale = 'zh-hans';
 export const fallbackLocale = 'en';
 export const vuetifyLocales = { en, zhHans, zhHant };
