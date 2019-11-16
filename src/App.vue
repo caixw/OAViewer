@@ -2,7 +2,7 @@
 
 <template>
     <v-app>
-        <v-navigation-drawer v-model="drawer" app>
+        <v-navigation-drawer v-model="drawer" app :dark="dark">
             <router-view name="sidebar" />
         </v-navigation-drawer>
 
@@ -92,7 +92,7 @@
 import { Component, Vue } from 'vue-property-decorator';
 import VueI18n from 'vue-i18n';
 import Vuetify from 'vuetify';
-import themes from './themes';
+import { themes, dark } from '@/config/themes';
 
 @Component
 export default class App extends Vue {
@@ -159,6 +159,8 @@ export default class App extends Vue {
     }
 
     created() {
+        this.dark = dark;
+
         for (let key in themes) {
             this.themesMap.set(key, themes[key]);
         }

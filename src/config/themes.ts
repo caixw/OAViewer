@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 
 // 自定义的主题
-const themes: { [name: string]: Theme } = {
+export const themes: { [name: string]: Theme } = {
     purple: {
         dark: {
             primary: '#673ab7',
@@ -27,9 +27,10 @@ const themes: { [name: string]: Theme } = {
             accent: '#009688'
         }
     }
-}
+};
 
-export default themes;
+// 是否默认启用深色模式，默认情况下采用系统的相同设置。
+export const dark = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
 interface Theme {
     dark: Colors

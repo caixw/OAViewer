@@ -17,7 +17,5 @@ import { Component, Vue } from 'vue-property-decorator';
 import VueI18n from 'vue-i18n';
 
 @Component
-export default class Home extends Vue {
-    name: 'Home'
-}
+export default class Home extends Vue {}
 </script>
