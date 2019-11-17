@@ -11,24 +11,24 @@ Type 用于描述文档中表示类型的文档
         <section v-html="$i18n.t(id)" />
 
         <v-simple-table dense v-if="hasItems">
-        <template v-slot:default>
-            <thead>
-                <tr>
-                    <th v-html="$i18n.t('type.table.header.name')" />
-                    <th v-html="$i18n.t('type.table.header.type')" />
-                    <th v-html="$i18n.t('type.table.header.required')" />
-                    <th v-html="$i18n.t('type.table.header.description')" />
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="(item, index) in type.items" :key="index">
-                    <th>{{item.name}}</th>
-                    <td>{{item.type}}</td>
-                    <td>{{item.required}}</td>
-                    <td>{{$i18n.t(id + '.' + item.name)}}</td>
-                </tr>
-            </tbody>
-        </template>
+            <template v-slot:default>
+                <thead>
+                    <tr>
+                        <th v-html="$i18n.t('type.table.header.name')" />
+                        <th v-html="$i18n.t('type.table.header.type')" />
+                        <th v-html="$i18n.t('type.table.header.required')" />
+                        <th v-html="$i18n.t('type.table.header.description')" />
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(item, index) in type.items" :key="index">
+                        <th>{{item.name}}</th>
+                        <td>{{item.type}}</td>
+                        <td>{{item.required}}</td>
+                        <td>{{$i18n.t(id + '.' + item.name)}}</td>
+                    </tr>
+                </tbody>
+            </template>
         </v-simple-table>
     </article>
 </template>
@@ -57,7 +57,7 @@ export default class Type extends Vue {
     get hasItems(): boolean {
         return (this.type !== undefined) &&
             (this.type.items !== undefined) &&
-            (this.type.items.length > 0)
+            (this.type.items.length > 0);
     }
 }
 </script>

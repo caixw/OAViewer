@@ -40,5 +40,5 @@
 import { Component, Vue } from 'vue-property-decorator';
 
 @Component
-export default class XSidebar extends Vue { }
+export default class Sidebar extends Vue { }
 </script>
