@@ -8,9 +8,13 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
+import XDocTree from '@/components/DocTree.vue';
+import { DocTree } from '@/components/DocTree.ts';
 import * as types from '@/store/types.ts';
 
-@Component
+@Component({
+    components: { XDocTree }
+})
 export default class About extends Vue {
     get tree(): DocTree[] {
         return this.$store.state.docTree;
