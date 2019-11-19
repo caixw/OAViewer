@@ -238,3 +238,11 @@ doc.spec.content: |
   <p>具体可参考<a href="./example/index.xml">示例代码</a>。</p>
 
   <p>以下是对各个 XML 元素以及参数介绍，其中以 <code>@</code> 开头的表示 XML 属性；<code>.</code> 表示为当前元素的内容；其它表示子元素。</p>
+
+
+# about 页面内容
+
+about.about: 关于
+about.about.content: |
+    <p>apidoc.tools 为 apidoc 的官方网站，提供了对文档格式的介绍以及 <abbr title="Application Programming Interface">API</abbr> 文件的查看等功能。代码拖管于 <a href="https://github.com/caixw/apidoc">Github.com</a>。</p>
+

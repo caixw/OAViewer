@@ -27,9 +27,9 @@ export default class Home extends Vue {
 
         this.$store.commit(types.CLEAR_DOC_TREE);
 
-        // about
-        const about = new DocTree('doc-intro', 'doc.intro', 'doc.intro.content');
-        this.$store.commit(types.ADD_DOC_TREE, about);
+        // intro
+        const intro = new DocTree('doc-intro', 'doc.intro', 'doc.intro.content');
+        this.$store.commit(types.ADD_DOC_TREE, intro);
 
         // usage
         const usage = new DocTree('doc-usage', 'doc.usage', '');
