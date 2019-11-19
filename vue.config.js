@@ -16,12 +16,12 @@ module.exports = {
 
     chainWebpack: config => {
         config.module
-            .rule("yaml")
+            .rule('yaml')
             .test(/\.ya?ml$/)
-            .use("json-loader")
-            .loader("json-loader")
+            .use('json-loader')
+            .loader('json-loader')
             .end()
-            .use("yaml-loader")
-            .loader("yaml-loader");
+            .use('yaml-loader')
+            .loader('yaml-loader');
     }
 };

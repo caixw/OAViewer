@@ -97,7 +97,6 @@ import { themes, dark } from '@/config/themes';
 @Component
 export default class App extends Vue {
     drawer = false;
-    title = 'apidoc';
     themeID = 'default'; // 初始的主题永远是 default
     themesMap = new Map<string, Object>();
 
@@ -116,6 +115,10 @@ export default class App extends Vue {
             url: 'about'
         }
     ];
+
+    get title(): string {
+        return this.$i18n.t(this.$store.state.title).toString();
+    }
 
     // 返回当前的语言列表
     get languages(): VueI18n.LocaleMessages {

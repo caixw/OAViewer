@@ -164,8 +164,8 @@ type.version: |
   比如 <samp>1.1.1</samp>、<samp>0.1.0</samp> 等。</p>
 
 
-doc.about: 关于
-doc.about.content: |
+doc.intro: 简介
+doc.intro.content: |
   <p>apidoc 是一个简单的 <abbr title="Representational State Transfer">RESTful</abbr> <abbr title="Application Programming Interface">API</abbr> 文档生成工具，它从代码注释中提取特定格式的内容生成文档。支持诸如 Go、Java、C++、Rust 等大部分开发语言，具体可使用 <code>apidoc -l</code> 命令行查看所有的支持列表。</p>
 
   <p>apidoc 拥有以下特点：</p>
