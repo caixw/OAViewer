@@ -55,6 +55,7 @@ h3, h4, h5, h6 {
 </style>
 
 <script lang="ts">
+import 'reflect-metadata';
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import VueI18n from 'vue-i18n';
 import { DocTree } from '@/components/DocTree.ts';
@@ -63,12 +64,10 @@ import { DocTree } from '@/components/DocTree.ts';
     name: 'XDocTree'
 })
 export default class XDocTree extends Vue {
-    @Prop()
-    tree?: DocTree;
+    @Prop() readonly tree!: DocTree;
 
     // 标题的级别，表示 h1、h2 等
-    @Prop({ default: 1, type: Number })
-    level?: number;
+    @Prop({ default: 1 }) readonly level!: number;
 
     // 当前文档的标题
     get title(): string {

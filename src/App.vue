@@ -93,28 +93,14 @@ import { Component, Vue } from 'vue-property-decorator';
 import VueI18n from 'vue-i18n';
 import Vuetify from 'vuetify';
 import { themes, dark } from '@/config/themes';
+import config from '@/config/config.ts';
 
 @Component
 export default class App extends Vue {
     drawer = false;
     themeID = 'default'; // 初始的主题永远是 default
     themesMap = new Map<string, Object>();
-
-    // 导般菜单
-    menus: Object[] = [
-        {
-            langID: 'nav.home',
-            url: 'home'
-        },
-        {
-            langID: 'nav.api',
-            url: 'api.v5'
-        },
-        {
-            langID: 'nav.about',
-            url: 'about'
-        }
-    ];
+    menus = config.nav;
 
     get title(): string {
         return this.$i18n.t(this.$store.state.title).toString();

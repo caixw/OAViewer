@@ -104,7 +104,7 @@ export const types: Type[] = [
             { name: '@deprecated', type: 'version', required: false },
             { name: '@summary', type: 'string', required: true },
             { name: '@array', type: 'bool', required: false },
-            { name: '@status', type: 'number', required: true },
+            { name: '@status', type: 'number', required: false },
             { name: '@mimetype', type: 'string', required: false },
             { name: 'description', type: 'string', required: false },
             { name: 'enum', type: 'enum[]', required: false },

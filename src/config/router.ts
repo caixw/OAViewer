@@ -3,9 +3,9 @@
 import * as router from 'vue-router';
 import Home from '@/views/Home.vue';
 import About from '@/views/About.vue';
-import API5 from '@/views/API5.vue';
+import Api from '@/views/Api.vue';
 import DocTreeSidebar from '@/components/DocTreeSidebar.vue';
-import APISidebar from '@/components/APISidebar.vue';
+import ApiSidebar from '@/components/ApiSidebar.vue';
 
 export const mode = 'history';
 export const routes: router.RouteConfig[] = [
@@ -15,9 +15,9 @@ export const routes: router.RouteConfig[] = [
         components: { default: Home, 'sidebar': DocTreeSidebar }
     },
     {
-        path: '/api.v5',
-        name: 'api.v5',
-        components: { default: API5, 'sidebar': APISidebar }
+        path: '/api',
+        name: 'api',
+        components: { default: Api, 'sidebar': ApiSidebar }
     },
     {
         path: '/about',
