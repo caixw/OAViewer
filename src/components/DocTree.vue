@@ -29,7 +29,9 @@ XDocType 将 DocTree 描述的内容渲染为文档
                     <tr v-for="(item, index) in tree.contentType.items" :key="index">
                         <th>{{item.name}}</th>
                         <td>{{item.type}}</td>
-                        <td>{{item.required}}</td>
+                        <td :aria-label="item.required">
+                            <v-icon aria-hidden="true">{{checkbox(item.required)}}</v-icon>
+                        </td>
                         <td>{{$i18n.t(tree.i18nPrefix + '.' + item.name)}}</td>
                     </tr>
                 </tbody>
@@ -84,6 +86,10 @@ export default class XDocTree extends Vue {
             (this.tree.contentType !== undefined) &&
             (this.tree.contentType.items !== undefined) &&
             (this.tree.contentType.items.length > 0);
+    }
+
+    checkbox(required: boolean): string {
+        return required ? 'mdi-check-box-outline' : 'mdi-checkbox-blank-outline';
     }
 }
 </script>

@@ -5,7 +5,10 @@
         <tr>
             <th>{{prefix}}{{param.$attr.name}}</th>
             <td>{{param.$attr.type}}</td>
-            <td>{{param.$attr.optional}}&nbsp;&nbsp;{{param.$attr.default}}</td>
+            <td>
+                <v-icon>{{checkbox(param.$attr.optional)}}</v-icon>
+                {{param.$attr.default}}
+            </td>
             <td>{{description}}</td>
         </tr>
         <template v-if="hasParams(param.param)">
@@ -55,6 +58,10 @@ export default class XApiRequestBody extends Vue {
 
     hasParams(param?: apidoc.Param[] | apidoc.Param): boolean {
         return apidoc.notEmpty(param);
+    }
+
+    checkbox(optinal: boolean): string {
+        return optinal ? 'mdi-checkbox-blank-outline' : 'mdi-check-box-outline';
     }
 }
 </script>
