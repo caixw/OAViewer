@@ -6,10 +6,7 @@ TreeSidebar 树型目录结构的侧边栏
 
 <template>
 <div>
-    <v-toolbar color="primary">
-        <img src="../assets/logo.svg" class="app-logo" alt="logo" />
-        <v-toolbar-title>APIDOC</v-toolbar-title>
-    </v-toolbar>
+    <x-app-bar />
 
     <template v-for="(item, index) in tree">
         <v-list v-if="item.items===undefined || item.items.length===0" :key="index">
@@ -33,19 +30,14 @@ TreeSidebar 树型目录结构的侧边栏
 </div>
 </template>
 
-<style scoped>
-.app-logo {
-    width: 32px;
-    height: 32px;
-    margin-right: 10px;
-}
-</style>
-
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { DocTree } from '@/components/DocTree.ts';
+import XAppBar from '@/components/AppBar.vue';
 
-@Component
+@Component({
+    components: { XAppBar }
+})
 export default class DocTreeSidebar extends Vue {
     get tree(): DocTree[] {
         return this.$store.state.docTree;

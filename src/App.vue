@@ -75,6 +75,9 @@
             <v-container fluid>
                 <router-view />
             </v-container>
+            <v-snackbar v-model="snackbar" top right :color="message.type">
+                {{$i18n.t(message.message)}}
+            </v-snackbar>
         </v-content>
         <v-footer>
             <p>&copy; 2019</p>
@@ -94,6 +97,8 @@ import VueI18n from 'vue-i18n';
 import Vuetify from 'vuetify';
 import { themes, dark } from '@/config/themes';
 import config from '@/config/config.ts';
+import * as store from '@/store/store.ts';
+import * as types from '@/store/types.ts';
 
 @Component
 export default class App extends Vue {
@@ -101,6 +106,17 @@ export default class App extends Vue {
     themeID = 'default'; // 初始的主题永远是 default
     themesMap = new Map<string, Object>();
     menus = config.nav;
+
+    get message(): store.Message {
+        return this.$store.state.message;
+    }
+
+    get snackbar(): boolean {
+        return this.$store.state.message.message !== '';
+    }
+    set snackbar(show: boolean) {
+        this.$store.commit(types.SET_MESSAGE, '');
+    }
 
     get title(): string {
         return this.$i18n.t(this.$store.state.title).toString();

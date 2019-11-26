@@ -34,7 +34,10 @@ export default class Api extends Vue {
         }
 
         if (url === '') {
-            // TODO error
+            this.$store.commit(types.SET_MESSAGE, {
+                message: 'error.url-empty',
+                type: 'warning'
+            });
             return;
         }
 
@@ -42,17 +45,31 @@ export default class Api extends Vue {
         const text = await resp.text();
         this.apidoc = JSON.parse(convert.xml2json(text, convertOptions)).apidoc;
         if (this.apidoc === undefined) {
-            // TODO error
+            throw new Error('error.apidoc-empty');
+        }
+
+        if (this.apidoc.api === undefined) {
+            throw new Error('error.api-empty');
+        }
+
+        const apis: apidoc.Api[] = [];
+        if (Array.isArray(this.apidoc.api)) {
+            apis.push(...this.apidoc.api);
+        } else {
+            apis.push(this.apidoc.api);
+        }
+
+        if (!apidoc.notEmpty(this.apidoc.response)) {
+            this.apis.push(...apis);
             return;
         }
 
-        this.apis.length = 0;
-        if (this.apidoc.api !== undefined) {
-            if (Array.isArray(this.apidoc.api)) {
-                this.apis.push(...this.apidoc.api);
-            } else {
-                this.apis.push(this.apidoc.api);
-            }
+        const resps = apidoc.arrays(this.apidoc.response);
+        for (const api of apis) {
+            const apiResp = apidoc.arrays(api.response);
+            apiResp.push(...resps);
+            api.response = apiResp;
+            this.apis.push(api);
         }
     }
 
@@ -62,8 +79,46 @@ export default class Api extends Vue {
 
         this.$store.commit(types.CLEAR_DOC_TREE);
 
-        await this.load();
+        try {
+            await this.load();
+        } catch (e) {
+            this.$store.commit(types.SET_MESSAGE, e.toString());
+        }
+
+        this.initFilter();
     }
+
+    initFilter() {
+        this.$store.commit(types.INIT_METHOD_FILTER, [
+            ['GET', true],
+            ['POST', true],
+            ['PUT', true],
+            ['PATCH', true],
+            ['DELETE', true],
+            ['HEAD', true],
+            ['OPTIONS', true]
+        ]);
+
+        if (this.apidoc === undefined) {
+            return;
+        }
+
+        if (this.apidoc.server !== undefined) {
+            const servers: Array<[string, boolean]> = [];
+            for (const srv of apidoc.arrays(this.apidoc.server)) {
+                servers.push([srv.$attr.name, true]);
+            }
+            this.$store.commit(types.INIT_SERVER_FILTER, servers)
+        }
+
+        if (this.apidoc.tag !== undefined) {
+            const tags: Array<[string, boolean]> = [];
+            for (const srv of apidoc.arrays(this.apidoc.tag)) {
+                tags.push([srv.$attr.name, true]);
+            }
+            this.$store.commit(types.INIT_TAG_FILTER, tags)
+        }
+    } // end initFilter
 }
 
 // xml-js 转换的配置项
