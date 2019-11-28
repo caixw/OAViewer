@@ -2,21 +2,28 @@
 
 <template>
     <div>
-        <x-app-bar />
-
         <v-list>
             <v-subheader>
                 <v-icon class="mr-2">mdi-server</v-icon>
                 {{$i18n.t('filter.server')}}
             </v-subheader>
 
-            <v-list-item v-for="(val, index) of Array.from(servers.keys())" :key="index">
-                <v-list-item-action>
-                    <v-checkbox v-model="selectedServers" :value="val" />
-                </v-list-item-action>
-                <v-list-item-title>{{val}}</v-list-item-title>
-            </v-list-item>
+            <v-list-item-group multiple v-model="selectedServers">
+                <v-list-item two-line v-for="(srv, index) of servers" :key="index" :value="srv.id">
+                    <template v-slot:default="{active,toggle}">
+                        <v-list-item-action>
+                            <v-checkbox v-model="active" @click="toggle" />
+                        </v-list-item-action>
+                        <v-list-item-content>
+                            <v-list-item-title>{{srv.id}}</v-list-item-title>
+                            <v-list-item-subtitle>{{srv.url}}</v-list-item-subtitle>
+                        </v-list-item-content>
+                    </template>
+                </v-list-item>
+            </v-list-item-group>
         </v-list>
+
+        <v-divider />
 
         <v-list>
             <v-subheader>
@@ -24,13 +31,21 @@
                 {{$i18n.t('filter.method')}}
             </v-subheader>
 
-            <v-list-item v-for="(val, index) of Array.from(methods.keys())" :key="index">
-                <v-list-item-action>
-                    <v-checkbox v-model="selectedMethods" :value="val" />
-                </v-list-item-action>
-                <v-list-item-title>{{val}}</v-list-item-title>
-            </v-list-item>
+            <v-list-item-group multiple v-model="selectedMethods">
+                <v-list-item v-for="(method, index) of methods" :key="index" :value="method">
+                    <template v-slot:default="{active,toggle}">
+                        <v-list-item-action>
+                            <v-checkbox v-model="active" @click="toggle" />
+                        </v-list-item-action>
+                        <v-list-item-content>
+                            <v-list-item-title>{{method}}</v-list-item-title>
+                        </v-list-item-content>
+                    </template>
+                </v-list-item>
+            </v-list-item-group>
         </v-list>
+
+        <v-divider />
 
         <v-list>
             <v-subheader>
@@ -38,54 +53,61 @@
                 {{$i18n.t('filter.tag')}}
             </v-subheader>
 
-            <v-list-item v-for="(val, index) of Array.from(tags.keys())" :key="index">
-                <v-list-item-action>
-                    <v-checkbox v-model="selectedTags" :value="val" />
-                </v-list-item-action>
-                <v-list-item-title>{{val}}</v-list-item-title>
-            </v-list-item>
+            <v-list-item-group multiple v-model="selectedTags">
+                <v-list-item v-for="(tag, index) of tags" :key="index" :value="tag.id">
+                    <template v-slot:default="{active,toggle}">
+                        <v-list-item-action>
+                            <v-checkbox @click="toggle" v-model="active" />
+                        </v-list-item-action>
+                        <v-list-item-content>
+                            <v-list-item-title>{{tag.title}}</v-list-item-title>
+                        </v-list-item-content>
+                    </template>
+                </v-list-item>
+            </v-list-item-group>
         </v-list>
     </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue, Watch } from 'vue-property-decorator';
-import XAppBar from '@/components/AppBar.vue';
-import * as types from '@/store/types.ts';
+import * as types from '@/store/types';
+import * as store from '@/store/store';
 
-@Component({
-    components: { XAppBar }
-})
+@Component
 export default class XAPISidebar extends Vue {
-    selectedMethods: string[] = Array.from(this.methods.keys());
-    selectedServers: string[] = Array.from(this.servers.keys());
-    selectedTags: string[] = Array.from(this.tags.keys());
-
-    @Watch('selectedMethods')
-    onMethodsChange(val: any, old: any) {
-        this.$store.commit(types.SET_METHOD_FILTER, this.selectedMethods);
+    get selectedMethods(): string[] {
+        return this.$store.state.method.filter;
+    }
+    set selectedMethods(val: string[]) {
+        this.$store.commit(types.SET_METHOD_FILTER, val);
     }
 
-    @Watch('selectedServers')
-    onServersChange(val: any, old: any) {
-        this.$store.commit(types.SET_SERVER_FILTER, this.selectedServers);
+    get selectedTags(): string[] {
+        return this.$store.state.tag.filter;
+    }
+    set selectedTags(val: string[]) {
+        this.$store.commit(types.SET_TAG_FILTER, val);
     }
 
-    @Watch('selectedTags')
-    onTagsChange(val: any, old: any) {
-        this.$store.commit(types.SET_TAG_FILTER, this.selectedTags);
+    get selectedServers(): string[] {
+        return this.$store.state.server.filter;
+    }
+    set selectedServers(val: string[]) {
+        console.log(val);
+        this.$store.commit(types.SET_SERVER_FILTER, val);
     }
 
-    get methods(): Map<string, boolean> {
-        return this.$store.state.filter.methods;
+    get methods(): string[] {
+        return this.$store.state.method.methods;
     }
 
-    get servers(): Map<string, boolean> {
-        return this.$store.state.filter.servers;
+    get servers(): store.Server[] {
+        return this.$store.state.server.servers;
     }
 
-    get tags(): Map<string, boolean> {
-        return this.$store.state.filter.tags;
+    get tags(): store.Tag[] {
+        return this.$store.state.tag.tags;
     }
 }
 </script>

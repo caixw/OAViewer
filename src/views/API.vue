@@ -2,16 +2,20 @@
 
 <template>
     <v-expansion-panels multiple>
-        <x-api v-for="(api, index) in apis" :key="index" :api="api" />
+        <x-api v-for="(api, index) in apis" :key="index" :api="api" v-show="visible(api)" />
     </v-expansion-panels>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import * as types from '@/store/types.ts';
+import * as types from '@/store/types';
+import * as store from '@/store/store';
 import XApi from '@/components/Api.vue';
-import * as apidoc from '@/components/apidoc.ts';
+import * as apidoc from '@/components/apidoc';
 import convert from 'xml-js';
+import Vuex from 'vuex';
+import Router from 'vue-router';
+import VueI18n from 'vue-i18n';
 
 @Component({
     components: { XApi }
@@ -19,6 +23,32 @@ import convert from 'xml-js';
 export default class Api extends Vue {
     apidoc?: apidoc.ApiDoc;
     apis: apidoc.Api[] = [];
+
+    visible(api: apidoc.Api): boolean {
+        const state = this.$store.state;
+
+        if (!state.method.filter.includes(api.$attr.method)) {
+            return false;
+        }
+
+        let visible = false;
+        const tags = apidoc.arrays(api.tag);
+        for (const tag of tags) {
+            if (state.tag.filter.includes(tag)) {
+                visible = true;
+                break;
+            }
+        }
+        if (!visible) { return false; }
+
+        const servers = apidoc.arrays(api.server);
+        for (const srv of servers) {
+            if (state.server.filter.includes(srv)) {
+                return visible;
+            }
+        }
+        return false;
+    }
 
     /**
      * 加载从 URL 中传递地来的地址参数
@@ -89,32 +119,26 @@ export default class Api extends Vue {
     }
 
     initFilter() {
-        this.$store.commit(types.INIT_METHOD_FILTER, [
-            ['GET', true],
-            ['POST', true],
-            ['PUT', true],
-            ['PATCH', true],
-            ['DELETE', true],
-            ['HEAD', true],
-            ['OPTIONS', true]
-        ]);
+        this.$store.commit(types.INIT_METHOD_FILTER, ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS']);
 
         if (this.apidoc === undefined) {
             return;
         }
 
-        if (this.apidoc.server !== undefined) {
-            const servers: Array<[string, boolean]> = [];
-            for (const srv of apidoc.arrays(this.apidoc.server)) {
-                servers.push([srv.$attr.name, true]);
-            }
-            this.$store.commit(types.INIT_SERVER_FILTER, servers)
+        const servers: store.Server[] = [];
+        for (const srv of apidoc.arrays(this.apidoc.server)) {
+            servers.push({
+                id: srv.$attr.name,
+                url: srv.$attr.url,
+                description: srv.$text
+            });
         }
+        this.$store.commit(types.INIT_SERVER_FILTER, servers)
 
         if (this.apidoc.tag !== undefined) {
-            const tags: Array<[string, boolean]> = [];
-            for (const srv of apidoc.arrays(this.apidoc.tag)) {
-                tags.push([srv.$attr.name, true]);
+            const tags: store.Tag[] = [];
+            for (const tag of apidoc.arrays(this.apidoc.tag)) {
+                tags.push({ id: tag.$attr.name, title: tag.$attr.title });
             }
             this.$store.commit(types.INIT_TAG_FILTER, tags)
         }

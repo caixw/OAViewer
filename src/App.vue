@@ -2,7 +2,14 @@
 
 <template>
     <v-app>
-        <v-navigation-drawer v-model="drawer" app :dark="dark">
+        <v-navigation-drawer v-model="drawer" app>
+            <template v-slot:prepend>
+                <v-toolbar color="primary">
+                    <img src="./assets/logo.svg" class="app-logo mr-3" alt="logo" />
+                    <v-toolbar-title class="text-uppercase">{{appName}}</v-toolbar-title>
+                </v-toolbar>
+            </template>
+
             <router-view name="sidebar" />
         </v-navigation-drawer>
 
@@ -15,9 +22,9 @@
                 <v-menu offset-y>
                     <template v-slot:activator="{on}">
                         <v-btn v-on="on" text>
-                            <v-icon class="menu-chk">mdi-dots-vertical-circle-outline</v-icon>
+                            <v-icon class="mr-1">mdi-dots-vertical-circle-outline</v-icon>
                             <span class="hidden-xs-only">{{$i18n.t('nav')}}</span>
-                            <v-icon class="menu-chk hidden-xs-only">mdi-menu-down</v-icon>
+                            <v-icon class="mr-1 hidden-xs-only">mdi-menu-down</v-icon>
                         </v-btn>
                     </template>
                     <v-list>
@@ -30,15 +37,15 @@
                 <v-menu offset-y>
                     <template v-slot:activator="{on}">
                         <v-btn v-on="on" text>
-                            <v-icon class="menu-chk">mdi-web</v-icon>
+                            <v-icon class="mr-1">mdi-web</v-icon>
                             <span class="hidden-xs-only">{{$i18n.t('language')}}</span>
-                            <v-icon class="menu-chk hidden-xs-only">mdi-menu-down</v-icon>
+                            <v-icon class="mr-1 hidden-xs-only">mdi-menu-down</v-icon>
                         </v-btn>
                     </template>
                     <v-list>
                         <v-list-item v-for="(val, key) in languages" :key="key" @click.stop="language=key">
-                            <v-icon class="menu-chk" v-if="language!==key">mdi-radiobox-blank</v-icon>
-                            <v-icon class="menu-chk" v-if="language===key">mdi-radiobox-marked</v-icon>
+                            <v-icon class="mr-1" v-if="language!==key">mdi-radiobox-blank</v-icon>
+                            <v-icon class="mr-1" v-if="language===key">mdi-radiobox-marked</v-icon>
                             <v-list-item-title>{{val.displayName}}</v-list-item-title>
                         </v-list-item>
                     </v-list>
@@ -47,23 +54,23 @@
                 <v-menu offset-y>
                     <template v-slot:activator="{on}">
                         <v-btn v-on="on" text>
-                            <v-icon class="menu-chk">mdi-brightness-6</v-icon>
+                            <v-icon class="mr-1">mdi-brightness-6</v-icon>
                             <span class="hidden-xs-only">{{$i18n.t('theme')}}</span>
-                            <v-icon class="menu-chk hidden-xs-only">mdi-menu-down</v-icon>
+                            <v-icon class="mr-1 hidden-xs-only">mdi-menu-down</v-icon>
                         </v-btn>
                     </template>
                     <v-list>
                         <v-list-item @click.stop="dark=!dark">
-                            <v-icon class="menu-chk" v-if="!dark">mdi-checkbox-blank-outline</v-icon>
-                            <v-icon class="menu-chk" v-if="dark">mdi-check-box-outline</v-icon>
+                            <v-icon class="mr-1" v-if="!dark">mdi-checkbox-blank-outline</v-icon>
+                            <v-icon class="mr-1" v-if="dark">mdi-check-box-outline</v-icon>
                             <v-list-item-title>{{$i18n.t('theme.dark')}}</v-list-item-title>
                         </v-list-item>
 
                         <v-divider />
 
                         <v-list-item v-for="name of themes" :key="name" @click="theme=name">
-                            <v-icon class="menu-chk" v-if="theme!==name">mdi-radiobox-blank</v-icon>
-                            <v-icon class="menu-chk" v-if="theme===name">mdi-radiobox-marked</v-icon>
+                            <v-icon class="mr-1" v-if="theme!==name">mdi-radiobox-blank</v-icon>
+                            <v-icon class="mr-1" v-if="theme===name">mdi-radiobox-marked</v-icon>
                             <v-list-item-title>{{$i18n.t('theme.'+name)}}</v-list-item-title>
                         </v-list-item>
                     </v-list>
@@ -72,9 +79,8 @@
         </v-app-bar>
 
         <v-content>
-            <v-container fluid>
-                <router-view />
-            </v-container>
+            <router-view />
+
             <v-snackbar v-model="snackbar" top right :color="message.type">
                 {{$i18n.t(message.message)}}
             </v-snackbar>
@@ -86,8 +92,9 @@
 </template>
 
 <style scoped>
-.menu-chk {
-    margin-right: 5px;
+.app-logo {
+    width: 32px;
+    height: 32px;
 }
 </style>
 
@@ -106,6 +113,7 @@ export default class App extends Vue {
     themeID = 'default'; // 初始的主题永远是 default
     themesMap = new Map<string, Object>();
     menus = config.nav;
+    appName = config.name;
 
     get message(): store.Message {
         return this.$store.state.message;

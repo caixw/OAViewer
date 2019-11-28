@@ -4,7 +4,6 @@ import * as vuex from 'vuex';
 import * as types from './types';
 import { DocTree } from '@/components/DocTree.ts';
 import config from '@/config/config.ts';
-import set = Reflect.set;
 
 const state: State = {
     htmlTitle: '',
@@ -13,12 +12,19 @@ const state: State = {
         message: '',
         type: 'error'
     },
-    filter: {
-        methods: new Map<string, boolean>(),
-        servers: new Map<string, boolean>(),
-        tags: new Map<string, boolean>()
+    docTree: [],
+    method: {
+        methods: [],
+        filter: []
     },
-    docTree: []
+    tag: {
+        tags: [],
+        filter: []
+    },
+    server: {
+        servers: [],
+        filter: []
+    }
 };
 
 export interface State {
@@ -26,16 +32,34 @@ export interface State {
     title: string
     message: Message
     docTree: DocTree[]
-    filter: {
-        methods: Map<string, boolean>,
-        servers: Map<string, boolean>,
-        tags: Map<string, boolean>
+    method: {
+        methods: string[],
+        filter: string[]
+    },
+    tag: {
+        tags: Tag[],
+        filter: string[]
+    },
+    server: {
+        servers: Server[],
+        filter: string[]
     }
 }
 
 export interface Message {
     message: string
     type: 'error' | 'warning' | 'info' | 'success'
+}
+
+export interface Tag {
+    id: string,
+    title: string
+}
+
+export interface Server {
+    id: string
+    url: string
+    description: string
 }
 
 const getters: vuex.GetterTree<State, State> = {
@@ -79,28 +103,38 @@ const mutations: vuex.MutationTree<State> = {
         state.docTree.push(tree);
     },
 
-    [types.INIT_METHOD_FILTER](state: State, kv: Array<[string, boolean]>) {
-        initFilter(state.filter.methods, kv);
+    // method
+    [types.INIT_METHOD_FILTER](state: State, methods: string[]) {
+        state.method.methods.push(...methods);
+        state.method.filter.push(...methods);
     },
-
-    [types.INIT_SERVER_FILTER](state: State, kv: Array<[string, boolean]>) {
-        initFilter(state.filter.servers, kv);
-    },
-
-    [types.INIT_TAG_FILTER](state: State, kv: Array<[string, boolean]>) {
-        initFilter(state.filter.tags, kv);
-    },
-
     [types.SET_METHOD_FILTER](state: State, methods: string[]) {
-        setFilter(state.filter.methods, methods);
+        state.method.filter.length = 0;
+        state.method.filter.push(...methods);
     },
 
+    // server
+    [types.INIT_SERVER_FILTER](state: State, servers: Server[]) {
+        state.server.servers.push(...servers);
+        for (const srv of servers) {
+            state.server.filter.push(srv.id);
+        }
+    },
     [types.SET_SERVER_FILTER](state: State, servers: string[]) {
-        setFilter(state.filter.methods, servers);
+        state.server.filter.length = 0;
+        state.server.filter.push(...servers);
     },
 
+    // tag
+    [types.INIT_TAG_FILTER](state: State, tags: Tag[]) {
+        state.tag.tags.push(...tags);
+        for (const tag of tags) {
+            state.tag.filter.push(tag.id);
+        }
+    },
     [types.SET_TAG_FILTER](state: State, tags: string[]) {
-        setFilter(state.filter.methods, tags);
+        state.tag.filter.length = 0;
+        state.tag.filter.push(...tags);
     }
 };
 
@@ -114,15 +148,3 @@ export const store: vuex.StoreOptions<State> = {
     mutations,
     actions
 };
-
-function initFilter(filter: Map<string, boolean>, kv: Array<[string, boolean]>) {
-    for (const v of kv) {
-        filter.set(v[0], v[1]);
-    }
-}
-
-function setFilter(filter: Map<string, boolean>, keys: string[]) {
-    for (const key of filter.keys()) {
-        filter.set(key, keys.includes(key));
-    }
-}

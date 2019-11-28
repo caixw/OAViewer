@@ -14,12 +14,19 @@ describe('store', () => {
             message: '',
             type: 'error'
         },
-        filter: {
-            methods: new Map<string, boolean>(),
-            servers: new Map<string, boolean>(),
-            tags: new Map<string, boolean>()
+        docTree: [],
+        method: {
+            methods: [],
+            filter: []
         },
-        docTree: []
+        tag: {
+            tags: [],
+            filter: []
+        },
+        server: {
+            servers: [],
+            filter: []
+        }
     };
 
     it('mutations SET_HTML_TITLE', () => {
@@ -61,15 +68,14 @@ describe('store', () => {
 
     it('mutations FILTER_METHODS', () => {
         const state = { ...o };
-        assert.strictEqual(state.filter.methods.size, 0);
-        (store.mutations as vuex.MutationTree<State>)[types.INIT_METHOD_FILTER](state, [['1', true], ['2', false]]);
-        assert.strictEqual(state.filter.methods.size, 2);
-        assert.isTrue(state.filter.methods.get('1'));
-        assert.isFalse(state.filter.methods.get('2'));
+        assert.lengthOf(state.method.methods, 0);
+        assert.lengthOf(state.method.filter, 0);
+        (store.mutations as vuex.MutationTree<State>)[types.INIT_METHOD_FILTER](state, ['1', '2', '3']);
+        assert.lengthOf(state.method.methods, 3);
+        assert.lengthOf(state.method.filter, 3);
 
         (store.mutations as vuex.MutationTree<State>)[types.SET_METHOD_FILTER](state, ['1', '2']);
-        assert.strictEqual(state.filter.methods.size, 2);
-        assert.isTrue(state.filter.methods.get('1'));
-        assert.isTrue(state.filter.methods.get('2'));
+        assert.lengthOf(state.method.methods, 3);
+        assert.lengthOf(state.method.filter, 2);
     });
 });

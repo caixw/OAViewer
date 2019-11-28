@@ -6,8 +6,6 @@ TreeSidebar 树型目录结构的侧边栏
 
 <template>
 <div>
-    <x-app-bar />
-
     <template v-for="(item, index) in tree">
         <v-list v-if="item.items===undefined || item.items.length===0" :key="index">
             <v-list-item :to="{hash:item.id}">
@@ -33,11 +31,8 @@ TreeSidebar 树型目录结构的侧边栏
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { DocTree } from '@/components/DocTree.ts';
-import XAppBar from '@/components/AppBar.vue';
 
-@Component({
-    components: { XAppBar }
-})
+@Component
 export default class DocTreeSidebar extends Vue {
     get tree(): DocTree[] {
         return this.$store.state.docTree;
