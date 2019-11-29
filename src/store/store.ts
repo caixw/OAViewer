@@ -105,7 +105,10 @@ const mutations: vuex.MutationTree<State> = {
 
     // method
     [types.INIT_METHOD_FILTER](state: State, methods: string[]) {
+        state.method.methods.length = 0;
         state.method.methods.push(...methods);
+
+        state.method.filter.length = 0;
         state.method.filter.push(...methods);
     },
     [types.SET_METHOD_FILTER](state: State, methods: string[]) {
@@ -115,7 +118,10 @@ const mutations: vuex.MutationTree<State> = {
 
     // server
     [types.INIT_SERVER_FILTER](state: State, servers: Server[]) {
+        state.server.servers.length = 0;
         state.server.servers.push(...servers);
+
+        state.server.filter.length = 0;
         for (const srv of servers) {
             state.server.filter.push(srv.id);
         }
@@ -127,7 +133,10 @@ const mutations: vuex.MutationTree<State> = {
 
     // tag
     [types.INIT_TAG_FILTER](state: State, tags: Tag[]) {
+        state.tag.tags.length = 0;
         state.tag.tags.push(...tags);
+
+        state.tag.filter.length = 0;
         for (const tag of tags) {
             state.tag.filter.push(tag.id);
         }

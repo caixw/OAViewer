@@ -57,9 +57,13 @@ export interface Api {
     request: RequestBody[] | RequestBody,
     response: RequestBody[] | RequestBody,
     callback: Callback,
-    tag: string[] | string,
-    server: string[] | string,
+    tag: ApiTag[] | ApiTag,
+    server: ApiTag[] | ApiTag,
     header: Param[] | Param
+}
+
+interface ApiTag {
+    $text: string
 }
 
 export interface RequestBody {

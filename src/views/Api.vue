@@ -32,22 +32,26 @@ export default class Api extends Vue {
         }
 
         let visible = false;
-        const tags = apidoc.arrays(api.tag);
-        for (const tag of tags) {
-            if (state.tag.filter.includes(tag)) {
+        const servers = apidoc.arrays(api.server);
+        for (const srv of servers) {
+            if (state.server.filter.includes(srv.$text)) {
                 visible = true;
                 break;
             }
         }
         if (!visible) { return false; }
 
-        const servers = apidoc.arrays(api.server);
-        for (const srv of servers) {
-            if (state.server.filter.includes(srv)) {
-                return visible;
+        const tags = apidoc.arrays(api.tag);
+        if (tags.length > 0) {
+            for (const tag of tags) {
+                if (state.tag.filter.includes(tag.$text)) {
+                    return true;
+                }
             }
+            return false;
         }
-        return false;
+
+        return visible;
     }
 
     /**
@@ -133,7 +137,7 @@ export default class Api extends Vue {
                 description: srv.$text
             });
         }
-        this.$store.commit(types.INIT_SERVER_FILTER, servers)
+        this.$store.commit(types.INIT_SERVER_FILTER, servers);
 
         if (this.apidoc.tag !== undefined) {
             const tags: store.Tag[] = [];
