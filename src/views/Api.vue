@@ -123,11 +123,17 @@ export default class Api extends Vue {
     }
 
     initFilter() {
-        this.$store.commit(types.INIT_METHOD_FILTER, ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS']);
-
         if (this.apidoc === undefined) {
             return;
         }
+
+        const methods: string[] = [];
+        for (const api of this.apis) {
+            if (!methods.includes(api.$attr.method)) {
+                methods.push(api.$attr.method);
+            }
+        }
+        this.$store.commit(types.INIT_METHOD_FILTER, methods);
 
         const servers: store.Server[] = [];
         for (const srv of apidoc.arrays(this.apidoc.server)) {
