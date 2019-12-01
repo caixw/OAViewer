@@ -8,6 +8,7 @@ export default {
     url: pkg.homepage, // 网站地址
     titleSuffix: pkg.name, // 网站标题的后缀，比如：`xx | suffix` 的 `suffix` 部分
     titleSeparator: ' | ', // 网站标题的分隔符，比如：`xx | suffix` 的 ` | ` 部分
+    defaultRender: 'markdown', // 默认的渲染工具，可以是 html 和 markdown
 
     // 导航菜单项
     nav: [

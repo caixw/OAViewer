@@ -19,7 +19,7 @@
                     <th>{{param.$attr.name}}</th>
                     <td>{{param.$attr.type}}</td>
                     <td>{{param.$attr.optional}}&nbsp;&nbsp;{{param.$attr.default}}</td>
-                    <td>{{param.description}}</td>
+                    <td v-html="getDescription(param)" />
                 </tr>
             </tbody>
         </template>
@@ -36,5 +36,9 @@ import * as apidoc from '@/components/apidoc.ts';
 export default class XApiParam extends Vue {
     @Prop() readonly params!: apidoc.Param[];
     @Prop() readonly title!: string;
+
+    getDescription(param: apidoc.Param): string {
+        return apidoc.getDescription(param.$attr.summary, param.description);
+    }
 };
 </script>

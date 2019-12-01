@@ -1,5 +1,8 @@
 // SPDX-License-Identifier: MIT
 
+import marked from 'marked';
+import config from '@/config/config';
+
 export interface ApiDoc {
     $attr: {
         version: string,
@@ -7,7 +10,7 @@ export interface ApiDoc {
         logo?: string
     },
     title: string,
-    description: string,
+    description: Description,
     contact?: {
         $attr: {
             url?: string,
@@ -18,8 +21,8 @@ export interface ApiDoc {
     license?: {
         $attr: {
             url: string
-        },
-        $text: string
+            text: string
+        }
     },
     tag?: Tag[] | Tag,
     server: Server[] | Server,
@@ -39,9 +42,10 @@ interface Server {
     $attr: {
         name: string,
         url: string,
-        deprecated?: string
+        deprecated?: string,
+        textType: string
     },
-    $text: string
+    $cdata: string
 }
 
 export interface Api {
@@ -52,7 +56,7 @@ export interface Api {
         deprecated?: string,
         id?: string
     },
-    description?: string,
+    description?: Description,
     path: Path,
     request: RequestBody[] | RequestBody,
     response: RequestBody[] | RequestBody,
@@ -76,7 +80,7 @@ export interface RequestBody {
         status?: number,
         mimetype?: string
     },
-    description?: string,
+    description?: Description,
     enum?: Enum[] | Enum,
     param?: Param[] | Param,
     example?: Example,
@@ -92,7 +96,7 @@ export interface Param {
         optional?: boolean,
         summary: string
     },
-    description?: string,
+    description?: Description,
     enum?: Enum[] | Enum,
     param?: Param[] | Param
 }
@@ -101,7 +105,7 @@ export interface Example {
     $attr: {
         mimetype: string
     },
-    $text: string
+    $cdata: string
 }
 
 interface Enum {
@@ -118,7 +122,7 @@ export interface Callback {
         summary: string,
         deprecated?: string,
     },
-    description?: string,
+    description?: Description,
     path: Path,
     request: RequestBody[] | RequestBody,
     response: RequestBody[] | RequestBody
@@ -132,6 +136,13 @@ export interface Path {
     query?: Param[] | Param
 }
 
+interface Description {
+    $attr: {
+        textType?: string
+    },
+    $cdata: string
+}
+
 /**
  * 将参数转换成数组返回
  * @param element
@@ -140,7 +151,6 @@ export function arrays<T>(element: T | T[] | undefined): T[] {
     if (element === undefined) {
         return [];
     }
-
     return Array.isArray(element) ? element : [element];
 }
 
@@ -153,4 +163,29 @@ export function notEmpty<T>(element: T | T[] | undefined): boolean {
         return false;
     }
     return Array.isArray(element) ? (element.length > 0) : true;
+}
+
+/**
+ * 返回正确的描述信息
+ * @param summary 简单的摘要，在没有 desc 时，返回此值
+ * @param desc
+ */
+export function getDescription(summary: string, desc?: Description): string {
+    if (desc === undefined) {
+        return summary;
+    }
+
+    switch (desc.$attr.textType) {
+        case 'html':
+            return desc.$cdata;
+        case 'markdown':
+            return marked(desc.$cdata);
+        case '':
+            if (config.defaultRender === 'markdown') {
+                return marked(desc.$cdata);
+            }
+            return desc.$cdata;
+        default:
+            return desc.$cdata;
+    }
 }

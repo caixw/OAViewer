@@ -140,7 +140,8 @@ export default class Api extends Vue {
             servers.push({
                 id: srv.$attr.name,
                 url: srv.$attr.url,
-                description: srv.$text
+                description: srv.$cdata,
+                descriptionType: srv.$attr.textType
             });
         }
         this.$store.commit(types.INIT_SERVER_FILTER, servers);

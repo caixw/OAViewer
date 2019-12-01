@@ -13,7 +13,7 @@
         </v-expansion-panel-header>
             <v-divider />
         <v-expansion-panel-content>
-            <section>{{api.description}}</section>
+            <section v-html="description" />
             <v-divider />
 
             <!-- api body -->
@@ -60,9 +60,9 @@
 </style>
 
 <script lang="ts">
+import { Component, Prop, Vue } from 'vue-property-decorator';
 import config from '@/config/config.ts';
 import * as apidoc from '@/components/apidoc.ts';
-import { Component, Prop, Vue } from 'vue-property-decorator';
 import XApiParam from '@/components/ApiParam.vue';
 import XApiRequest from '@/components/ApiRequest.vue';
 
@@ -79,6 +79,10 @@ export default class XApi extends Vue {
 
     get responses(): apidoc.RequestBody[] {
         return apidoc.arrays(this.api.response);
+    }
+
+    get description(): string {
+        return apidoc.getDescription(this.api.$attr.summary, this.api.description);
     }
 
     methodColor(method: string): string {

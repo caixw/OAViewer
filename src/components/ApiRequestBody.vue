@@ -9,7 +9,7 @@
                 <v-icon>{{checkbox(param.$attr.optional)}}</v-icon>
                 {{param.$attr.default}}
             </td>
-            <td>{{description}}</td>
+            <td v-html="description" />
         </tr>
         <template v-if="hasParams(param.param)">
             <x-api-request-body v-for="(p, index) of [...param.param]" :key="index" :prefix="namePrefix" :param="p" />
@@ -21,7 +21,9 @@
 import 'reflect-metadata';
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import { Fragment } from 'vue-fragment';
-import * as apidoc from '@/components/apidoc.ts';
+import * as apidoc from '@/components/apidoc';
+import marked from 'marked';
+import config from '@/config/config';
 
 @Component({
     name: 'x-api-request-body',
@@ -40,28 +42,15 @@ export default class XApiRequestBody extends Vue {
     }
 
     get description(): string {
-        let content = this.param.description ? this.param.description : this.param.$attr.summary;
-
-        const enums = apidoc.arrays(this.param.enum);
-        if (enums.length === 0) {
-            return content;
-        }
-
-        content += '<br /><ul>';
-        for (const e of enums) {
-            content += `<li>${e.$attr.value}: ${e.$text}</li>`;
-        }
-        content += '</ul>';
-
-        return content;
+        return apidoc.getDescription(this.param.$attr.summary, this.param.description);
     }
 
     hasParams(param?: apidoc.Param[] | apidoc.Param): boolean {
         return apidoc.notEmpty(param);
     }
 
-    checkbox(optinal: boolean): string {
-        return optinal ? 'mdi-checkbox-blank-outline' : 'mdi-check-box-outline';
+    checkbox(optional: boolean): string {
+        return optional ? 'mdi-checkbox-blank-outline' : 'mdi-check-box-outline';
     }
 }
 </script>

@@ -60,6 +60,7 @@ export interface Server {
     id: string
     url: string
     description: string
+    descriptionType: string
 }
 
 const getters: vuex.GetterTree<State, State> = {
