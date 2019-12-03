@@ -22,8 +22,6 @@ import 'reflect-metadata';
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import { Fragment } from 'vue-fragment';
 import * as apidoc from '@/components/apidoc';
-import marked from 'marked';
-import config from '@/config/config';
 
 @Component({
     name: 'x-api-request-body',
@@ -42,7 +40,8 @@ export default class XApiRequestBody extends Vue {
     }
 
     get description(): string {
-        return apidoc.getDescription(this.param.$attr.summary, this.param.description);
+        const dest = apidoc.getDescription(this.param.$attr.summary, this.param.description);
+        return apidoc.getDescriptionWithEnum(dest, this.param.enum);
     }
 
     hasParams(param?: apidoc.Param[] | apidoc.Param): boolean {

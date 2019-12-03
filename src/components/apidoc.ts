@@ -38,6 +38,7 @@ interface Tag {
     }
 }
 
+// Enum 需要实现 Description
 interface Server {
     $attr: {
         name: string,
@@ -60,7 +61,7 @@ export interface Api {
     path: Path,
     request: RequestBody[] | RequestBody,
     response: RequestBody[] | RequestBody,
-    callback: Callback,
+    callback?: Callback,
     tag: ApiTag[] | ApiTag,
     server: ApiTag[] | ApiTag,
     header: Param[] | Param
@@ -103,17 +104,22 @@ export interface Param {
 
 export interface Example {
     $attr: {
-        mimetype: string
+        mimetype: string,
+        summary?: string
     },
-    $cdata: string
+    $cdata: string,
+    description?: Description
 }
 
+// Enum 需要实现 Description
 interface Enum {
     $attr: {
         value: string,
+        summary?: string,
         deprecated?: string,
+        textType?: string,
     }
-    $text: string
+    $cdata?: string
 }
 
 export interface Callback {
@@ -168,24 +174,52 @@ export function notEmpty<T>(element: T | T[] | undefined): boolean {
 /**
  * 返回正确的描述信息
  * @param summary 简单的摘要，在没有 desc 时，返回此值
- * @param desc
+ * @param desc 需要同时兼容 Enum 和 Description 两个接口中有关 description 的描述
  */
-export function getDescription(summary: string, desc?: Description): string {
+export function getDescription(summary?: string, desc?: Description): string {
     if (desc === undefined) {
-        return summary;
+        return summary === undefined ? '' : summary;
     }
 
     switch (desc.$attr.textType) {
         case 'html':
-            return desc.$cdata;
+            return desc.$cdata ? desc.$cdata : '';
         case 'markdown':
-            return marked(desc.$cdata);
+            return desc.$cdata ? marked(desc!.$cdata) : '';
         case '':
             if (config.defaultRender === 'markdown') {
-                return marked(desc.$cdata);
+                return desc.$cdata ? marked(desc.$cdata) : '';
             }
-            return desc.$cdata;
+            return desc.$cdata ? desc.$cdata : '';
         default:
-            return desc.$cdata;
+            return desc.$cdata ? desc.$cdata : '';
     }
+}
+
+export function getDescriptionWithEnum(dest: string, enums?: Enum[] | Enum): string {
+    const es = arrays(enums);
+    if (es.length === 0) {
+        return dest;
+    }
+
+    dest += '<ul>';
+    for (const e of es) {
+        const enumDesc = getEnumDescription(e);
+        dest += '<li>' + e.$attr.value + ':' + enumDesc + '</li>';
+    }
+    dest += '</ul>';
+
+    return dest;
+}
+
+function getEnumDescription(e: Enum): string {
+    if (!e.$cdata) {
+        return e.$attr.summary ? e.$attr.summary : '';
+    }
+
+    const t = e.$attr.textType ? e.$attr.textType : config.defaultRender;
+    if (t === 'markdown') {
+        return marked(e.$cdata);
+    }
+    return e.$cdata;
 }

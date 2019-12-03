@@ -17,4 +17,4 @@ function loadLocaleMessages(): LocaleMessages {
         }
     });
     return messages;
-};
+}

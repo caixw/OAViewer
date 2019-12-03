@@ -13,7 +13,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                    <x-api-request-body :param="param" v-for="(param, index) of params" :key="index" />
+                    <x-api-request-body v-for="(param, index) of params" :key="index" :param="param" />
                 </tbody>
             </template>
         </v-simple-table>

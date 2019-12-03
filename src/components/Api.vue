@@ -11,40 +11,38 @@
             </h2>
             <span class="subtitle-1 text-right mr-3">{{api.$attr.summary}}</span>
         </v-expansion-panel-header>
-            <v-divider />
+        <v-divider />
+
         <v-expansion-panel-content>
-            <section v-html="description" />
+            <section v-if="api.description" v-html="description" />
             <v-divider />
 
             <!-- api body -->
             <div class="d-flex flex-column flex-sm-row justify-space-between">
                 <div class="flex-grow-1 flex-shrink-1 mr-2 left">
-                    <p class="subtitle-2">{{$i18n.t('api.request')}}</p>
+                    <p class="subtitle-1">{{$i18n.t('api.request')}}</p>
                     <x-api-param v-if="hasParams(api.path.param)" :params="[...api.path.param]" title="api.param" />
                     <x-api-param v-if="hasParams(api.path.query)" :params="[...api.path.query]" title="api.query" />
                     <x-api-param v-if="hasParams(api.header)" :params="[...api.header]" title="api.header" />
 
                     <template v-for="(request, index) of requests">
-                        <h3 :key="index">{{request.$attr.mimetype}}</h3>
+                        <h3 :key="index" class="subtitle-2 my-2 primary--text">{{request.$attr.mimetype}}</h3>
                         <x-api-param :key="`a-${index}`" v-if="hasParams(request.header)" :params="[...request.header]" title="api.header" />
-                        <x-api-request :key="`b-${index}`" :params="[request]" title="api.body" />
+                        <x-api-request :key="`b-${index}`" :params="[request]" title="api.body" v-if="showBody(request)" />
                     </template>
                 </div>
 
                 <div class="flex-grow-1 flex-shrink-1">
-                    <p class="subtitle-2">{{$i18n.t('api.response')}}</p>
+                    <p class="subtitle-1">{{$i18n.t('api.response')}}</p>
                     <template v-for="(request, index) of responses">
-                        <h3 :key="index">{{request.$attr.mimetype}}({{request.$attr.status}})</h3>
+                        <h3 :key="index" class="subtitle-2 my-2 primary--text">{{request.$attr.mimetype}}({{request.$attr.status}})</h3>
                         <x-api-param :key="`a-${index}`" v-if="hasParams(request.header)" :params="[...request.header]" title="api.header" />
-                        <x-api-request :key="`b-${index}`" :params="[request]" title="api.body" />
+                        <x-api-request :key="`b-${index}`" :params="[request]" title="api.body" v-if="showBody(request)" />
                     </template>
                 </div>
             </div>
 
-            <!-- callback -->
-            <div>
-                <p>callback</p>
-            </div>
+            <x-callback v-if="api.callback" :callback="api.callback" />
         </v-expansion-panel-content>
     </v-expansion-panel>
 </template>
@@ -60,18 +58,19 @@
 </style>
 
 <script lang="ts">
+import 'reflect-metadata';
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import config from '@/config/config.ts';
 import * as apidoc from '@/components/apidoc.ts';
 import XApiParam from '@/components/ApiParam.vue';
 import XApiRequest from '@/components/ApiRequest.vue';
+import XCallback from '@/components/Callback.vue';
 
 @Component({
-    components: { XApiParam, XApiRequest }
+    components: { XApiParam, XApiRequest, XCallback }
 })
 export default class XApi extends Vue {
-    @Prop()
-    api!: apidoc.Api;
+    @Prop() readonly api!: apidoc.Api;
 
     get requests(): apidoc.RequestBody[] {
         return apidoc.arrays(this.api.request);
@@ -83,6 +82,10 @@ export default class XApi extends Vue {
 
     get description(): string {
         return apidoc.getDescription(this.api.$attr.summary, this.api.description);
+    }
+
+    showBody(body: apidoc.RequestBody): boolean {
+        return body.$attr.type !== 'none';
     }
 
     methodColor(method: string): string {

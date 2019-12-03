@@ -18,7 +18,10 @@
                 <tr v-for="(param, index) of params" :key="index">
                     <th>{{param.$attr.name}}</th>
                     <td>{{param.$attr.type}}</td>
-                    <td>{{param.$attr.optional}}&nbsp;&nbsp;{{param.$attr.default}}</td>
+                    <td>
+                        <v-icon>{{checkbox(param.$attr.optional)}}</v-icon>
+                        {{param.$attr.default}}
+                    </td>
                     <td v-html="getDescription(param)" />
                 </tr>
             </tbody>
@@ -38,7 +41,12 @@ export default class XApiParam extends Vue {
     @Prop() readonly title!: string;
 
     getDescription(param: apidoc.Param): string {
-        return apidoc.getDescription(param.$attr.summary, param.description);
+        const dest = apidoc.getDescription(param.$attr.summary, param.description);
+        return apidoc.getDescriptionWithEnum(dest, param.enum);
+    }
+
+    checkbox(optional: boolean): string {
+        return optional ? 'mdi-checkbox-blank-outline' : 'mdi-check-box-outline';
     }
 };
 </script>
