@@ -4,9 +4,11 @@
     <v-expansion-panel>
         <v-expansion-panel-header class="my-0 py-0">
             <h2>
-                <v-chip class="action d-inline-block mr-3 text-center" :color="methodColor(api.$attr.method)" label>
-                    {{api.$attr.method}}
-                </v-chip>
+                <v-chip
+                    class="action d-inline-block mr-3 text-center"
+                    :color="methodColor(api.$attr.method)"
+                    label
+                >{{api.$attr.method}}</v-chip>
                 <span class="subtitle-1">{{api.path.$attr.path}}</span>
             </h2>
             <span class="subtitle-1 text-right mr-3">{{api.$attr.summary}}</span>
@@ -21,24 +23,28 @@
             <v-row>
                 <v-col cols="12" sm="6">
                     <p class="subtitle-1">{{$i18n.t('api.request')}}</p>
-                    <x-api-param v-if="hasParams(api.path.param)" :params="[...api.path.param]" title="api.param" />
-                    <x-api-param v-if="hasParams(api.path.query)" :params="[...api.path.query]" title="api.query" />
-                    <x-api-param v-if="hasParams(api.header)" :params="[...api.header]" title="api.header" />
+                    <x-api-param
+                        v-if="hasParams(api.path.param)"
+                        :params="[...api.path.param]"
+                        title="api.param"
+                    />
+                    <x-api-param
+                        v-if="hasParams(api.path.query)"
+                        :params="[...api.path.query]"
+                        title="api.query"
+                    />
+                    <x-api-param
+                        v-if="hasParams(api.header)"
+                        :params="[...api.header]"
+                        title="api.header"
+                    />
 
-                    <template v-for="(request, index) of requests">
-                        <h3 :key="index" class="subtitle-2 my-2 primary--text">{{request.$attr.mimetype}}</h3>
-                        <x-api-param :key="`a-${index}`" v-if="hasParams(request.header)" :params="[...request.header]" title="api.header" />
-                        <x-api-request :key="`b-${index}`" :params="[request]" title="api.body" v-if="showBody(request)" />
-                    </template>
+                    <x-api-request :requests="requests" />
                 </v-col>
 
                 <v-col cols="12" sm="6">
                     <p class="subtitle-1">{{$i18n.t('api.response')}}</p>
-                    <template v-for="(request, index) of responses">
-                        <h3 :key="index" class="subtitle-2 my-2 primary--text">{{request.$attr.mimetype}}({{request.$attr.status}})</h3>
-                        <x-api-param :key="`a-${index}`" v-if="hasParams(request.header)" :params="[...request.header]" title="api.header" />
-                        <x-api-request :key="`b-${index}`" :params="[request]" title="api.body" v-if="showBody(request)" />
-                    </template>
+                    <x-api-requests :requests="responses" />
                 </v-col>
             </v-row>
 
@@ -59,11 +65,11 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 import config from '@/config/config.ts';
 import * as apidoc from '@/components/apidoc.ts';
 import XApiParam from '@/components/ApiParam.vue';
-import XApiRequest from '@/components/ApiRequest.vue';
+import XApiRequests from '@/components/ApiRequests.vue';
 import XCallback from '@/components/Callback.vue';
 
 @Component({
-    components: { XApiParam, XApiRequest, XCallback }
+    components: { XApiParam, XApiRequests, XCallback }
 })
 export default class XApi extends Vue {
     @Prop() readonly api!: apidoc.Api;
@@ -78,10 +84,6 @@ export default class XApi extends Vue {
 
     get description(): string {
         return apidoc.getDescription(this.api.$attr.summary, this.api.description);
-    }
-
-    showBody(body: apidoc.RequestBody): boolean {
-        return body.$attr.type !== 'none';
     }
 
     methodColor(method: string): string {

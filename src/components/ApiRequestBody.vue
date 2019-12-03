@@ -12,7 +12,12 @@
             <td v-html="description" />
         </tr>
         <template v-if="hasParams(param.param)">
-            <x-api-request-body v-for="(p, index) of [...param.param]" :key="index" :prefix="namePrefix" :param="p" />
+            <x-api-request-body
+                v-for="(p, index) of [...param.param]"
+                :key="index"
+                :prefix="namePrefix"
+                :param="p"
+            />
         </template>
     </fragment>
 </template>
