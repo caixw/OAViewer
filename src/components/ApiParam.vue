@@ -17,7 +17,7 @@
             <tbody>
                 <tr v-for="(param, index) of params" :key="index">
                     <th>{{param.$attr.name}}</th>
-                    <td>{{param.$attr.type}}</td>
+                    <td>{{getTypeName(param)}}</td>
                     <td>
                         <v-icon>{{checkbox(param.$attr.optional)}}</v-icon>
                         {{param.$attr.default}}
@@ -39,6 +39,13 @@ import * as apidoc from '@/components/apidoc.ts';
 export default class XApiParam extends Vue {
     @Prop() readonly params!: apidoc.Param[];
     @Prop() readonly title!: string;
+
+    getTypeName(param: apidoc.Param): string {
+        if (param.$attr.array) {
+            return param.$attr.type + '[]';
+        }
+        return param.$attr.type;
+    }
 
     getDescription(param: apidoc.Param): string {
         const dest = apidoc.getDescription(param.$attr.summary, param.description);

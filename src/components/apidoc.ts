@@ -95,6 +95,7 @@ export interface Param {
         deprecated?: string,
         default?: string,
         optional?: boolean,
+        array?: boolean,
         summary: string
     },
     description?: Description,

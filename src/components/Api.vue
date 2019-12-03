@@ -18,8 +18,8 @@
             <v-divider />
 
             <!-- api body -->
-            <div class="d-flex flex-column flex-sm-row justify-space-between">
-                <div class="flex-grow-1 flex-shrink-1 mr-2 left">
+            <v-row>
+                <v-col cols="12" sm="6">
                     <p class="subtitle-1">{{$i18n.t('api.request')}}</p>
                     <x-api-param v-if="hasParams(api.path.param)" :params="[...api.path.param]" title="api.param" />
                     <x-api-param v-if="hasParams(api.path.query)" :params="[...api.path.query]" title="api.query" />
@@ -30,17 +30,17 @@
                         <x-api-param :key="`a-${index}`" v-if="hasParams(request.header)" :params="[...request.header]" title="api.header" />
                         <x-api-request :key="`b-${index}`" :params="[request]" title="api.body" v-if="showBody(request)" />
                     </template>
-                </div>
+                </v-col>
 
-                <div class="flex-grow-1 flex-shrink-1">
+                <v-col cols="12" sm="6">
                     <p class="subtitle-1">{{$i18n.t('api.response')}}</p>
                     <template v-for="(request, index) of responses">
                         <h3 :key="index" class="subtitle-2 my-2 primary--text">{{request.$attr.mimetype}}({{request.$attr.status}})</h3>
                         <x-api-param :key="`a-${index}`" v-if="hasParams(request.header)" :params="[...request.header]" title="api.header" />
                         <x-api-request :key="`b-${index}`" :params="[request]" title="api.body" v-if="showBody(request)" />
                     </template>
-                </div>
-            </div>
+                </v-col>
+            </v-row>
 
             <x-callback v-if="api.callback" :callback="api.callback" />
         </v-expansion-panel-content>
@@ -50,10 +50,6 @@
 <style scoped>
 .action {
     min-width: 4.8rem;
-}
-
-.left {
-    border-right: 1px dotted;
 }
 </style>
 

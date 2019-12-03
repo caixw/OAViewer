@@ -4,7 +4,7 @@
     <fragment>
         <tr>
             <th>{{prefix}}{{param.$attr.name}}</th>
-            <td>{{param.$attr.type}}</td>
+            <td>{{typeName}}</td>
             <td>
                 <v-icon>{{checkbox(param.$attr.optional)}}</v-icon>
                 {{param.$attr.default}}
@@ -37,6 +37,13 @@ export default class XApiRequestBody extends Vue {
         }
 
         return this.prefix + this.param.$attr.name + '.';
+    }
+
+    get typeName(): string {
+        if (this.param.$attr.array) {
+            return this.param.$attr.type + '[]';
+        }
+        return this.param.$attr.type;
     }
 
     get description(): string {

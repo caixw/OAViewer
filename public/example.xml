@@ -31,7 +31,7 @@
 
 可以是一个 HTML 内容
 ]]></description>
-		<response type="object" array="true" status="200" mimetype="application/json">
+		<response type="object" array="true" status="200" mimetype="application/json" summary="summary">
 			<param name="count" type="number" summary="summary"></param>
 			<param name="list" type="object" array="true" summary="list">
 				<param name="id" type="number" summary="用户 ID"></param>
