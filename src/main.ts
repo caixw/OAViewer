@@ -32,12 +32,12 @@ const router = new Router({
     mode: mode,
     base: process.env.BASE_URL,
     routes: routes,
-    scrollBehavior (to: Route, from: Route, savedPosition: any) {
+    scrollBehavior(to: Route, from: Route, savedPosition: any) {
         if (savedPosition) {
             return savedPosition;
         }
         if (to.hash) {
-            return { selector: to.hash }
+            return { selector: to.hash };
         }
 
         return false;

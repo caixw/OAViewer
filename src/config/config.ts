@@ -36,4 +36,4 @@ export default {
         ['options', 'success'],
         ['connect', 'success']
     ])
-}
+};

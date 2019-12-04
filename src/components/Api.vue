@@ -39,7 +39,7 @@
                         title="api.header"
                     />
 
-                    <x-api-request :requests="requests" />
+                    <x-api-requests :requests="requests" />
                 </v-col>
 
                 <v-col cols="12" sm="6">
@@ -94,7 +94,7 @@ export default class XApi extends Vue {
         return 'info';
     }
 
-    hasParams(param?: apidoc.Param[] | apidoc.Param | apidoc.RequestBody[] | apidoc.RequestBody): boolean {
+    hasParams(param?: apidoc.Param[] | apidoc.Param): boolean {
         return apidoc.notEmpty(param);
     }
 }

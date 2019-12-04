@@ -151,7 +151,7 @@ export default class Api extends Vue {
             for (const tag of apidoc.arrays(this.apidoc.tag)) {
                 tags.push({ id: tag.$attr.name, title: tag.$attr.title });
             }
-            this.$store.commit(types.INIT_TAG_FILTER, tags)
+            this.$store.commit(types.INIT_TAG_FILTER, tags);
         }
     } // end initFilter
 }
@@ -162,5 +162,5 @@ const convertOptions = {
     attributesKey: '$attr',
     textKey: '$text',
     cdataKey: '$cdata'
-}
+};
 </script>

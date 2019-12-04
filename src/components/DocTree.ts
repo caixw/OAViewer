@@ -75,7 +75,7 @@ export class DocTree {
         this.items.push(tree);
     }
 
-     // 清除子项
+    // 清除子项
     clear(): void {
         if (this.items !== undefined) {
             this.items.length = 0;

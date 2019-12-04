@@ -79,7 +79,7 @@ export interface RequestBody {
         summary: string,
         array?: boolean,
         status?: number,
-        mimetype?: string
+        mimetype: string
     },
     description?: Description,
     enum?: Enum[] | Enum,
@@ -183,17 +183,17 @@ export function getDescription(summary?: string, desc?: Description): string {
     }
 
     switch (desc.$attr.textType) {
-        case 'html':
-            return desc.$cdata ? desc.$cdata : '';
-        case 'markdown':
-            return desc.$cdata ? marked(desc!.$cdata) : '';
-        case '':
-            if (config.defaultRender === 'markdown') {
-                return desc.$cdata ? marked(desc.$cdata) : '';
-            }
-            return desc.$cdata ? desc.$cdata : '';
-        default:
-            return desc.$cdata ? desc.$cdata : '';
+    case 'html':
+        return desc.$cdata ? desc.$cdata : '';
+    case 'markdown':
+        return desc.$cdata ? marked(desc!.$cdata) : '';
+    case '':
+        if (config.defaultRender === 'markdown') {
+            return desc.$cdata ? marked(desc.$cdata) : '';
+        }
+        return desc.$cdata ? desc.$cdata : '';
+    default:
+        return desc.$cdata ? desc.$cdata : '';
     }
 }
 

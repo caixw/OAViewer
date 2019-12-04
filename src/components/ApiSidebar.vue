@@ -94,7 +94,6 @@ export default class XAPISidebar extends Vue {
         return this.$store.state.server.filter;
     }
     set selectedServers(val: string[]) {
-        console.log(val);
         this.$store.commit(types.SET_SERVER_FILTER, val);
     }
 
