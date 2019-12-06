@@ -2,7 +2,6 @@
 
 import * as router from 'vue-router';
 import Home from '@/views/Home.vue';
-import About from '@/views/About.vue';
 import Api from '@/views/Api.vue';
 import DocTreeSidebar from '@/components/DocTreeSidebar.vue';
 import ApiSidebar from '@/components/ApiSidebar.vue';
@@ -18,10 +17,5 @@ export const routes: router.RouteConfig[] = [
         path: '/api',
         name: 'api',
         components: { default: Api, 'sidebar': ApiSidebar }
-    },
-    {
-        path: '/about',
-        name: 'about',
-        components: { default: About, 'sidebar': DocTreeSidebar }
     }
 ];

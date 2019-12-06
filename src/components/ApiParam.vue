@@ -2,7 +2,7 @@
 
 <template>
 <div>
-    <h4 class="subtitle-2">{{$i18n.t(title)}}</h4>
+    <h5 class="subtitle-2">{{$i18n.t(title)}}</h5>
 
     <v-simple-table dense>
         <template v-slot:default>

@@ -1,0 +1,6 @@
+@charset "utf-8";
+
+.deprecated {
+    text-decoration-line: line-through;
+    text-decoration-color: var(--v-error-base);
+}

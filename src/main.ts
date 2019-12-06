@@ -10,6 +10,7 @@ import * as locale from '@/config/locale';
 import * as store from './store/store';
 import { mode, routes } from '@/config/router';
 import App from '@/App.vue';
+import '@/assets/style.css';
 
 Vue.use(Vuex);
 Vue.use(Vuetify);
@@ -26,7 +27,13 @@ const i18n = new VueI18n({
     messages: locale.messages
 });
 
-const vuetify = new Vuetify();
+const vuetify = new Vuetify({
+    theme: {
+        options: {
+            customProperties: true // 可以使用 CSS 变量
+        }
+    }
+});
 
 const router = new Router({
     mode: mode,

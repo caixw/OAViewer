@@ -1,20 +1,21 @@
 <!-- SPDX-License-Identifier: MIT -->
 
 <template>
-    <div>
-        <x-doc-tree v-for="(item, index) of tree" :key="index" :tree="item" :level="2" />
-    </div>
+    <fragment>
+        <x-doc-tree v-for="(item, index) of tree" :key="index" :tree="item" :level="2" class="px-4" />
+    </fragment>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
+import { Fragment } from 'vue-fragment';
 import XDocTree from '@/components/DocTree.vue';
 import { DocTree } from '@/components/DocTree.ts';
 import { apidocYAML, types as specTypes } from '@/config/types.ts';
 import * as types from '@/store/types.ts';
 
 @Component({
-    components: { XDocTree }
+    components: { XDocTree, Fragment }
 })
 export default class Home extends Vue {
     get tree(): DocTree[] {

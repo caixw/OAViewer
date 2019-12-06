@@ -83,10 +83,11 @@
 
             <v-snackbar v-model="snackbar" top right :color="message.type">
                 {{$i18n.t(message.message)}}
+                <v-btn text color="primary" @click="snackbar=false">{{$i18n.t('close')}}</v-btn>
             </v-snackbar>
         </v-content>
         <v-footer>
-            <p>&copy; 2019</p>
+            <p>&copy; 2019 by <a :href="appURL">{{appName}}</a></p>
         </v-footer>
     </v-app>
 </template>
@@ -102,8 +103,8 @@
 import { Component, Vue } from 'vue-property-decorator';
 import VueI18n from 'vue-i18n';
 import Vuetify from 'vuetify';
-import { themes, dark } from '@/config/themes';
 import config from '@/config/config.ts';
+import * as themes from '@/config/themes';
 import * as store from '@/store/store.ts';
 import * as types from '@/store/types.ts';
 
@@ -114,6 +115,7 @@ export default class App extends Vue {
     themesMap = new Map<string, Object>();
     menus = config.nav;
     appName = config.name;
+    appURL = config.url;
 
     get message(): store.Message {
         return this.$store.state.message;
@@ -172,17 +174,21 @@ export default class App extends Vue {
     }
 
     created() {
-        this.dark = dark;
+        this.dark = themes.dark;
+        const origin = this.$vuetify.theme.themes;
 
-        for (let key in themes) {
-            this.themesMap.set(key, themes[key]);
+        for (let key in themes.themes) {
+            let obj = {
+                dark: { ...origin.dark, ...themes.themes[key].dark },
+                light: { ...origin.light, ...themes.themes[key].light }
+            };
+            this.themesMap.set(key, obj);
         }
 
-        const origin = this.$vuetify.theme.themes;
         if (!this.themesMap.has('default')) {
-            this.themesMap.set('default', Object.assign({}, origin));
+            this.themesMap.set('default', { ...origin });
         } else {
-            this.$vuetify.theme.themes = Object.assign(origin, this.themesMap.get('default'));
+            this.$vuetify.theme.themes = { ...origin, ...this.themesMap.get('default') };
         }
     }
 }

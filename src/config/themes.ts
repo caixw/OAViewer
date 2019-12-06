@@ -19,12 +19,14 @@ export const themes: { [name: string]: Theme } = {
         dark: {
             primary: '#4caf50',
             secondary: '#8bc34a',
-            accent: '#009688'
+            accent: '#009688',
+            success: '#1671b7'
         },
         light: {
             primary: '#4caf50',
             secondary: '#8bc34a',
-            accent: '#009688'
+            accent: '#009688',
+            success: '#1671b7'
         }
     }
 };

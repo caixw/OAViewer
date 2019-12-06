@@ -9,7 +9,9 @@ export interface ApiDoc {
         lang?: string,
         logo?: string
     },
-    title: string,
+    title: {
+        $text: string
+    },
     description: Description,
     contact?: {
         $attr: {

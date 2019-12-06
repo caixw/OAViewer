@@ -3,7 +3,7 @@
 <template>
     <v-expansion-panel>
         <v-expansion-panel-header class="my-0 py-0">
-            <h2>
+            <h2 :class="api.$attr.deprecated ? 'deprecated' : ''">
                 <v-chip
                     class="action d-inline-block mr-3 text-center"
                     :color="methodColor(api.$attr.method)"
@@ -87,7 +87,7 @@ export default class XApi extends Vue {
     }
 
     methodColor(method: string): string {
-        const color = config.methodsColor.get(method.toLowerCase());
+        const color = config.methodsColors.get(method.toLowerCase());
         if (color !== undefined) {
             return color;
         }

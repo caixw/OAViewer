@@ -19,15 +19,11 @@ export default {
         {
             langID: 'nav.api',
             url: 'api'
-        },
-        {
-            langID: 'nav.about',
-            url: 'about'
         }
-    ],
+    ] as Array<Nav>,
 
     // 各类请求方法的颜色
-    methodsColor: new Map<string, string>([
+    methodsColors: new Map<string, string>([
         ['delete', 'error'],
         ['put', 'warning'],
         ['patch', 'warning'],
@@ -35,5 +31,45 @@ export default {
         ['get', 'success'],
         ['options', 'success'],
         ['connect', 'success']
-    ])
+    ]),
+
+    // HTTP 状态的颜色
+    statusColors: [
+        {
+            min: 100,
+            max: 199,
+            color: 'success'
+        },
+        {
+            min: 200,
+            max: 299,
+            color: 'success'
+        },
+        {
+            min: 300,
+            max: 399,
+            color: 'warning'
+        },
+        {
+            min: 400,
+            max: 499,
+            color: 'error'
+        },
+        {
+            min: 500,
+            max: 499,
+            color: 'error'
+        }
+    ] as Array<StatusColor>
 };
+
+interface Nav {
+    langID: string
+    url: string
+}
+
+interface StatusColor {
+    min: number
+    max: number
+    color: string
+}

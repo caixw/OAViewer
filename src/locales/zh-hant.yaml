@@ -1,7 +1,8 @@
 # SPDX-License-Identifier: MIT
 
-displayName: 繁體中文
+displayName: 簡體中文
 language: 語言
+close: 關閉
 
 theme: 主題
 theme.dark: 深色模式
@@ -12,7 +13,30 @@ theme.default: 默認
 nav: 導航
 nav.home: 首頁
 nav.api: API
-nav.about: 關於
+
+# 類型表格頭
+api.var: 變量
+api.type: 類型
+api.value: 值
+api.description: 描述
+
+api.request: 請求
+api.header: 報頭
+api.query: 查詢參數
+api.param: 路徑參數
+api.body: 報文
+api.response: 返回
+api.callback: 回調
+api.example: 示例代碼
+
+# 過濾
+filter.method: 請求方法
+filter.tag: 標簽
+filter.server: 服務
+
+error.url-empty: URL 不能為空
+error.apidoc-empty: apidoc 文檔內容為空
+error.api-empty: apidoc 文檔中沒有 API 文檔
 
 # type 開頭的是文檔中有關類型描述的相關內容
 #
@@ -245,4 +269,3 @@ doc.spec.content: |
 about.about: 關於
 about.about.content: |
   <p>apidoc.tools 為 apidoc 的官方網站，提供了對文檔格式的介紹以及 <abbr title="Application Programming Interface">API</abbr> 文件的查看等功能。代碼拖管於 <a href="https://github.com/caixw/apidoc">Github.com</a>。</p>
-

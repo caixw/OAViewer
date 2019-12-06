@@ -2,6 +2,7 @@
 
 displayName: 简体中文
 language: 语言
+close: 关闭
 
 theme: 主题
 theme.dark: 深色模式
@@ -12,7 +13,6 @@ theme.default: 默认
 nav: 导航
 nav.home: 首页
 nav.api: API
-nav.about: 关于
 
 # 类型表格头
 api.var: 变量
@@ -27,6 +27,7 @@ api.param: 路径参数
 api.body: 报文
 api.response: 返回
 api.callback: 回调
+api.example: 示例代码
 
 # 过滤
 filter.method: 请求方法
@@ -268,4 +269,3 @@ doc.spec.content: |
 about.about: 关于
 about.about.content: |
     <p>apidoc.tools 为 apidoc 的官方网站，提供了对文档格式的介绍以及 <abbr title="Application Programming Interface">API</abbr> 文件的查看等功能。代码拖管于 <a href="https://github.com/caixw/apidoc">Github.com</a>。</p>
-

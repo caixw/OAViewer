@@ -1,29 +1,41 @@
 <!-- SPDX-License-Identifier: MIT -->
 
 <template>
-    <v-expansion-panels multiple>
-        <x-api v-for="(api, index) in apis" :key="index" :api="api" v-show="visible(api)" />
-    </v-expansion-panels>
+    <fragment v-if="apidoc!==null">
+        <article class="mx-6 my-6">
+            <h2 class="mb-3">{{apidoc.title.$text}}</h2>
+            <section v-html="description" />
+        </article>
+
+        <v-expansion-panels multiple>
+            <x-api v-for="(api, index) in apis" :key="index" :api="api" v-show="visible(api)" />
+        </v-expansion-panels>
+    </fragment>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
+import { Fragment } from 'vue-fragment';
+import convert from 'xml-js';
 import * as types from '@/store/types';
 import * as store from '@/store/store';
 import XApi from '@/components/Api.vue';
 import * as apidoc from '@/components/apidoc';
-import convert from 'xml-js';
-import Vuex from 'vuex';
-import Router from 'vue-router';
-import VueI18n from 'vue-i18n';
 
 @Component({
-    components: { XApi }
+    components: { XApi, Fragment }
 })
 export default class Api extends Vue {
-    apidoc?: apidoc.ApiDoc;
+    apidoc: apidoc.ApiDoc | null = null;
     apis: apidoc.Api[] = [];
 
+    get description(): string {
+        return apidoc.getDescription('', this.apidoc!.description);
+    }
+
+    /**
+     * 当前的 API 是否需要显示
+     */
     visible(api: apidoc.Api): boolean {
         const state = this.$store.state;
 
@@ -78,32 +90,39 @@ export default class Api extends Vue {
         const resp = await fetch(url);
         const text = await resp.text();
         this.apidoc = JSON.parse(convert.xml2json(text, convertOptions)).apidoc;
-        if (this.apidoc === undefined) {
+        if (this.apidoc === null) {
             throw new Error('error.apidoc-empty');
         }
 
-        if (this.apidoc.api === undefined) {
+        if (this.apidoc!.api === undefined) {
             throw new Error('error.api-empty');
         }
 
         const apis: apidoc.Api[] = [];
-        if (Array.isArray(this.apidoc.api)) {
-            apis.push(...this.apidoc.api);
+        if (Array.isArray(this.apidoc!.api)) {
+            apis.push(...this.apidoc!.api);
         } else {
-            apis.push(this.apidoc.api);
+            apis.push(this.apidoc!.api);
         }
 
-        if (!apidoc.notEmpty(this.apidoc.response)) {
+        if (!apidoc.notEmpty(this.apidoc!.response)) {
             this.apis.push(...apis);
             return;
         }
 
-        const resps = apidoc.arrays(this.apidoc.response);
+        const resps = apidoc.arrays(this.apidoc!.response);
         for (const api of apis) {
             const apiResp = apidoc.arrays(api.response);
             apiResp.push(...resps);
             api.response = apiResp;
             this.apis.push(api);
+        }
+
+        this.$store.commit(types.SET_TITLE, this.apidoc.title.$text);
+        this.$store.commit(types.SET_HTML_TITLE, this.apidoc.title.$text);
+
+        if (this.apidoc.$attr.lang !== undefined) {
+            this.$i18n.locale = this.apidoc.$attr.lang;
         }
     }
 
@@ -123,7 +142,7 @@ export default class Api extends Vue {
     }
 
     initFilter() {
-        if (this.apidoc === undefined) {
+        if (this.apidoc === null) {
             return;
         }
 
@@ -136,7 +155,7 @@ export default class Api extends Vue {
         this.$store.commit(types.INIT_METHOD_FILTER, methods);
 
         const servers: store.Server[] = [];
-        for (const srv of apidoc.arrays(this.apidoc.server)) {
+        for (const srv of apidoc.arrays(this.apidoc!.server)) {
             servers.push({
                 id: srv.$attr.name,
                 url: srv.$attr.url,
@@ -146,9 +165,9 @@ export default class Api extends Vue {
         }
         this.$store.commit(types.INIT_SERVER_FILTER, servers);
 
-        if (this.apidoc.tag !== undefined) {
+        if (this.apidoc!.tag !== undefined) {
             const tags: store.Tag[] = [];
-            for (const tag of apidoc.arrays(this.apidoc.tag)) {
+            for (const tag of apidoc.arrays(this.apidoc!.tag)) {
                 tags.push({ id: tag.$attr.name, title: tag.$attr.title });
             }
             this.$store.commit(types.INIT_TAG_FILTER, tags);
