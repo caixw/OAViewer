@@ -1,9 +1,5 @@
 <!-- SPDX-License-Identifier: MIT -->
 
-<!--
-TreeSidebar 树型目录结构的侧边栏
--->
-
 <template>
 <div>
     <template v-for="(item, index) in tree">

@@ -6,6 +6,7 @@ import config from '@/config/config';
 export interface ApiDoc {
     $attr: {
         version: string,
+        created?: string,
         lang?: string,
         logo?: string
     },

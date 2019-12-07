@@ -86,8 +86,8 @@
                 <v-btn text color="primary" @click="snackbar=false">{{$i18n.t('close')}}</v-btn>
             </v-snackbar>
         </v-content>
-        <v-footer>
-            <p>&copy; 2019 by <a :href="appURL">{{appName}}</a></p>
+        <v-footer class="flex-column align-start">
+            <router-view name="footer" />
         </v-footer>
     </v-app>
 </template>
@@ -115,7 +115,6 @@ export default class App extends Vue {
     themesMap = new Map<string, Object>();
     menus = config.nav;
     appName = config.name;
-    appURL = config.url;
 
     get message(): store.Message {
         return this.$store.state.message;

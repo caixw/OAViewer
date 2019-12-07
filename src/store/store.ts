@@ -4,6 +4,7 @@ import * as vuex from 'vuex';
 import * as types from './types';
 import { DocTree } from '@/components/DocTree.ts';
 import config from '@/config/config.ts';
+import * as apidoc from '@/components/apidoc.ts';
 
 const state: State = {
     htmlTitle: '',
@@ -24,7 +25,8 @@ const state: State = {
     server: {
         servers: [],
         filter: []
-    }
+    },
+    apiFooter: {}
 };
 
 export interface State {
@@ -32,6 +34,8 @@ export interface State {
     title: string
     message: Message
     docTree: DocTree[]
+
+    // api 相关的功能
     method: {
         methods: string[],
         filter: string[]
@@ -43,6 +47,18 @@ export interface State {
     server: {
         servers: Server[],
         filter: string[]
+    },
+    apiFooter: {
+        created?: string,
+        license?: {
+            url: string,
+            text: string
+        },
+        contact?: {
+            url?: string,
+            email?: string,
+            name: string
+        }
     }
 }
 
@@ -145,6 +161,23 @@ const mutations: vuex.MutationTree<State> = {
     [types.SET_TAG_FILTER](state: State, tags: string[]) {
         state.tag.filter.length = 0;
         state.tag.filter.push(...tags);
+    },
+
+    // api footer
+    [types.SET_API_FOOTER](state: State, obj: apidoc.ApiDoc) {
+        state.apiFooter.created = obj.$attr.created;
+
+        if (obj.license !== undefined) {
+            state.apiFooter.license = obj.license.$attr;
+        }
+
+        if (obj.contact !== undefined) {
+            state.apiFooter.contact = {
+                url: obj.contact.$attr.url,
+                email: obj.contact.$attr.email,
+                name: obj.contact.$text
+            }
+        }
     }
 };
 

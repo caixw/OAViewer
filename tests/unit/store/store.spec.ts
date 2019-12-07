@@ -26,7 +26,8 @@ describe('store', () => {
         server: {
             servers: [],
             filter: []
-        }
+        },
+        apiFooter: {}
     };
 
     it('mutations SET_HTML_TITLE', () => {

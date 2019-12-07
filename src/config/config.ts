@@ -7,8 +7,14 @@ export default {
     name: pkg.name, // 程序名称
     url: pkg.homepage, // 网站地址
     titleSuffix: pkg.name, // 网站标题的后缀，比如：`xx | suffix` 的 `suffix` 部分
+    repo: pkg.repository.url,
     titleSeparator: ' | ', // 网站标题的分隔符，比如：`xx | suffix` 的 ` | ` 部分
     defaultRender: 'markdown', // 默认的渲染工具，可以是 html 和 markdown
+
+    license: {
+        name: '署名 4.0 国际 (CC BY 4.0)',
+        url: 'https://creativecommons.org/licenses/by/4.0/deed.zh'
+    },
 
     // 导航菜单项
     nav: [

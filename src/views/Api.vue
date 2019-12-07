@@ -76,7 +76,7 @@ export default class Api extends Vue {
             const first = q[0];
             url = first === null ? '' : first;
         } else {
-            url = q;
+            url = q || '';
         }
 
         if (url === '') {
@@ -155,7 +155,7 @@ export default class Api extends Vue {
         this.$store.commit(types.INIT_METHOD_FILTER, methods);
 
         const servers: store.Server[] = [];
-        for (const srv of apidoc.arrays(this.apidoc!.server)) {
+        for (const srv of apidoc.arrays(this.apidoc.server)) {
             servers.push({
                 id: srv.$attr.name,
                 url: srv.$attr.url,
@@ -165,13 +165,15 @@ export default class Api extends Vue {
         }
         this.$store.commit(types.INIT_SERVER_FILTER, servers);
 
-        if (this.apidoc!.tag !== undefined) {
+        if (this.apidoc.tag !== undefined) {
             const tags: store.Tag[] = [];
-            for (const tag of apidoc.arrays(this.apidoc!.tag)) {
+            for (const tag of apidoc.arrays(this.apidoc.tag)) {
                 tags.push({ id: tag.$attr.name, title: tag.$attr.title });
             }
             this.$store.commit(types.INIT_TAG_FILTER, tags);
         }
+
+        this.$store.commit(types.SET_API_FOOTER, this.apidoc);
     } // end initFilter
 }
 

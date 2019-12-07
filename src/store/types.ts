@@ -20,3 +20,6 @@ export const INIT_SERVER_FILTER = 'initServerFilter';
 
 export const SET_TAG_FILTER = 'setTagFilter';
 export const INIT_TAG_FILTER = 'initTagFilter';
+
+// api footer
+export const SET_API_FOOTER = 'setApiFooter';

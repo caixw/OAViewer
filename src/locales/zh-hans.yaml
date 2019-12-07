@@ -14,6 +14,11 @@ nav: 导航
 nav.home: 首页
 nav.api: API
 
+footer.home: 当前页面内容托管于{host}，并采用{license}进行许可。
+footer.api.license: 当前文档由{license}进行许可
+footer.api.created: 文档生成于{created}
+footer.api.created_contact: 文档生成于{created}，有问题可联系{contact}。
+
 # 类型表格头
 api.var: 变量
 api.type: 类型
