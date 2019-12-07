@@ -41,11 +41,11 @@ export interface State {
         filter: string[]
     },
     tag: {
-        tags: Tag[],
+        tags: apidoc.Tag[],
         filter: string[]
     },
     server: {
-        servers: Server[],
+        servers: apidoc.Server[],
         filter: string[]
     },
     apiFooter: {
@@ -65,18 +65,6 @@ export interface State {
 export interface Message {
     message: string
     type: 'error' | 'warning' | 'info' | 'success'
-}
-
-export interface Tag {
-    id: string,
-    title: string
-}
-
-export interface Server {
-    id: string
-    url: string
-    description: string
-    descriptionType: string
 }
 
 const getters: vuex.GetterTree<State, State> = {
@@ -134,13 +122,13 @@ const mutations: vuex.MutationTree<State> = {
     },
 
     // server
-    [types.INIT_SERVER_FILTER](state: State, servers: Server[]) {
+    [types.INIT_SERVER_FILTER](state: State, servers: apidoc.Server[]) {
         state.server.servers.length = 0;
         state.server.servers.push(...servers);
 
         state.server.filter.length = 0;
         for (const srv of servers) {
-            state.server.filter.push(srv.id);
+            state.server.filter.push(srv.name);
         }
     },
     [types.SET_SERVER_FILTER](state: State, servers: string[]) {
@@ -149,13 +137,13 @@ const mutations: vuex.MutationTree<State> = {
     },
 
     // tag
-    [types.INIT_TAG_FILTER](state: State, tags: Tag[]) {
+    [types.INIT_TAG_FILTER](state: State, tags: apidoc.Tag[]) {
         state.tag.tags.length = 0;
         state.tag.tags.push(...tags);
 
         state.tag.filter.length = 0;
         for (const tag of tags) {
-            state.tag.filter.push(tag.id);
+            state.tag.filter.push(tag.name);
         }
     },
     [types.SET_TAG_FILTER](state: State, tags: string[]) {
@@ -165,17 +153,17 @@ const mutations: vuex.MutationTree<State> = {
 
     // api footer
     [types.SET_API_FOOTER](state: State, obj: apidoc.ApiDoc) {
-        state.apiFooter.created = obj.$attr.created;
+        state.apiFooter.created = obj.created;
 
         if (obj.license !== undefined) {
-            state.apiFooter.license = obj.license.$attr;
+            state.apiFooter.license = obj.license;
         }
 
         if (obj.contact !== undefined) {
             state.apiFooter.contact = {
-                url: obj.contact.$attr.url,
-                email: obj.contact.$attr.email,
-                name: obj.contact.$text
+                url: obj.contact.url,
+                email: obj.contact.email,
+                name: obj.contact.name
             }
         }
     }

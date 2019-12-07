@@ -11,18 +11,18 @@
         <v-tabs-items v-model="tab">
             <v-tab-item v-for="(reqs, key) of Array.from(bodies)" :key="key">
                 <v-card v-for="(req, index) of reqs[1]" :key="index" flat class="mt-2">
-                    <v-card-title v-if="req.$attr.status" class="subtitle-2 px-2 py-1 status">
-                        <v-chip small :color="statusColor(req.$attr.status)">
-                            {{req.$attr.status}}
+                    <v-card-title v-if="req.status" class="subtitle-2 px-2 py-1 status">
+                        <v-chip small :color="statusColor(req.status)">
+                            {{req.status}}
                         </v-chip>
                     </v-card-title>
                     <x-api-param
                         v-if="showHeaders(req)"
-                        :params="[...req.header]"
+                        :params="req.headers"
                         title="api.header"
                     />
 
-                    <template v-if="req.$attr.type !== 'none'">
+                    <template v-if="req.type !== 'none'">
                         <h5 class="subtitle-2 px-2">{{$i18n.t('api.body')}}</h5>
                         <v-simple-table dense>
                             <template v-slot:default>
@@ -93,7 +93,7 @@ export default class XApiRequests extends Vue {
     }
 
     showHeaders(req: apidoc.RequestBody): boolean {
-        return apidoc.notEmpty(req.header);
+        return req.headers !== undefined && req.headers.length > 0;
     }
 
     statusColor(status?: number): string {
@@ -111,7 +111,7 @@ export default class XApiRequests extends Vue {
     }
 
     example(example: apidoc.Example): string {
-        return example.$cdata.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        return example.content.replace(/</g, '&lt;').replace(/>/g, '&gt;');
     }
 }
 
@@ -125,12 +125,12 @@ function reorganizationRequests(requests: apidoc.RequestBody[]): Map<string, api
     const all: apidoc.RequestBody[] = [];
 
     for (const req of requests) {
-        if (req.$attr.mimetype === '*') {
+        if (req.mimetype === '*') {
             all.push(req);
             continue;
         }
 
-        const types = req.$attr.mimetype.split(/\s/);
+        const types = req.mimetype.split(/\s/);
 
         for (const t of types) {
             if (!ret.has(t)) {

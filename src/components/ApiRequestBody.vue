@@ -3,17 +3,17 @@
 <template>
     <fragment>
         <tr>
-            <th>{{prefix}}{{param.$attr.name}}</th>
+            <th>{{prefix}}{{param.name}}</th>
             <td>{{typeName}}</td>
             <td>
-                <v-icon>{{checkbox(param.$attr.optional)}}</v-icon>
-                {{param.$attr.default}}
+                <v-icon>{{checkbox(param.optional)}}</v-icon>
+                {{param.default}}
             </td>
             <td v-html="description" />
         </tr>
-        <template v-if="hasParams(param.param)">
+        <template v-if="hasParams(param.params)">
             <x-api-request-body
-                v-for="(p, index) of [...param.param]"
+                v-for="(p, index) of [...param.params]"
                 :key="index"
                 :prefix="namePrefix"
                 :param="p"
@@ -37,27 +37,27 @@ export default class XApiRequestBody extends Vue {
     @Prop({ default: '' }) readonly prefix!: string;
 
     get namePrefix(): string {
-        if (!this.param.$attr.name) {
+        if (!this.param.name) {
             return '';
         }
 
-        return this.prefix + this.param.$attr.name + '.';
+        return this.prefix + this.param.name + '.';
     }
 
     get typeName(): string {
-        if (this.param.$attr.array) {
-            return this.param.$attr.type + '[]';
+        if (this.param.array) {
+            return this.param.type + '[]';
         }
-        return this.param.$attr.type;
+        return this.param.type;
     }
 
     get description(): string {
-        const dest = apidoc.getDescription(this.param.$attr.summary, this.param.description);
-        return apidoc.getDescriptionWithEnum(dest, this.param.enum);
+        const dest = apidoc.getDescription(this.param.summary, this.param.description);
+        return apidoc.getDescriptionWithEnum(dest, this.param.enums);
     }
 
-    hasParams(param?: apidoc.Param[] | apidoc.Param): boolean {
-        return apidoc.notEmpty(param);
+    hasParams(param?: apidoc.Param[]): boolean {
+        return param !== undefined && param.length > 0;
     }
 
     checkbox(optional: boolean): string {

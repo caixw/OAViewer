@@ -27,7 +27,7 @@ export const types: Type[] = [
             { name: '@version', type: 'version', required: true },
             { name: '@lang', type: 'string', required: false },
             { name: '@logo', type: 'string', required: false },
-            // created 由代码生成时间，所以这里不需要展示
+            { name: 'created', type: 'string', required: false },
             { name: 'title', type: 'string', required: true },
             { name: 'description', type: 'string', required: true },
             { name: 'contact', type: 'contact', required: false },

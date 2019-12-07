@@ -9,13 +9,13 @@
             </v-subheader>
 
             <v-list-item-group multiple v-model="selectedServers">
-                <v-list-item two-line v-for="(srv, index) of servers" :key="index" :value="srv.id">
+                <v-list-item two-line v-for="(srv, index) of servers" :key="index" :value="srv.name">
                     <template v-slot:default="{active,toggle}">
                         <v-list-item-action>
                             <v-checkbox v-model="active" @click="toggle" />
                         </v-list-item-action>
                         <v-list-item-content>
-                            <v-list-item-title>{{srv.id}}</v-list-item-title>
+                            <v-list-item-title>{{srv.name}}</v-list-item-title>
                             <v-list-item-subtitle>{{srv.url}}</v-list-item-subtitle>
                         </v-list-item-content>
                     </template>
@@ -54,7 +54,7 @@
             </v-subheader>
 
             <v-list-item-group multiple v-model="selectedTags">
-                <v-list-item v-for="(tag, index) of tags" :key="index" :value="tag.id">
+                <v-list-item v-for="(tag, index) of tags" :key="index" :value="tag.name">
                     <template v-slot:default="{active,toggle}">
                         <v-list-item-action>
                             <v-checkbox @click="toggle" v-model="active" />
@@ -70,9 +70,9 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Watch } from 'vue-property-decorator';
-import * as types from '@/store/types';
-import * as store from '@/store/store';
+import { Component, Vue } from 'vue-property-decorator';
+import * as types from '@/store/types.ts';
+import * as apidoc from '@/components/apidoc.ts';
 
 @Component
 export default class XAPISidebar extends Vue {
@@ -101,11 +101,11 @@ export default class XAPISidebar extends Vue {
         return this.$store.state.method.methods;
     }
 
-    get servers(): store.Server[] {
+    get servers(): apidoc.Server[] {
         return this.$store.state.server.servers;
     }
 
-    get tags(): store.Tag[] {
+    get tags(): apidoc.Tag[] {
         return this.$store.state.tag.tags;
     }
 }

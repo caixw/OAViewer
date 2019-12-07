@@ -16,7 +16,6 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { Fragment } from 'vue-fragment';
-import convert from 'xml-js';
 import * as types from '@/store/types';
 import * as store from '@/store/store';
 import XApi from '@/components/Api.vue';
@@ -39,24 +38,22 @@ export default class Api extends Vue {
     visible(api: apidoc.Api): boolean {
         const state = this.$store.state;
 
-        if (!state.method.filter.includes(api.$attr.method)) {
+        if (!state.method.filter.includes(api.method)) {
             return false;
         }
 
         let visible = false;
-        const servers = apidoc.arrays(api.server);
-        for (const srv of servers) {
-            if (state.server.filter.includes(srv.$text)) {
+        for (const srv of api.servers) {
+            if (state.server.filter.includes(srv)) {
                 visible = true;
                 break;
             }
         }
         if (!visible) { return false; }
 
-        const tags = apidoc.arrays(api.tag);
-        if (tags.length > 0) {
-            for (const tag of tags) {
-                if (state.tag.filter.includes(tag.$text)) {
+        if (api.tags !== undefined && api.tags.length > 0) {
+            for (const tag of api.tags) {
+                if (state.tag.filter.includes(tag)) {
                     return true;
                 }
             }
@@ -87,42 +84,27 @@ export default class Api extends Vue {
             return;
         }
 
-        const resp = await fetch(url);
-        const text = await resp.text();
-        this.apidoc = JSON.parse(convert.xml2json(text, convertOptions)).apidoc;
-        if (this.apidoc === null) {
-            throw new Error('error.apidoc-empty');
-        }
-
-        if (this.apidoc!.api === undefined) {
-            throw new Error('error.api-empty');
-        }
-
-        const apis: apidoc.Api[] = [];
-        if (Array.isArray(this.apidoc!.api)) {
-            apis.push(...this.apidoc!.api);
-        } else {
-            apis.push(this.apidoc!.api);
-        }
-
-        if (!apidoc.notEmpty(this.apidoc!.response)) {
-            this.apis.push(...apis);
+        try {
+            this.apidoc = await apidoc.load(url);
+        } catch (e) {
+            this.$store.commit(types.SET_MESSAGE, e.toString());
             return;
         }
 
-        const resps = apidoc.arrays(this.apidoc!.response);
-        for (const api of apis) {
-            const apiResp = apidoc.arrays(api.response);
-            apiResp.push(...resps);
-            api.response = apiResp;
-            this.apis.push(api);
+        const apis = this.apidoc.apis ? [...this.apidoc.apis] : [];
+        if (this.apidoc.responses !== undefined) {
+            for (const api of apis) {
+                api.responses.push(...this.apidoc.responses);
+            }
         }
+        this.apis.length = 0;
+        this.apis.push(...apis);
 
-        this.$store.commit(types.SET_TITLE, this.apidoc.title.$text);
-        this.$store.commit(types.SET_HTML_TITLE, this.apidoc.title.$text);
+        this.$store.commit(types.SET_TITLE, this.apidoc.title);
+        this.$store.commit(types.SET_HTML_TITLE, this.apidoc.title);
 
-        if (this.apidoc.$attr.lang !== undefined) {
-            this.$i18n.locale = this.apidoc.$attr.lang;
+        if (this.apidoc.lang !== undefined) {
+            this.$i18n.locale = this.apidoc.lang;
         }
     }
 
@@ -148,40 +130,19 @@ export default class Api extends Vue {
 
         const methods: string[] = [];
         for (const api of this.apis) {
-            if (!methods.includes(api.$attr.method)) {
-                methods.push(api.$attr.method);
+            if (!methods.includes(api.method)) {
+                methods.push(api.method);
             }
         }
         this.$store.commit(types.INIT_METHOD_FILTER, methods);
 
-        const servers: store.Server[] = [];
-        for (const srv of apidoc.arrays(this.apidoc.server)) {
-            servers.push({
-                id: srv.$attr.name,
-                url: srv.$attr.url,
-                description: srv.$cdata,
-                descriptionType: srv.$attr.textType
-            });
-        }
-        this.$store.commit(types.INIT_SERVER_FILTER, servers);
+        this.$store.commit(types.INIT_SERVER_FILTER, this.apidoc.servers);
 
-        if (this.apidoc.tag !== undefined) {
-            const tags: store.Tag[] = [];
-            for (const tag of apidoc.arrays(this.apidoc.tag)) {
-                tags.push({ id: tag.$attr.name, title: tag.$attr.title });
-            }
-            this.$store.commit(types.INIT_TAG_FILTER, tags);
+        if (this.apidoc.tags !== undefined) {
+            this.$store.commit(types.INIT_TAG_FILTER, this.apidoc.tags);
         }
 
         this.$store.commit(types.SET_API_FOOTER, this.apidoc);
     } // end initFilter
 }
-
-// xml-js 转换的配置项
-const convertOptions = {
-    compact: true,
-    attributesKey: '$attr',
-    textKey: '$text',
-    cdataKey: '$cdata'
-};
 </script>

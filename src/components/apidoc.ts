@@ -1,178 +1,44 @@
 // SPDX-License-Identifier: MIT
 
+import convert from 'xml-js';
 import marked from 'marked';
 import config from '@/config/config';
 
-export interface ApiDoc {
-    $attr: {
-        version: string,
-        created?: string,
-        lang?: string,
-        logo?: string
-    },
-    title: {
-        $text: string
-    },
-    description: Description,
-    contact?: {
-        $attr: {
-            url?: string,
-            email?: string
-        },
-        $text: string
-    },
-    license?: {
-        $attr: {
-            url: string
-            text: string
+export async function load(url: string): Promise<ApiDoc> {
+    const obj = await loadXml(url);
+
+    const ret: ApiDoc = {
+        version: obj.$attr.version,
+        created: obj.$attr.created,
+        lang: obj.$attr.lang,
+        logo: obj.$attr.logo,
+        title: obj.title.$text,
+        description: fromDescription(obj.description),
+        tags: fromArrays(obj.tag, (tag: XmlTag): Tag => {
+            return { ...tag.$attr };
+        }),
+        servers: [],
+        responses: fromArrays(obj.response, fromRequestBody),
+        apis: fromArrays(obj.api, fromApi)
+    };
+
+    if (obj.contact !== undefined) {
+        ret.contact = {
+            email: obj.contact.$attr.email,
+            url: obj.contact.$attr.url,
+            name: obj.contact.$text
         }
-    },
-    tag?: Tag[] | Tag,
-    server: Server[] | Server,
-    response?: RequestBody[] | RequestBody,
-    api?: Api[] | Api
-}
-
-interface Tag {
-    $attr: {
-        name: string,
-        title: string,
-        deprecated?: string
     }
-}
 
-// Enum 需要实现 Description
-interface Server {
-    $attr: {
-        name: string,
-        url: string,
-        deprecated?: string,
-        textType: string
-    },
-    $cdata: string
-}
-
-export interface Api {
-    $attr: {
-        version?: string,
-        method: string,
-        summary: string,
-        deprecated?: string,
-        id?: string
-    },
-    description?: Description,
-    path: Path,
-    request: RequestBody[] | RequestBody,
-    response: RequestBody[] | RequestBody,
-    callback?: Callback,
-    tag: ApiTag[] | ApiTag,
-    server: ApiTag[] | ApiTag,
-    header: Param[] | Param
-}
-
-interface ApiTag {
-    $text: string
-}
-
-export interface RequestBody {
-    $attr: {
-        name: string,
-        type: string,
-        deprecated?: string,
-        summary: string,
-        array?: boolean,
-        status?: number,
-        mimetype: string
-    },
-    description?: Description,
-    enum?: Enum[] | Enum,
-    param?: Param[] | Param,
-    example?: Example,
-    header?: Param[] | Param
-}
-
-export interface Param {
-    $attr: {
-        name: string,
-        type: string,
-        deprecated?: string,
-        default?: string,
-        optional?: boolean,
-        array?: boolean,
-        summary: string
-    },
-    description?: Description,
-    enum?: Enum[] | Enum,
-    param?: Param[] | Param
-}
-
-export interface Example {
-    $attr: {
-        mimetype: string,
-        summary?: string
-    },
-    $cdata: string,
-    description?: Description
-}
-
-// Enum 需要实现 Description
-interface Enum {
-    $attr: {
-        value: string,
-        summary?: string,
-        deprecated?: string,
-        textType?: string,
+    if (obj.license !== undefined) {
+        ret.license = obj.license.$attr
     }
-    $cdata?: string
-}
 
-export interface Callback {
-    $attr: {
-        method: string,
-        summary: string,
-        deprecated?: string,
-    },
-    description?: Description,
-    path: Path,
-    request: RequestBody[] | RequestBody,
-    response: RequestBody[] | RequestBody
-}
-
-export interface Path {
-    $attr: {
-        path: string
-    },
-    param?: Param[] | Param,
-    query?: Param[] | Param
-}
-
-interface Description {
-    $attr: {
-        textType?: string
-    },
-    $cdata: string
-}
-
-/**
- * 将参数转换成数组返回
- * @param element
- */
-export function arrays<T>(element: T | T[] | undefined): T[] {
-    if (element === undefined) {
-        return [];
+    for (const srv of arrays(obj.server)) {
+        ret.servers.push(fromServer(srv));
     }
-    return Array.isArray(element) ? element : [element];
-}
 
-/**
- * 检测参数是否为空
- * @param element
- */
-export function notEmpty<T>(element: T | T[] | undefined): boolean {
-    if (element === undefined) {
-        return false;
-    }
-    return Array.isArray(element) ? (element.length > 0) : true;
+    return ret;
 }
 
 /**
@@ -185,18 +51,18 @@ export function getDescription(summary?: string, desc?: Description): string {
         return summary === undefined ? '' : summary;
     }
 
-    switch (desc.$attr.textType) {
-    case 'html':
-        return desc.$cdata ? desc.$cdata : '';
-    case 'markdown':
-        return desc.$cdata ? marked(desc!.$cdata) : '';
-    case '':
-        if (config.defaultRender === 'markdown') {
-            return desc.$cdata ? marked(desc.$cdata) : '';
-        }
-        return desc.$cdata ? desc.$cdata : '';
-    default:
-        return desc.$cdata ? desc.$cdata : '';
+    switch (desc.textType) {
+        case 'html':
+            return desc.content ? desc.content : '';
+        case 'markdown':
+            return desc.content ? marked(desc.content) : '';
+        case '':
+            if (config.defaultRender === 'markdown') {
+                return desc.content ? marked(desc.content) : '';
+            }
+            return desc.content ? desc.content : '';
+        default:
+            return desc.content ? desc.content : '';
     }
 }
 
@@ -209,7 +75,7 @@ export function getDescriptionWithEnum(dest: string, enums?: Enum[] | Enum): str
     dest += '<ul>';
     for (const e of es) {
         const enumDesc = getEnumDescription(e);
-        dest += '<li>' + e.$attr.value + ':' + enumDesc + '</li>';
+        dest += '<li>' + e.value + ':' + enumDesc + '</li>';
     }
     dest += '</ul>';
 
@@ -217,13 +83,422 @@ export function getDescriptionWithEnum(dest: string, enums?: Enum[] | Enum): str
 }
 
 function getEnumDescription(e: Enum): string {
-    if (!e.$cdata) {
-        return e.$attr.summary ? e.$attr.summary : '';
+    if (!e.content) {
+        return e.summary ? e.summary : '';
     }
 
-    const t = e.$attr.textType ? e.$attr.textType : config.defaultRender;
+    const t = e.textType ? e.textType : config.defaultRender;
     if (t === 'markdown') {
-        return marked(e.$cdata);
+        return marked(e.content);
     }
-    return e.$cdata;
+    return e.content;
+}
+
+function fromDescription(desc: XmlDescription): Description {
+    return {
+        textType: desc.$attr.textType,
+        content: desc.$cdata
+    }
+}
+
+function fromServer(srv: XmlServer): Server {
+    return {
+        name: srv.$attr.name,
+        url: srv.$attr.url,
+        deprecated: srv.$attr.deprecated,
+        textType: srv.$attr.textType,
+        content: srv.$cdata
+    }
+}
+
+function fromRequestBody(req: XmlRequestBody): RequestBody {
+    const ret: RequestBody = {
+        name: req.$attr.name,
+        type: req.$attr.type,
+        summary: req.$attr.summary,
+        array: req.$attr.array,
+        status: req.$attr.status,
+        mimetype: req.$attr.mimetype,
+        description: req.description ? fromDescription(req.description) : undefined,
+        params: fromArrays(req.param, fromParam),
+        headers: fromArrays(req.header, fromParam),
+        enums: fromArrays(req.enum, fromEnum),
+        deprecated: req.$attr.deprecated
+    };
+
+    if (req.example !== undefined) {
+        const e = req.example;
+        ret.example = {
+            mimetype: e.$attr.mimetype,
+                summary: e.$attr.summary,
+                content: e.$cdata,
+                description: e.description ? fromDescription(e.description) : undefined
+        };
+    }
+
+    return ret;
+}
+
+function fromApi(api: XmlApi): Api {
+    const ret: Api = {
+        version: api.$attr.version,
+        method: api.$attr.method,
+        summary: api.$attr.summary,
+        id: api.$attr.id,
+        description: api.description ? fromDescription(api.description) : undefined,
+        path: fromPath(api.path),
+        requests: fromArrays(api.request, fromRequestBody) || [],
+        responses: fromArrays(api.response, fromRequestBody) || [],
+        tags: fromArrays(api.tag, (tag:XmlApiTag): string => {
+            return tag.$text;
+        }),
+        servers: fromArrays(api.server, (srv: XmlApiTag): string => {
+            return srv.$text;
+        }) || [],
+        headers: fromArrays(api.header, fromParam)
+    };
+
+    if (api.callback !== undefined) {
+        ret.callback = {
+            method: api.callback.$attr.method,
+            summary: api.callback.$attr.summary,
+            description: api.callback.description ? fromDescription(api.callback.description) : undefined,
+            path: fromPath(api.path),
+            requests: fromArrays(api.request, fromRequestBody) || [],
+            responses: fromArrays(api.response, fromRequestBody) || [],
+            deprecated: api.$attr.deprecated
+        }
+    }
+
+    return ret;
+}
+
+function fromEnum(e: XmlEnum): Enum {
+    return {
+        value: e.$attr.value,
+        summary: e.$attr.summary,
+        deprecated: e.$attr.deprecated,
+        textType: e.$attr.textType,
+        content: e.$cdata
+    }
+}
+
+function fromPath(p: XmlPath): Path {
+    return {
+        path: p.$attr.path,
+        params: fromArrays(p.param, fromParam),
+        queries: fromArrays(p.query, fromParam)
+    }
+}
+
+function fromParam(p: XmlParam): Param {
+    return {
+        name: p.$attr.name,
+        type: p.$attr.type,
+        default: p.$attr.default,
+        optional: p.$attr.optional,
+        array: p.$attr.array,
+        summary: p.$attr.summary,
+        description: p.description ? fromDescription(p.description) : undefined,
+        enums: fromArrays(p.enum, fromEnum),
+        params: fromArrays(p.param, fromParam),
+        deprecated: p.$attr.deprecated
+    };
+}
+
+async function loadXml(url: string): Promise<XmlApiDoc> {
+    const resp = await fetch(url);
+    const text = await resp.text();
+    const apidoc = JSON.parse(convert.xml2json(text, convertOptions)).apidoc;
+    if (apidoc === null) {
+        throw new Error('error.apidoc-empty');
+    }
+
+    if (apidoc.api === undefined) {
+        throw new Error('error.api-empty');
+    }
+
+    return apidoc;
+}
+
+function arrays<T>(element: T | T[] | undefined): T[] {
+    if (element === undefined) {
+        return [];
+    }
+    return Array.isArray(element) ? element : [element];
+}
+
+function fromArrays<I, R>(element: I | I[] | undefined, conv: {(i:I):R}): R[] | undefined {
+    const elements = arrays(element);
+    if (elements.length === 0) {
+        return undefined;
+    }
+
+    const ret: Array<R> = [];
+    for (const e of elements) {
+        ret.push(conv(e));
+    }
+
+    return ret;
+}
+
+export interface ApiDoc {
+    version: string,
+    created?: string,
+    lang?: string,
+    logo?: string
+    title: string,
+    description: Description,
+    contact?: {
+        name: string,
+        url?: string,
+        email?: string
+    },
+    license?: Link,
+    tags?: Tag[],
+    servers: Server[],
+    responses?: RequestBody[],
+    apis?: Api[]
+}
+
+interface Deprecated {
+    deprecated?: string
+}
+
+interface Description {
+    textType?: string,
+    content?: string
+}
+
+export interface Server extends Deprecated, Description {
+    name: string,
+    url: string,
+}
+
+export interface Tag extends Deprecated {
+    name: string,
+    title: string,
+}
+
+interface Link {
+    url: string
+    text: string
+}
+
+export interface Api extends Deprecated {
+    version?: string,
+    method: string,
+    summary: string,
+    id?: string,
+    description?: Description,
+    path: Path,
+    requests: RequestBody[],
+    responses: RequestBody[],
+    callback?: Callback,
+    tags?: string[],
+    servers: string[],
+    headers?: Param[]
+}
+
+export interface RequestBody extends Deprecated {
+    name: string,
+    type: string,
+    summary: string,
+    array?: boolean,
+    status?: number,
+    mimetype: string,
+    description?: Description,
+    enums?: Enum[],
+    params?: Param[],
+    example?: Example,
+    headers?: Param[]
+}
+
+export interface Param extends Deprecated {
+    name: string,
+    type: string,
+    default?: string,
+    optional?: boolean,
+    array?: boolean,
+    summary: string,
+    description?: Description,
+    enums?: Enum[],
+    params?: Param[]
+}
+
+export interface Example {
+    mimetype: string,
+    summary?: string,
+    content: string,
+    description?: Description
+}
+
+// Enum 需要实现 Description
+interface Enum extends Deprecated, Description {
+    value: string,
+    summary?: string,
+}
+
+export interface Callback extends Deprecated {
+    method: string,
+    summary: string,
+    description?: Description,
+    path: Path,
+    requests: RequestBody[],
+    responses: RequestBody[]
+}
+
+interface Path {
+    path: string
+    params?: Param[],
+    queries?: Param[]
+}
+
+/** 以下是针对 xml 文件转换的接口定义 */
+
+// xml-js 转换的配置项
+const convertOptions = {
+    compact: true,
+    attributesKey: '$attr',
+    textKey: '$text',
+    cdataKey: '$cdata'
+};
+
+interface XmlApiDoc {
+    $attr: {
+        version: string,
+        created?: string,
+        lang?: string,
+        logo?: string
+    },
+    title: {
+        $text: string
+    },
+    description: XmlDescription,
+    contact?: {
+        $attr: {
+            url?: string,
+            email?: string
+        },
+        $text: string
+    },
+    license?: { $attr: Link },
+    tag?: XmlTag[] | XmlTag,
+    server: XmlServer[] | XmlServer,
+    response?: XmlRequestBody[] | XmlRequestBody,
+    api?: XmlApi[] | XmlApi
+}
+
+interface XmlTag { $attr: Tag }
+
+// Enum 需要实现 Description
+interface XmlServer {
+    $attr: {
+        name: string,
+        url: string,
+        deprecated?: string,
+        textType: string
+    },
+    $cdata: string
+}
+
+interface XmlApi {
+    $attr: {
+        version?: string,
+        method: string,
+        summary: string,
+        deprecated?: string,
+        id?: string
+    },
+    description?: XmlDescription,
+    path: XmlPath,
+    request: XmlRequestBody[] | XmlRequestBody,
+    response: XmlRequestBody[] | XmlRequestBody,
+    callback?: XmlCallback,
+    tag?: XmlApiTag[] | XmlApiTag,
+    server: XmlApiTag[] | XmlApiTag,
+    header?: XmlParam[] | XmlParam
+}
+
+interface XmlApiTag {
+    $text: string
+}
+
+interface XmlRequestBody {
+    $attr: {
+        name: string,
+        type: string,
+        deprecated?: string,
+        summary: string,
+        array?: boolean,
+        status?: number,
+        mimetype: string
+    },
+    description?: XmlDescription,
+    enum?: XmlEnum[] | XmlEnum,
+    param?: XmlParam[] | XmlParam,
+    example?: XmlExample,
+    header?: XmlParam[] | XmlParam
+}
+
+interface XmlParam {
+    $attr: {
+        name: string,
+        type: string,
+        deprecated?: string,
+        default?: string,
+        optional?: boolean,
+        array?: boolean,
+        summary: string
+    },
+    description?: XmlDescription,
+    enum?: XmlEnum[] | XmlEnum,
+    param?: XmlParam[] | XmlParam
+}
+
+interface XmlExample {
+    $attr: {
+        mimetype: string,
+        summary?: string
+    },
+    $cdata: string,
+    description?: XmlDescription
+}
+
+// Enum 需要实现 Description
+interface XmlEnum {
+    $attr: {
+        value: string,
+        summary?: string,
+        deprecated?: string,
+        textType?: string,
+    }
+    $cdata?: string
+}
+
+interface XmlCallback {
+    $attr: {
+        method: string,
+        summary: string,
+        deprecated?: string,
+    },
+    description?: XmlDescription,
+    path: XmlPath,
+    request: XmlRequestBody[] | XmlRequestBody,
+    response: XmlRequestBody[] | XmlRequestBody
+}
+
+interface XmlPath {
+    $attr: {
+        path: string
+    },
+    param?: XmlParam[] | XmlParam,
+    query?: XmlParam[] | XmlParam
+}
+
+interface XmlDescription {
+    $attr: {
+        textType?: string
+    },
+    $cdata: string
 }

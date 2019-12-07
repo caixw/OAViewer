@@ -29,6 +29,9 @@ export default class XApiFooter extends Vue {
 
     getContact(): string {
         const c = this.$store.state.apiFooter!.contact;
+        if (c === undefined) {
+            return '';
+        }
 
         let href = c.url;
         if (href === undefined) {
@@ -40,6 +43,9 @@ export default class XApiFooter extends Vue {
 
     getLicense(): string {
         const c = this.$store.state.apiFooter!.license;
+        if (c === undefined) {
+            return '';
+        }
         return `<a href="${c.url}">${c.name}</a>`;
     }
 }
