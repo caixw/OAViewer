@@ -16,6 +16,8 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { Fragment } from 'vue-fragment';
+import VueI18n from 'vue-i18n';
+import Router from 'vue-router';
 import * as types from '@/store/types';
 import * as store from '@/store/store';
 import XApi from '@/components/Api.vue';
@@ -120,29 +122,7 @@ export default class Api extends Vue {
             this.$store.commit(types.SET_MESSAGE, e.toString());
         }
 
-        this.initFilter();
+        this.$store.commit(types.INIT_API, this.apidoc);
     }
-
-    initFilter() {
-        if (this.apidoc === null) {
-            return;
-        }
-
-        const methods: string[] = [];
-        for (const api of this.apis) {
-            if (!methods.includes(api.method)) {
-                methods.push(api.method);
-            }
-        }
-        this.$store.commit(types.INIT_METHOD_FILTER, methods);
-
-        this.$store.commit(types.INIT_SERVER_FILTER, this.apidoc.servers);
-
-        if (this.apidoc.tags !== undefined) {
-            this.$store.commit(types.INIT_TAG_FILTER, this.apidoc.tags);
-        }
-
-        this.$store.commit(types.SET_API_FOOTER, this.apidoc);
-    } // end initFilter
 }
 </script>

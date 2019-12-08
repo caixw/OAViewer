@@ -10,6 +10,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
+import Vuex from 'vuex';
 import { Fragment } from 'vue-fragment';
 
 @Component({
