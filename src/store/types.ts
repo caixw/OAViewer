@@ -13,7 +13,6 @@ export const ADD_DOC_TREE = 'addDocTree';
 
 // api
 export const INIT_API = 'initApi';
-export const CLEAR_API = 'clearApi';
 
 // filter
 export const SET_METHOD_FILTER = 'setMethodFilter';

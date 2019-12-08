@@ -16,8 +16,8 @@ nav.api: API
 
 footer.home: 當前頁面內容托管於{host}，並采用{license}進行許可。
 footer.api.license: 當前文檔由{license}進行許可
-footer.api.created: 文檔生成於{created}
-footer.api.created_contact: 文檔生成於{created}，有問題可聯系{contact}。
+footer.api.created: 文檔生成於 {created}
+footer.api.created_contact: 文檔生成於 {created}，有問題可聯系{contact}。
 
 # 類型表格頭
 api.var: 變量

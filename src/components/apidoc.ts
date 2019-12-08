@@ -18,14 +18,14 @@ import config from '@/config/config';
 export async function load(url: string): Promise<ApiDoc> {
     const index = url.lastIndexOf('.');
     if (index <= 0) {
-        return await loadXml(url);
+        return loadXml(url);
     }
 
     switch (url.slice(index).toLowerCase()) {
     case '.json':
-        return await loadJson(url);
+        return loadJson(url);
     case '.xml':
-        return await loadXml(url);
+        return loadXml(url);
     default:
         throw new Error('error.invalid-file-format');
     }
@@ -150,7 +150,8 @@ function fromApi(api: XmlApi): Api {
         servers: fromArrays(api.server, (srv: XmlApiTag): string => {
             return srv.$text;
         }) || [],
-        headers: fromArrays(api.header, fromParam)
+        headers: fromArrays(api.header, fromParam),
+        deprecated: api.$attr.deprecated
     };
 
     if (api.callback !== undefined) {
@@ -203,7 +204,7 @@ function fromParam(p: XmlParam): Param {
 
 async function loadJson(url: string): Promise<ApiDoc> {
     const resp = await fetch(url);
-    return await resp.json();
+    return resp.json();
 }
 
 async function loadXml(url: string): Promise<ApiDoc> {
@@ -235,9 +236,9 @@ async function loadXml(url: string): Promise<ApiDoc> {
 
     if (obj.contact !== undefined) {
         ret.contact = {
-            email: obj.contact.$attr.email,
-            url: obj.contact.$attr.url,
-            name: obj.contact.$text
+            email: obj.contact.email.$text,
+            url: obj.contact.url.$text,
+            name: obj.contact.$attr.name
         }
     }
 
@@ -408,10 +409,14 @@ interface XmlApiDoc {
     description: XmlDescription,
     contact?: {
         $attr: {
-            url?: string,
-            email?: string
+            name: string
         },
-        $text: string
+        url?: {
+            $text: string
+        },
+        email?: {
+            $text: string
+        }
     },
     license?: { $attr: Link },
     tag?: XmlTag[] | XmlTag,

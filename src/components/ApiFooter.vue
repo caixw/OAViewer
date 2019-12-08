@@ -3,8 +3,8 @@
 <template>
     <fragment>
         <p class="mt-2 mb-1" v-if="license" v-html="$i18n.t('footer.api.license', $i18n.locale, {license})" />
-        <p class="mt-1 mb-2" v-html="$i18n.t('footer.api.created', $i18n.locale, {created:build})" />
-        <p class="mt-1 mb-2" v-html="$i18n.t('footer.api.created_contact', $i18n.locale, {created:build, contact})" />
+        <p class="mt-1 mb-2" v-if="build && contact" v-html="$i18n.t('footer.api.created_contact', $i18n.locale, {created:build, contact})" />
+        <p class="mt-1 mb-2" v-else-if="build" v-html="$i18n.t('footer.api.created', $i18n.locale, {created:build})" />
     </fragment>
 </template>
 
@@ -17,41 +17,16 @@ import { Fragment } from 'vue-fragment';
     components: { Fragment }
 })
 export default class XApiFooter extends Vue {
-    build = '';
-    contact = '';
-    license = '';
-
-    created() {
-        this.build = this.$store.state.apiFooter!.created;
-
-        this.contact = this.getContact();
-        this.license = this.getLicense();
+    get build(): string {
+        return this.$store.state.apiFooter.created;
     }
 
-    getContact(): string {
-        const c = this.$store.state.apiFooter!.contact;
-        if (c === undefined) {
-            return '';
-        }
-
-        let href = c.url;
-        if (href === undefined) {
-            href = 'mailto:' + c.email;
-        }
-
-        return `<a href="${href}">${c.name}</a>`;
+    get license(): string {
+        return this.$store.state.apiFooter.license;
     }
 
-    getLicense(): string {
-        const c = this.$store.state.apiFooter!.license;
-        if (c === undefined) {
-            return '';
-        }
-        return `<a href="${c.url}">${c.name}</a>`;
+    get contact(): string {
+        return this.$store.state.apiFooter.contact;
     }
 }
 </script>
-
-<style scoped>
-
-</style>

@@ -50,15 +50,8 @@ export interface State {
     },
     apiFooter: {
         created?: string,
-        license?: {
-            url: string,
-            text: string
-        },
-        contact?: {
-            url?: string,
-            email?: string,
-            name: string
-        }
+        license?: string,
+        contact?: string
     }
 }
 
@@ -142,9 +135,20 @@ const mutations: vuex.MutationTree<State> = {
         }
 
         // footer
+        state.apiFooter = {};
         state.apiFooter.created = doc.created;
-        state.apiFooter.license = doc.license;
-        state.apiFooter.contact = doc.contact;
+        if (doc.license !== undefined) {
+            const l = doc.license;
+            state.apiFooter.license = buildURL(l.url, l.text);
+        }
+        if (doc.contact !== undefined) {
+            let url = doc.contact.url;
+            if (url === undefined) {
+                url = 'mailto:' + doc.contact.email;
+            }
+
+            state.apiFooter.contact = buildURL(url, doc.contact.name);
+        }
     },
 
     [types.SET_METHOD_FILTER](state: State, methods: string[]) {
@@ -173,3 +177,19 @@ export const store: vuex.StoreOptions<State> = {
     mutations,
     actions
 };
+
+export function buildURL(url: string, text: string): string {
+    let start = '';
+    let end = '';
+
+    let code = text.charCodeAt(0);
+    if (code > 0 && code < 255) {
+        start = '&nbsp;';
+    }
+    code = text.charCodeAt(text.length - 1);
+    if (code > 0 && code < 255) {
+        end += '&nbsp;';
+    }
+
+    return `${start}<a href="${url}">${text}</a>${end}`;
+}

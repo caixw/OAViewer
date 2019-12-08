@@ -3,7 +3,7 @@
 <template>
     <fragment v-if="apidoc!==null">
         <article class="mx-6 my-6">
-            <h2 class="mb-3">{{apidoc.title.$text}}</h2>
+            <h2 class="mb-3">{{apidoc.title}}</h2>
             <section v-html="description" />
         </article>
 

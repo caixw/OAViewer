@@ -12,6 +12,7 @@ import { Component, Vue } from 'vue-property-decorator';
 import { Fragment } from 'vue-fragment';
 
 import config from '@/config/config.ts';
+import { buildURL } from '@/store/store.ts';
 
 @Component({
     components: { Fragment }
@@ -23,8 +24,8 @@ export default class XFooter extends Vue {
     host = '';
 
     created() {
-        this.license = `<a href="${config.license.url}">${config.license.name}</a>`;
-        this.host = ` <a href="${config.repo}">Github</a>`;
+        this.license = buildURL(config.license.url, config.license.name);
+        this.host = buildURL(config.repo, 'Github');
     }
 }
 </script>

@@ -66,17 +66,4 @@ describe('store', () => {
         assert.strictEqual(msg.type, 'warning');
         assert.strictEqual(msg.message, 'obj');
     });
-
-    it('mutations FILTER_METHODS', () => {
-        const state = { ...o };
-        assert.lengthOf(state.method.methods, 0);
-        assert.lengthOf(state.method.filter, 0);
-        (store.mutations as vuex.MutationTree<State>)[types.INIT_METHOD_FILTER](state, ['1', '2', '3']);
-        assert.lengthOf(state.method.methods, 3);
-        assert.lengthOf(state.method.filter, 3);
-
-        (store.mutations as vuex.MutationTree<State>)[types.SET_METHOD_FILTER](state, ['1', '2']);
-        assert.lengthOf(state.method.methods, 3);
-        assert.lengthOf(state.method.filter, 2);
-    });
 });
