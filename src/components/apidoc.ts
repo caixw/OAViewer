@@ -1,44 +1,34 @@
 // SPDX-License-Identifier: MIT
 
+// 当前文件仅涉处理文档的加载功能，
+// 不应该有额外的加工功能，比如提前将 markdown 转换成 html 等，
+// 那是组件应该处理的事情。
+
 import convert from 'xml-js';
 import marked from 'marked';
 import config from '@/config/config';
 
+/**
+ * 加载指定地址的文档内容
+ *
+ * 根据文档的后缀名确定是 xml 和 json 格式。
+ *
+ * @param url 文档的路径，后缀名必须是 xml 或是 json，其它情况下抛出异常
+ */
 export async function load(url: string): Promise<ApiDoc> {
-    const obj = await loadXml(url);
-
-    const ret: ApiDoc = {
-        version: obj.$attr.version,
-        created: obj.$attr.created,
-        lang: obj.$attr.lang,
-        logo: obj.$attr.logo,
-        title: obj.title.$text,
-        description: fromDescription(obj.description),
-        tags: fromArrays(obj.tag, (tag: XmlTag): Tag => {
-            return { ...tag.$attr };
-        }),
-        servers: [],
-        responses: fromArrays(obj.response, fromRequestBody),
-        apis: fromArrays(obj.api, fromApi)
-    };
-
-    if (obj.contact !== undefined) {
-        ret.contact = {
-            email: obj.contact.$attr.email,
-            url: obj.contact.$attr.url,
-            name: obj.contact.$text
-        }
+    const index = url.lastIndexOf('.');
+    if (index <= 0) {
+        return await loadXml(url);
     }
 
-    if (obj.license !== undefined) {
-        ret.license = obj.license.$attr
+    switch (url.slice(index).toLowerCase()) {
+    case '.json':
+        return await loadJson(url);
+    case '.xml':
+        return await loadXml(url);
+    default:
+        throw new Error('error.invalid-file-format');
     }
-
-    for (const srv of arrays(obj.server)) {
-        ret.servers.push(fromServer(srv));
-    }
-
-    return ret;
 }
 
 /**
@@ -48,38 +38,45 @@ export async function load(url: string): Promise<ApiDoc> {
  */
 export function getDescription(summary?: string, desc?: Description): string {
     if (desc === undefined) {
-        return summary === undefined ? '' : summary;
+        return summary || '';
     }
 
     switch (desc.textType) {
         case 'html':
-            return desc.content ? desc.content : '';
+            return desc.content || '';
         case 'markdown':
             return desc.content ? marked(desc.content) : '';
         case '':
             if (config.defaultRender === 'markdown') {
                 return desc.content ? marked(desc.content) : '';
             }
-            return desc.content ? desc.content : '';
+            return desc.content || '';
         default:
-            return desc.content ? desc.content : '';
+            return desc.content || '';
     }
 }
 
-export function getDescriptionWithEnum(dest: string, enums?: Enum[] | Enum): string {
+/**
+ * 将 Example 的内容转换成 HTML
+ */
+export function getExampleContent(e: Example): string {
+    return e.content.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
+export function getDescriptionWithEnum(desc: string, enums?: Enum[] | Enum): string {
     const es = arrays(enums);
     if (es.length === 0) {
-        return dest;
+        return desc;
     }
 
-    dest += '<ul>';
+    desc += '<ul>';
     for (const e of es) {
         const enumDesc = getEnumDescription(e);
-        dest += '<li>' + e.value + ':' + enumDesc + '</li>';
+        desc += '<li>' + e.value + ':' + enumDesc + '</li>';
     }
-    dest += '</ul>';
+    desc += '</ul>';
 
-    return dest;
+    return desc;
 }
 
 function getEnumDescription(e: Enum): string {
@@ -112,7 +109,7 @@ function fromServer(srv: XmlServer): Server {
 }
 
 function fromRequestBody(req: XmlRequestBody): RequestBody {
-    const ret: RequestBody = {
+    return {
         name: req.$attr.name,
         type: req.$attr.type,
         summary: req.$attr.summary,
@@ -123,20 +120,18 @@ function fromRequestBody(req: XmlRequestBody): RequestBody {
         params: fromArrays(req.param, fromParam),
         headers: fromArrays(req.header, fromParam),
         enums: fromArrays(req.enum, fromEnum),
-        deprecated: req.$attr.deprecated
+        deprecated: req.$attr.deprecated,
+        example: req.example ? fromExample(req.example) : undefined
     };
+}
 
-    if (req.example !== undefined) {
-        const e = req.example;
-        ret.example = {
-            mimetype: e.$attr.mimetype,
-                summary: e.$attr.summary,
-                content: e.$cdata,
-                description: e.description ? fromDescription(e.description) : undefined
-        };
+function fromExample(e: XmlExample): Example {
+    return {
+        mimetype: e.$attr.mimetype,
+        summary: e.$attr.summary,
+        content: e.$cdata,
+        description: e.description ? fromDescription(e.description) : undefined
     }
-
-    return ret;
 }
 
 function fromApi(api: XmlApi): Api {
@@ -206,19 +201,55 @@ function fromParam(p: XmlParam): Param {
     };
 }
 
-async function loadXml(url: string): Promise<XmlApiDoc> {
+async function loadJson(url: string): Promise<ApiDoc> {
+    const resp = await fetch(url);
+    return await resp.json();
+}
+
+async function loadXml(url: string): Promise<ApiDoc> {
     const resp = await fetch(url);
     const text = await resp.text();
-    const apidoc = JSON.parse(convert.xml2json(text, convertOptions)).apidoc;
-    if (apidoc === null) {
+    const obj = JSON.parse(convert.xml2json(text, convertOptions)).apidoc;
+    if (obj === null) {
         throw new Error('error.apidoc-empty');
     }
 
-    if (apidoc.api === undefined) {
+    if (obj.api === undefined) {
         throw new Error('error.api-empty');
     }
 
-    return apidoc;
+    const ret: ApiDoc = {
+        version: obj.$attr.version,
+        created: obj.$attr.created,
+        lang: obj.$attr.lang,
+        logo: obj.$attr.logo,
+        title: obj.title.$text,
+        description: fromDescription(obj.description),
+        tags: fromArrays(obj.tag, (tag: XmlTag): Tag => {
+            return { ...tag.$attr };
+        }),
+        servers: [],
+        responses: fromArrays(obj.response, fromRequestBody),
+        apis: fromArrays(obj.api, fromApi)
+    };
+
+    if (obj.contact !== undefined) {
+        ret.contact = {
+            email: obj.contact.$attr.email,
+            url: obj.contact.$attr.url,
+            name: obj.contact.$text
+        }
+    }
+
+    if (obj.license !== undefined) {
+        ret.license = obj.license.$attr
+    }
+
+    for (const srv of arrays(obj.server)) {
+        ret.servers.push(fromServer(srv));
+    }
+
+    return ret;
 }
 
 function arrays<T>(element: T | T[] | undefined): T[] {

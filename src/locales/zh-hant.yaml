@@ -42,6 +42,7 @@ filter.server: 服務
 error.url-empty: URL 不能為空
 error.apidoc-empty: apidoc 文檔內容為空
 error.api-empty: apidoc 文檔中沒有 API 文檔
+error.invalid-file-format: 無效的文件格式
 
 # type 開頭的是文檔中有關類型描述的相關內容
 #

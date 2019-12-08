@@ -42,7 +42,7 @@
 
                         <template v-if="req.example !== undefined">
                             <h5>{{$i18n.t('api.example')}}</h5>
-                            <pre v-html="example(req.example)" />
+                            <pre v-html="getExample(req.example)" />
                         </template>
                     </template>
                 </v-card>
@@ -110,8 +110,8 @@ export default class XApiRequests extends Vue {
         return 'info';
     }
 
-    example(example: apidoc.Example): string {
-        return example.content.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    getExample(e: apidoc.Example): string {
+        return apidoc.getExampleContent(e);
     }
 }
 
